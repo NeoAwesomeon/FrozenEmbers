@@ -1,0 +1,118 @@
+[gd_scene load_steps=7 format=3 uid="uid://dqayd4wqfa7ps"]
+
+[ext_resource type="Script" uid="uid://tjtc3p55i3h3" path="res://Scenes/Player/player_character_ember.gd" id="1_3amj1"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f5gh5"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_f5gh5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3amj1"]
+size = Vector3(3, 1, 2.5)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ifm1w"]
+height = 1.0
+radius = 2.75
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_brnwt"]
+radius = 1.5
+
+[node name="PlayerCharacterEmber" type="CharacterBody3D"]
+script = ExtResource("1_3amj1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_f5gh5")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Model" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_f5gh5")
+skeleton = NodePath("../..")
+
+[node name="Hitboxes" type="Node3D" parent="."]
+
+[node name="AttackCombo1&2" type="Area3D" parent="Hitboxes"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitboxes/AttackCombo1&2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1.25)
+shape = SubResource("BoxShape3D_3amj1")
+disabled = true
+
+[node name="AttackCombo3" type="Area3D" parent="Hitboxes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitboxes/AttackCombo3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 1)
+shape = SubResource("CylinderShape3D_ifm1w")
+disabled = true
+
+[node name="AttackAir" type="Area3D" parent="Hitboxes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitboxes/AttackAir"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("SphereShape3D_brnwt")
+disabled = true
+
+[node name="HeadLedge" type="RayCast3D" parent="Hitboxes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+target_position = Vector3(0, 0, 1)
+debug_shape_custom_color = Color(0, 1, 0, 1)
+
+[node name="EyeLedge" type="RayCast3D" parent="Hitboxes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+target_position = Vector3(0, 0, 1)
+debug_shape_custom_color = Color(1, 0, 0, 1)
+debug_shape_thickness = 4
+
+[node name="Hurtboxes" type="Node3D" parent="."]
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="CoyoteTime" type="Timer" parent="Timers"]
+wait_time = 0.25
+one_shot = true
+
+[node name="BoostCountRate" type="Timer" parent="Timers"]
+
+[node name="SlideDuration" type="Timer" parent="Timers"]
+wait_time = 0.5
+one_shot = true
+
+[node name="SlideCooldown" type="Timer" parent="Timers"]
+wait_time = 0.5
+one_shot = true
+
+[node name="IgnoreWalls" type="Timer" parent="Timers"]
+wait_time = 0.3
+one_shot = true
+
+[node name="WallJumpDuration" type="Timer" parent="Timers"]
+wait_time = 0.2
+one_shot = true
+
+[node name="HardLandingRecovery" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="AttackRecovery" type="Timer" parent="Timers"]
+wait_time = 0.8
+one_shot = true
+
+[node name="HitboxDuration" type="Timer" parent="Timers/AttackRecovery"]
+wait_time = 0.25
+one_shot = true
+
+[node name="LedgeCooldown" type="Timer" parent="Timers"]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="timeout" from="Timers/CoyoteTime" to="." method="_on_coyote_time_timeout"]
+[connection signal="timeout" from="Timers/BoostCountRate" to="." method="_on_boost_count_rate_timeout"]
+[connection signal="timeout" from="Timers/SlideDuration" to="." method="_on_slide_duration_timeout"]
+[connection signal="timeout" from="Timers/SlideCooldown" to="." method="_on_slide_cooldown_timeout"]
+[connection signal="timeout" from="Timers/IgnoreWalls" to="." method="_on_ignore_walls_timeout"]
+[connection signal="timeout" from="Timers/WallJumpDuration" to="." method="_on_wall_jump_duration_timeout"]
+[connection signal="timeout" from="Timers/HardLandingRecovery" to="." method="_on_hard_landing_recovery_timeout"]
+[connection signal="timeout" from="Timers/AttackRecovery" to="." method="_on_attack_recovery_timeout"]
+[connection signal="timeout" from="Timers/AttackRecovery/HitboxDuration" to="." method="_on_hitbox_duration_timeout"]
