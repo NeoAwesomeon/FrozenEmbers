@@ -4,8 +4,11 @@ var PLAYER_CURRENT_SPEED : float
 var PLAYER_BOOST_COUNT : int
 var PLAYER_GRAVITY : int
 var PLAYER_CURRENT_STATE : String
+var PLAYER_HEAT_SHIELD : float
 
-var Heat = 300
+var Player_Position
+
+var Heat = 600
 var Heat_Max = 600
 var Heat_Goal = 600
 
@@ -13,6 +16,12 @@ var Light = -50
 var Light_Max = 50
 var Light_Min = -50
 var Light_Goal = 0
+
+var Freeze = 0
+var Freeze_Goal = 0
+
+var Dive_Count = 0
+var Pillar_Active = false
 
 #Goals are the main thing you manipulate, where as the stat alone is most often reserved for visuals or delays
 
@@ -36,16 +45,33 @@ func _process(delta: float) -> void:
 	
 	# Allows for better easing between values / makes it nicer to use for non-stat related reasons
 	if Heat < Heat_Goal:
-		Heat += 30 * delta
+		Heat += 60 * delta
 	elif Heat > Heat_Goal:
-		Heat -= 30 * delta
+		Heat -= 60 * delta
 	
 	if Light < Light_Goal:
 		Light += 30 * delta
 	elif Light > Light_Goal:
 		Light -= 30 * delta
 	
+	if Freeze < Freeze_Goal:
+		Freeze += 60 * delta
+	
 	# Keeps the values from reaching absurd numbers due to the influence of delta
 	Light = snapped(Light , 0.5)
 	Heat = snapped(Heat , 0.1)
 	Heat_Max = snapped(Heat_Max , 0.1)
+
+
+func reset_player_stats():
+	Heat = 600
+	Heat_Max = 600
+	Heat_Goal = 600
+	
+	Light = 0
+	Light_Max = 50
+	Light_Min = -50
+	Light_Goal = 0
+	
+	Freeze = 0
+	Freeze_Goal = 0

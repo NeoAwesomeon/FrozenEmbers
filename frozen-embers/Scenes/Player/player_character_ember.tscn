@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dqayd4wqfa7ps"]
+[gd_scene load_steps=8 format=3 uid="uid://dqayd4wqfa7ps"]
 
-[ext_resource type="Script" uid="uid://tjtc3p55i3h3" path="res://Scenes/Player/player_character_ember.gd" id="1_3amj1"]
+[ext_resource type="Script" uid="uid://tjtc3p55i3h3" path="res://Scripts/Player/player_character_ember.gd" id="1_3amj1"]
+[ext_resource type="PackedScene" uid="uid://fvu4p7iqg2ur" path="res://Scenes/Player/fire_pillar.tscn" id="2_ifm1w"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f5gh5"]
 
@@ -18,6 +19,7 @@ radius = 1.5
 
 [node name="PlayerCharacterEmber" type="CharacterBody3D"]
 script = ExtResource("1_3amj1")
+firewall_scene = ExtResource("2_ifm1w")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -62,13 +64,23 @@ debug_shape_custom_color = Color(0, 1, 0, 1)
 
 [node name="EyeLedge" type="RayCast3D" parent="Hitboxes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-target_position = Vector3(0, 0, 1)
+target_position = Vector3(0, 0, 0.8)
 debug_shape_custom_color = Color(1, 0, 0, 1)
 debug_shape_thickness = 4
 
 [node name="Hurtboxes" type="Node3D" parent="."]
 
+[node name="MainHurtbox" type="Area3D" parent="Hurtboxes" groups=["player"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtboxes/MainHurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_f5gh5")
+
 [node name="Timers" type="Node" parent="."]
+
+[node name="HeatTimer" type="Timer" parent="Timers"]
+wait_time = 0.5
+autostart = true
 
 [node name="CoyoteTime" type="Timer" parent="Timers"]
 wait_time = 0.25
@@ -107,6 +119,19 @@ one_shot = true
 wait_time = 0.2
 one_shot = true
 
+[node name="ReigniteDuration" type="Timer" parent="Timers"]
+wait_time = 3.0
+one_shot = true
+
+[node name="ExtinguishDuration" type="Timer" parent="Timers"]
+wait_time = 1.5
+one_shot = true
+
+[node name="HeatShieldDuration" type="Timer" parent="Timers"]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="timeout" from="Timers/HeatTimer" to="." method="_on_heat_timer_timeout"]
 [connection signal="timeout" from="Timers/CoyoteTime" to="." method="_on_coyote_time_timeout"]
 [connection signal="timeout" from="Timers/BoostCountRate" to="." method="_on_boost_count_rate_timeout"]
 [connection signal="timeout" from="Timers/SlideDuration" to="." method="_on_slide_duration_timeout"]
@@ -116,3 +141,5 @@ one_shot = true
 [connection signal="timeout" from="Timers/HardLandingRecovery" to="." method="_on_hard_landing_recovery_timeout"]
 [connection signal="timeout" from="Timers/AttackRecovery" to="." method="_on_attack_recovery_timeout"]
 [connection signal="timeout" from="Timers/AttackRecovery/HitboxDuration" to="." method="_on_hitbox_duration_timeout"]
+[connection signal="timeout" from="Timers/ReigniteDuration" to="." method="_on_reignite_duration_timeout"]
+[connection signal="timeout" from="Timers/ExtinguishDuration" to="." method="_on_extinguish_duration_timeout"]

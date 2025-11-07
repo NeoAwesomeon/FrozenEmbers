@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqcfqm4fk2wp0"]
+[gd_scene load_steps=7 format=3 uid="uid://dqcfqm4fk2wp0"]
 
 [ext_resource type="Script" uid="uid://bre5n5mlxbk53" path="res://Scripts/Player/player_ui.gd" id="1_s36ss"]
 
@@ -26,6 +26,30 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h3wt1"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.101961, 0.101961, 0.101961, 0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pocnh"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.705882, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 6
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v8xh3"]
 content_margin_left = 2.0
 content_margin_top = 2.0
@@ -38,7 +62,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 6
 
-[node name="PlayerUI" type="Control"]
+[node name="PlayerHud" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -68,7 +92,7 @@ layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_s36ss")
 min_value = -50.0
 max_value = 50.0
-step = 1.0
+step = 0.5
 value = 50.0
 show_percentage = false
 
@@ -80,6 +104,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "YOUR TOO BRIGHT"
+horizontal_alignment = 1
+
+[node name="HeatShieldMeter" type="ProgressBar" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 5)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_nqcsj")
+max_value = 10.0
+show_percentage = false
+
+[node name="HeatShieldLabel" type="Label" parent="VBoxContainer/HeatShieldMeter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+text = "SHIELD"
 horizontal_alignment = 1
 
 [node name="HeatMeter" type="ProgressBar" parent="VBoxContainer"]
@@ -101,6 +143,23 @@ grow_vertical = 2
 text = "VERY HOT"
 horizontal_alignment = 1
 
+[node name="FreezeMeter" type="ProgressBar" parent="VBoxContainer/HeatMeter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 258.0
+offset_top = 25.0
+offset_right = 258.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 3.14159
+theme_override_styles/background = SubResource("StyleBoxFlat_h3wt1")
+theme_override_styles/fill = SubResource("StyleBoxFlat_pocnh")
+max_value = 600.0
+show_percentage = false
+
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
@@ -119,7 +178,8 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(200, 25)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_v8xh3")
-max_value = 1200.0
+min_value = 400.0
+max_value = 1500.0
 step = 0.1
 value = 400.0
 show_percentage = false

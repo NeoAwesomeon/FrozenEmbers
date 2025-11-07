@@ -1,0 +1,84 @@
+[gd_scene load_steps=14 format=3 uid="uid://btlti1inruyru"]
+
+[ext_resource type="Script" uid="uid://bepy0a6a8l41f" path="res://Scripts/Interactables/level_exit.gd" id="1_h7ydf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mxhx6"]
+size = Vector3(2, 4, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h7ydf"]
+shading_mode = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_a5n3n"]
+material = SubResource("StandardMaterial3D_h7ydf")
+size = Vector2(2, 4)
+
+[sub_resource type="Curve" id="Curve_mxhx6"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_h7ydf"]
+curve = SubResource("Curve_mxhx6")
+
+[sub_resource type="Curve" id="Curve_a5n3n"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_8or5f"]
+curve = SubResource("Curve_a5n3n")
+
+[sub_resource type="Curve" id="Curve_eunet"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.34657, 1), 0.0, 0.0, 0, 0, Vector2(0.498195, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_fkd30"]
+curve = SubResource("Curve_eunet")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_w255v"]
+lifetime_randomness = 0.3
+emission_shape_scale = Vector3(1, 2, 0.1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(0, -1, 2)
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_fkd30")
+alpha_curve = SubResource("CurveTexture_h7ydf")
+emission_curve = SubResource("CurveTexture_8or5f")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_apeot"]
+emission_enabled = true
+emission = Color(1, 1, 0.607843, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_jhtxq"]
+material = SubResource("StandardMaterial3D_apeot")
+radius = 0.1
+height = 0.2
+radial_segments = 4
+rings = 1
+
+[node name="LevelExit" type="Node3D"]
+script = ExtResource("1_h7ydf")
+
+[node name="InteractionHitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_mxhx6")
+debug_color = Color(1, 1, 1, 0.42)
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -1)
+mesh = SubResource("QuadMesh_a5n3n")
+skeleton = NodePath("../..")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -1)
+amount = 24
+lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_w255v")
+draw_pass_1 = SubResource("SphereMesh_jhtxq")
+
+[connection signal="area_entered" from="InteractionHitbox" to="." method="_on_interaction_hitbox_area_entered"]

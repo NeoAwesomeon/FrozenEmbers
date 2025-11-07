@@ -1,0 +1,110 @@
+[gd_scene load_steps=14 format=3 uid="uid://bf0tai1fquw38"]
+
+[ext_resource type="Script" uid="uid://bahn25apmbm5a" path="res://Scripts/Interactables/goal_beacon.gd" id="1_hmbae"]
+[ext_resource type="PackedScene" uid="uid://bga4lo31kpgod" path="res://Scenes/Interactables/goal_ring.tscn" id="2_1mcjq"]
+[ext_resource type="Script" uid="uid://uaes7abyt5y3" path="res://Scripts/Misc/particle_spinner.gd" id="2_ug7o7"]
+[ext_resource type="Script" uid="uid://b31fyitm1tv4s" path="res://Scripts/Interactables/ring_manager.gd" id="3_1n40i"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_o0vd6"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hmbae"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_o0vd6"]
+height = 3.5
+radius = 3.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1n40i"]
+height = 4.0
+radius = 5.0
+
+[sub_resource type="Curve" id="Curve_edlaa"]
+_data = [Vector2(0, 0), 0.0, 21.1884, 0, 0, Vector2(0.115523, 1), 0.0, 0.0, 0, 0, Vector2(0.494585, 0.54403), 0.0, 0.0, 0, 0, Vector2(0.841155, 0.864179), 0.0, 0.0, 0, 0, Vector2(1, 0), -13.4365, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_1mcjq"]
+curve = SubResource("Curve_edlaa")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_weblh"]
+emission_shape_scale = Vector3(5, 4, 5)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 90, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.95
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 0.1
+initial_velocity_max = 0.1
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_1mcjq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fl1i2"]
+shading_mode = 0
+albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_bu1ld"]
+material = SubResource("StandardMaterial3D_fl1i2")
+radius = 0.05
+height = 0.1
+radial_segments = 4
+rings = 1
+
+[node name="GoalBeacon" type="Node3D"]
+script = ExtResource("1_hmbae")
+ring_scene = ExtResource("2_1mcjq")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CylinderMesh_o0vd6")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_hmbae")
+
+[node name="DelayTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="InteractionHitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+shape = SubResource("CylinderShape3D_o0vd6")
+
+[node name="WarmthHitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("CylinderShape3D_1n40i")
+debug_color = Color(0.996078, 0, 0, 0.419608)
+
+[node name="WarmVisual" type="GPUParticles3D" parent="WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+amount = 150
+lifetime = 3.0
+preprocess = 10.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_weblh")
+draw_pass_1 = SubResource("SphereMesh_bu1ld")
+script = ExtResource("2_ug7o7")
+
+[node name="WarmTimer" type="Timer" parent="WarmthHitbox"]
+wait_time = 0.25
+
+[node name="RingManager" type="Node3D" parent="."]
+script = ExtResource("3_1n40i")
+
+[node name="GoalRing1" parent="RingManager" instance=ExtResource("2_1mcjq")]
+
+[connection signal="activate_rings" from="." to="RingManager" method="_on_goal_beacon_activate_rings"]
+[connection signal="timeout" from="DelayTimer" to="." method="_on_delay_timer_timeout"]
+[connection signal="area_entered" from="InteractionHitbox" to="." method="_on_interaction_hitbox_area_entered"]
+[connection signal="area_entered" from="WarmthHitbox" to="." method="_on_warmth_hitbox_area_entered"]
+[connection signal="area_exited" from="WarmthHitbox" to="." method="_on_warmth_hitbox_area_exited"]
+[connection signal="timeout" from="WarmthHitbox/WarmTimer" to="." method="_on_warm_timer_timeout"]
