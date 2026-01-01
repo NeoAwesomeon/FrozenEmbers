@@ -35,12 +35,12 @@ layout_mode = 2
 [node name="Test01" type="Button" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(135, 135)
 layout_mode = 2
-text = "TestingWorld00"
+text = "Testing Arena"
 
 [node name="Test02" type="Button" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(135, 135)
 layout_mode = 2
-text = "Empty"
+text = "Safe Test Level"
 
 [node name="Label2" type="Label" parent="VBoxContainer"]
 layout_mode = 2
@@ -62,4 +62,5 @@ grow_vertical = 0
 text = "Main Menu"
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Test01" to="." method="_on_test_01_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Test02" to="." method="_on_test_02_pressed"]
 [connection signal="pressed" from="Return" to="." method="_on_return_pressed"]

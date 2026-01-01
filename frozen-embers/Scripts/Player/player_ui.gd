@@ -19,6 +19,12 @@ extends Control
 
 @onready var freeze_meter: ProgressBar = $VBoxContainer/HeatMeter/FreezeMeter
 
+@onready var progres_counter: Label = $ProgresCounter
+var xxx
+var yyy = 0
+var zzz = 0
+var distance = 1
+
 func _process(_delta: float) -> void:
 	
 	state_label.text = GlobalPlayerStats.PLAYER_CURRENT_STATE
@@ -34,7 +40,7 @@ func _process(_delta: float) -> void:
 	light_label.text = str(GlobalPlayerStats.Light_Goal)
 	
 	heat_meter.value = GlobalPlayerStats.Heat
-	heat_meter.max_value = GlobalPlayerStats.Heat_Max
+	heat_meter.max_value = GlobalPlayerStats.Heat_Max_Start_Value
 	heat_meter.min_value = 0
 	heat_label.text = str(snapped(GlobalPlayerStats.Heat , 1))
 	
@@ -42,5 +48,14 @@ func _process(_delta: float) -> void:
 	heat_shield_label.text = str(snapped(GlobalPlayerStats.PLAYER_HEAT_SHIELD, 0.01))
 	
 	freeze_meter.value = GlobalPlayerStats.Freeze
-	freeze_meter.max_value = GlobalPlayerStats.Heat_Max
+	freeze_meter.max_value = GlobalPlayerStats.Freeze_Max
 	
+	# Compares player's location with that of the exit's to find the distance
+	if !GlobalLevelStats.EXIT_OPEN:
+		progres_counter.text = "Beacons: " + str(GlobalLevelStats.REMAINING_BEACONS)
+	else:
+		xxx = abs(GlobalPlayerStats.Player_Position.x - GlobalLevelStats.EXIT_LOCATION.x)
+		yyy = abs(GlobalPlayerStats.Player_Position.y - GlobalLevelStats.EXIT_LOCATION.y)
+		zzz = abs(GlobalPlayerStats.Player_Position.z - GlobalLevelStats.EXIT_LOCATION.z)
+		distance = snapped(xxx + yyy + zzz, 1)
+		progres_counter.text = str(distance - 2)

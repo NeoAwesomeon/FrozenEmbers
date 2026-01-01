@@ -1,5 +1,6 @@
-[gd_scene load_steps=21 format=3 uid="uid://b17ckqseh7ohd"]
+[gd_scene load_steps=30 format=3 uid="uid://b17ckqseh7ohd"]
 
+[ext_resource type="PackedScene" uid="uid://bsr73xwil1ngl" path="res://Scenes/Levels/_Bases/level_starter.tscn" id="1_j3v8o"]
 [ext_resource type="Material" uid="uid://7gyyy28j40ns" path="res://Assets/Materials/Testing/Testing_Grey.tres" id="1_rfxub"]
 [ext_resource type="PackedScene" uid="uid://bga4lo31kpgod" path="res://Scenes/Interactables/goal_ring.tscn" id="1_t31nv"]
 [ext_resource type="PackedScene" uid="uid://dqayd4wqfa7ps" path="res://Scenes/Player/player_character_ember.tscn" id="1_y6eyc"]
@@ -10,12 +11,44 @@
 [ext_resource type="Script" uid="uid://uaes7abyt5y3" path="res://Scripts/Misc/particle_spinner.gd" id="8_j3v8o"]
 [ext_resource type="Script" uid="uid://b31fyitm1tv4s" path="res://Scripts/Interactables/ring_manager.gd" id="9_p626d"]
 [ext_resource type="PackedScene" uid="uid://btlti1inruyru" path="res://Scenes/Interactables/level_exit.tscn" id="10_8bo5m"]
+[ext_resource type="PackedScene" uid="uid://1f2jwhmig8w4" path="res://Assets/Models/Placeholders/VerticalSlice/GoalBeacon.glb" id="10_8rk6a"]
+[ext_resource type="AudioStream" uid="uid://cm1hta05sdwea" path="res://Assets/Audio/Testing/V2_Placeholders/Wavy.wav" id="11_a68ul"]
+[ext_resource type="AudioStream" uid="uid://dwdao6r4n7kuv" path="res://Assets/Audio/Testing/V2_Placeholders/Gong.mp3" id="13_dos6t"]
 
 [sub_resource type="Environment" id="Environment_y6eyc"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_o0vd6"]
+[sub_resource type="Curve" id="Curve_fl1i2"]
+_data = [Vector2(0, 0), 0.0, 20.0225, 0, 0, Vector2(0.168724, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.33708, 0.0, 0, 0]
+point_count = 3
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_hmbae"]
+[sub_resource type="CurveTexture" id="CurveTexture_bu1ld"]
+curve = SubResource("Curve_fl1i2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hynl3"]
+particle_flag_rotate_y = true
+emission_shape_scale = Vector3(0.3, 0.3, 0.1)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+gravity = Vector3(0, 3, 0)
+scale_curve = SubResource("CurveTexture_bu1ld")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pq487"]
+albedo_color = Color(0, 1, 1, 1)
+emission_enabled = true
+emission = Color(0, 1, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_fc1mo"]
+material = SubResource("StandardMaterial3D_pq487")
+radial_segments = 4
+rings = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fl1i2"]
+size = Vector3(1.3, 2, 1.3)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_o0vd6"]
 height = 3.5
@@ -58,7 +91,12 @@ height = 0.1
 radial_segments = 4
 rings = 1
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_p626d"]
+size = Vector3(8, 8, 8)
+
 [node name="TestingWorld01" type="Node3D"]
+
+[node name="LevelStarter" parent="." instance=ExtResource("1_j3v8o")]
 
 [node name="Player" type="Node" parent="."]
 
@@ -66,8 +104,55 @@ rings = 1
 
 [node name="PlayerCharacterEmber" parent="Player" instance=ExtResource("1_y6eyc")]
 
-[node name="PlayerPOV" parent="Player" node_paths=PackedStringArray("target") groups=["player_pov"] instance=ExtResource("2_c86lb")]
-target = NodePath("../PlayerCharacterEmber")
+[node name="PlayerPOV" parent="Player" instance=ExtResource("2_c86lb")]
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 7, -14)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+size = Vector3(7, 15, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 7, -5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+size = Vector3(7, 15, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 7, 2)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+size = Vector3(7, 15, 1)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1.5, -5.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+size = Vector3(3, 3, 4)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 4.5, 19.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+size = Vector3(3, 9, 12)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 4.5, 19.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+size = Vector3(3, 9, 12)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -12, 4.5, 14.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+size = Vector3(3, 9, 12)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -12, 4.5, 25.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+size = Vector3(3, 9, 12)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
@@ -78,21 +163,508 @@ collision_mask = 255
 size = Vector3(200, 2, 200)
 material = ExtResource("1_rfxub")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 8, -14)
-size = Vector3(7, 15, 1)
+[node name="CSGBox3D10" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0.5, -15)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="CSGBox3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 8, -5)
-size = Vector3(7, 15, 1)
+[node name="CSGBox3D22" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 8.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 2, 2)
 
-[node name="CSGBox3D4" type="CSGBox3D" parent="CSGBox3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 8, 2)
-size = Vector3(7, 15, 1)
+[node name="CSGBox3D24" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 15.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 2, 2)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="CSGBox3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2.5, -5.5)
-size = Vector3(3, 3, 4)
+[node name="CSGBox3D23" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.5, 12)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 1, 5)
+
+[node name="CSGBox3D25" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, 8.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 2, 2)
+
+[node name="CSGBox3D26" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, 18.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 2, 2)
+
+[node name="CSGBox3D27" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.5, 13.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 1, 8)
+
+[node name="CSGBox3D28" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1, 8.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 2, 2)
+
+[node name="CSGBox3D29" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1, 20.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 2, 2)
+
+[node name="CSGBox3D30" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, 14.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 1, 10)
+
+[node name="CSGBox3D31" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1, 8.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 2, 2)
+
+[node name="CSGBox3D32" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1, 21.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 2, 2)
+
+[node name="CSGBox3D33" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.5, 15)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 1, 11)
+
+[node name="CSGBox3D34" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1.5, 6.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D35" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1.5, 21.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D36" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.25, 14)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 0.5, 9)
+
+[node name="CSGBox3D37" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1.5, 6.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D38" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1.5, 22.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D39" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0.5, 14.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 1, 10)
+
+[node name="CSGBox3D40" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 1.5, 6.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D41" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 1.5, 23.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D42" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0.25, 15)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 0.5, 11)
+
+[node name="CSGBox3D43" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1.5, 6.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D44" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1.5, 24.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D46" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 1.5, 6.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D47" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 1.5, 25.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D48" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 1.5, 6.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D49" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 1.5, 26.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D50" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 1.5, 6.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D51" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 1.5, 27.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D52" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 1.5, 6.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D53" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 1.5, 28.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D54" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 1.5, 6.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D55" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 1.5, 29.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D56" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 1.5, 6.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D57" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 1.5, 30.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D58" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 1.5, 6.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D59" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 1.5, 31.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D60" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37, 1.5, 6.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D72" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 1.5, 70)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(10, 3, 29)
+
+[node name="CSGBox3D73" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 1.5, -10.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(10, 3, 40)
+
+[node name="CSGBox3D61" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37, 1.5, 32.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 3, 6)
+
+[node name="CSGBox3D45" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0.25, 15.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 0.5, 12)
+
+[node name="CSGBox3D62" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 0.5, 16)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 1, 13)
+
+[node name="CSGBox3D63" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0.25, 16.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 0.5, 14)
+
+[node name="CSGBox3D64" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0.5, 17)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 1, 15)
+
+[node name="CSGBox3D65" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0.5, 17.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 1, 16)
+
+[node name="CSGBox3D66" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 0.5, 18)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 1, 17)
+
+[node name="CSGBox3D67" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0.25, 18.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 0.5, 18)
+
+[node name="CSGBox3D68" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 0.5, 19)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 1, 19)
+
+[node name="CSGBox3D69" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37, 0.5, 19.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 1, 20)
+
+[node name="CSGBox3D70" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53, 4, 32.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 8, 46)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1, -14.5007)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 2, 2)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 1.5, -15)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 3, 1)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 2, -15.0007)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 4, 3)
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 2.5, -15)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, -15.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 6, 2)
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 3.5, -14.5007)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 7, 2)
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 4, -15)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 8, 1)
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 4.5, -15)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 9, 3)
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 5, -15)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 10, 1)
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 5.5, -15.5)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 11, 2)
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 6, -15)
+material_override = ExtResource("1_rfxub")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(1, 12, 1)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_y6eyc")
@@ -115,158 +687,102 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -40)
 [node name="LightPickup5" parent="." instance=ExtResource("4_7rbv3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -48)
 
-[node name="GoalTorch" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -8)
-script = ExtResource("6_8bo5m")
-number_of_rings = 6
-ring_scene = ExtResource("1_t31nv")
-
-[node name="Visuals" type="Node3D" parent="GoalTorch"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="GoalTorch/Visuals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CylinderMesh_o0vd6")
-skeleton = NodePath("../..")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="GoalTorch"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GoalTorch/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CylinderShape3D_hmbae")
-
-[node name="DelayTimer" type="Timer" parent="GoalTorch"]
-wait_time = 0.1
-one_shot = true
-
-[node name="InteractionHitbox" type="Area3D" parent="GoalTorch"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GoalTorch/InteractionHitbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
-shape = SubResource("CylinderShape3D_o0vd6")
-
-[node name="WarmthHitbox" type="Area3D" parent="GoalTorch"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GoalTorch/WarmthHitbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-shape = SubResource("CylinderShape3D_1n40i")
-debug_color = Color(0.996078, 0, 0, 0.419608)
-
-[node name="WarmVisual" type="GPUParticles3D" parent="GoalTorch/WarmthHitbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-amount = 150
-lifetime = 3.0
-preprocess = 10.0
-local_coords = true
-process_material = SubResource("ParticleProcessMaterial_weblh")
-draw_pass_1 = SubResource("SphereMesh_bu1ld")
-script = ExtResource("8_j3v8o")
-
-[node name="WarmTimer" type="Timer" parent="GoalTorch/WarmthHitbox"]
-wait_time = 0.25
-
-[node name="RingManager" type="Node3D" parent="GoalTorch"]
-script = ExtResource("9_p626d")
-
-[node name="GoalRing6" parent="GoalTorch/RingManager" instance=ExtResource("1_t31nv")]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.65311, 0, -11.3028)
-
-[node name="GoalRing5" parent="GoalTorch/RingManager" instance=ExtResource("1_t31nv")]
-transform = Transform3D(-0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, -0.258819, 9.08371, 0, -15.7026)
-
-[node name="GoalRing4" parent="GoalTorch/RingManager" instance=ExtResource("1_t31nv")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 16.3687, 0, -14.63)
-
-[node name="GoalRing3" parent="GoalTorch/RingManager" instance=ExtResource("1_t31nv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.2469, 0, -7.4709)
-
-[node name="GoalRing2" parent="GoalTorch/RingManager" instance=ExtResource("1_t31nv")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 9.89749, 0, 2.31839)
-
-[node name="GoalRing1" parent="GoalTorch/RingManager" instance=ExtResource("1_t31nv")]
-transform = Transform3D(0.667729, 0, -0.744405, 0, 1, 0, 0.744405, 0, 0.667729, 16.8417, 0, -0.356634)
-
-[node name="GoalTorch2" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.0526, 0, -6.10037)
-script = ExtResource("6_8bo5m")
-number_of_rings = 6
-ring_scene = ExtResource("1_t31nv")
-
-[node name="Visuals" type="Node3D" parent="GoalTorch2"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="GoalTorch2/Visuals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CylinderMesh_o0vd6")
-skeleton = NodePath("../..")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="GoalTorch2"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GoalTorch2/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CylinderShape3D_hmbae")
-
-[node name="DelayTimer" type="Timer" parent="GoalTorch2"]
-wait_time = 0.1
-one_shot = true
-
-[node name="InteractionHitbox" type="Area3D" parent="GoalTorch2"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GoalTorch2/InteractionHitbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
-shape = SubResource("CylinderShape3D_o0vd6")
-
-[node name="WarmthHitbox" type="Area3D" parent="GoalTorch2"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GoalTorch2/WarmthHitbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-shape = SubResource("CylinderShape3D_1n40i")
-debug_color = Color(0.996078, 0, 0, 0.419608)
-
-[node name="WarmVisual" type="GPUParticles3D" parent="GoalTorch2/WarmthHitbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-amount = 150
-lifetime = 3.0
-preprocess = 10.0
-local_coords = true
-process_material = SubResource("ParticleProcessMaterial_weblh")
-draw_pass_1 = SubResource("SphereMesh_bu1ld")
-script = ExtResource("8_j3v8o")
-
-[node name="WarmTimer" type="Timer" parent="GoalTorch2/WarmthHitbox"]
-wait_time = 0.25
-
-[node name="RingManager" type="Node3D" parent="GoalTorch2"]
-script = ExtResource("9_p626d")
-
-[node name="GoalRing6" parent="GoalTorch2/RingManager" instance=ExtResource("1_t31nv")]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.65311, 0, -11.3028)
-
-[node name="GoalRing5" parent="GoalTorch2/RingManager" instance=ExtResource("1_t31nv")]
-transform = Transform3D(-0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, -0.258819, 9.08371, 0, -15.7026)
-
-[node name="GoalRing4" parent="GoalTorch2/RingManager" instance=ExtResource("1_t31nv")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 16.3687, 0, -14.63)
-
-[node name="GoalRing3" parent="GoalTorch2/RingManager" instance=ExtResource("1_t31nv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.2469, 0, -7.4709)
-
-[node name="GoalRing2" parent="GoalTorch2/RingManager" instance=ExtResource("1_t31nv")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 9.89749, 0, 2.31839)
-
-[node name="GoalRing1" parent="GoalTorch2/RingManager" instance=ExtResource("1_t31nv")]
-transform = Transform3D(0.667729, 0, -0.744405, 0, 1, 0, 0.744405, 0, 0.667729, 16.8417, 0, -0.356634)
-
 [node name="LevelExit" parent="." instance=ExtResource("10_8bo5m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -56)
 
-[connection signal="activate_rings" from="GoalTorch" to="GoalTorch/RingManager" method="_on_goal_beacon_activate_rings"]
-[connection signal="timeout" from="GoalTorch/DelayTimer" to="GoalTorch" method="_on_delay_timer_timeout"]
-[connection signal="area_entered" from="GoalTorch/InteractionHitbox" to="GoalTorch" method="_on_interaction_hitbox_area_entered"]
-[connection signal="area_entered" from="GoalTorch/WarmthHitbox" to="GoalTorch" method="_on_warmth_hitbox_area_entered"]
-[connection signal="area_exited" from="GoalTorch/WarmthHitbox" to="GoalTorch" method="_on_warmth_hitbox_area_exited"]
-[connection signal="timeout" from="GoalTorch/WarmthHitbox/WarmTimer" to="GoalTorch" method="_on_warm_timer_timeout"]
-[connection signal="activate_rings" from="GoalTorch2" to="GoalTorch2/RingManager" method="_on_goal_beacon_activate_rings"]
-[connection signal="timeout" from="GoalTorch2/DelayTimer" to="GoalTorch2" method="_on_delay_timer_timeout"]
-[connection signal="area_entered" from="GoalTorch2/InteractionHitbox" to="GoalTorch2" method="_on_interaction_hitbox_area_entered"]
-[connection signal="area_entered" from="GoalTorch2/WarmthHitbox" to="GoalTorch2" method="_on_warmth_hitbox_area_entered"]
-[connection signal="area_exited" from="GoalTorch2/WarmthHitbox" to="GoalTorch2" method="_on_warmth_hitbox_area_exited"]
-[connection signal="timeout" from="GoalTorch2/WarmthHitbox/WarmTimer" to="GoalTorch2" method="_on_warm_timer_timeout"]
+[node name="Beacons" type="Node" parent="."]
+
+[node name="GoalBeacon" type="Node3D" parent="Beacons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
+script = ExtResource("6_8bo5m")
+ring_scene = ExtResource("1_t31nv")
+
+[node name="Main" type="Node3D" parent="Beacons/GoalBeacon"]
+
+[node name="Visuals" type="Node3D" parent="Beacons/GoalBeacon/Main"]
+
+[node name="Model" parent="Beacons/GoalBeacon/Main/Visuals" instance=ExtResource("10_8rk6a")]
+transform = Transform3D(0.665, 0, 0, 0, 0.665, 0, 0, 0, 0.665, 0, 0, 0)
+
+[node name="AlightParticles" type="GPUParticles3D" parent="Beacons/GoalBeacon/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2, 0)
+process_material = SubResource("ParticleProcessMaterial_hynl3")
+draw_pass_1 = SubResource("SphereMesh_fc1mo")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Beacons/GoalBeacon/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.556302, 0)
+light_color = Color(0.647059, 1, 1, 1)
+light_energy = 3.0
+omni_range = 6.0
+omni_attenuation = -0.25
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Beacons/GoalBeacon/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beacons/GoalBeacon/Main/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_fl1i2")
+
+[node name="DelayTimer" type="Timer" parent="Beacons/GoalBeacon/Main"]
+wait_time = 0.1
+one_shot = true
+
+[node name="InteractionHitbox" type="Area3D" parent="Beacons/GoalBeacon/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beacons/GoalBeacon/Main/InteractionHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+shape = SubResource("CylinderShape3D_o0vd6")
+
+[node name="WarmthHitbox" type="Area3D" parent="Beacons/GoalBeacon/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Beacons/GoalBeacon/Main/WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("CylinderShape3D_1n40i")
+debug_color = Color(0.996078, 0, 0, 0.419608)
+
+[node name="WarmVisual" type="GPUParticles3D" parent="Beacons/GoalBeacon/Main/WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+amount = 150
+lifetime = 3.0
+preprocess = 10.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_weblh")
+draw_pass_1 = SubResource("SphereMesh_bu1ld")
+script = ExtResource("8_j3v8o")
+
+[node name="WarmTimer" type="Timer" parent="Beacons/GoalBeacon/Main/WarmthHitbox"]
+wait_time = 0.125
+
+[node name="SFX" type="Node3D" parent="Beacons/GoalBeacon/Main"]
+
+[node name="Wavy" type="AudioStreamPlayer3D" parent="Beacons/GoalBeacon/Main/SFX"]
+stream = ExtResource("11_a68ul")
+volume_db = -2.0
+bus = &"SFX"
+
+[node name="Gong" type="AudioStreamPlayer3D" parent="Beacons/GoalBeacon/Main/SFX"]
+stream = ExtResource("13_dos6t")
+volume_db = -4.0
+bus = &"SFX"
+
+[node name="RespawnPoint" type="Marker3D" parent="Beacons/GoalBeacon/Main"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
+
+[node name="RingManager" type="Node3D" parent="Beacons/GoalBeacon"]
+script = ExtResource("9_p626d")
+
+[node name="GoalRing1" parent="Beacons/GoalBeacon/RingManager" instance=ExtResource("1_t31nv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+
+[node name="Water" type="Area3D" parent="." groups=["water"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4, 20)
+shape = SubResource("BoxShape3D_p626d")
+debug_color = Color(0, 0, 1, 0.419608)
+
+[connection signal="activate_rings" from="Beacons/GoalBeacon" to="Beacons/GoalBeacon/RingManager" method="_on_goal_beacon_activate_rings"]
+[connection signal="timeout" from="Beacons/GoalBeacon/Main/DelayTimer" to="Beacons/GoalBeacon" method="_on_delay_timer_timeout"]
+[connection signal="area_entered" from="Beacons/GoalBeacon/Main/InteractionHitbox" to="Beacons/GoalBeacon" method="_on_interaction_hitbox_area_entered"]
+[connection signal="area_entered" from="Beacons/GoalBeacon/Main/WarmthHitbox" to="Beacons/GoalBeacon" method="_on_warmth_hitbox_area_entered"]
+[connection signal="area_exited" from="Beacons/GoalBeacon/Main/WarmthHitbox" to="Beacons/GoalBeacon" method="_on_warmth_hitbox_area_exited"]
+[connection signal="timeout" from="Beacons/GoalBeacon/Main/WarmthHitbox/WarmTimer" to="Beacons/GoalBeacon" method="_on_warm_timer_timeout"]

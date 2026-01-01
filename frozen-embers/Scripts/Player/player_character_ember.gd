@@ -1,5 +1,8 @@
 extends CharacterBody3D
 
+@onready var visuals: Node3D = $Visuals
+@onready var sfx_controller: Node = $SFX
+
 # Timers
 @onready var heat_timer: Timer = $Timers/HeatTimer
 @onready var coyote_time: Timer = $Timers/CoyoteTime
@@ -15,15 +18,21 @@ extends CharacterBody3D
 @onready var reignite_duration: Timer = $Timers/ReigniteDuration
 @onready var extinguish_duration: Timer = $Timers/ExtinguishDuration
 @onready var heat_shield_duration: Timer = $Timers/HeatShieldDuration
+@onready var water_buffer: Timer = $Timers/WaterBuffer
+@onready var ignore_water_timer: Timer = $Timers/IgnoreWater
 
-# Area3Ds and CollisionShape3Ds
+# Area3Ds, CollisionShape3Ds, and Lights
 @onready var attack_combo_1_2_hitbox: CollisionShape3D = $"Hitboxes/AttackCombo1&2/CollisionShape3D"
 @onready var attack_combo_3_hitbox: CollisionShape3D = $Hitboxes/AttackCombo3/CollisionShape3D
 @onready var attack_air_hitbox: CollisionShape3D = $Hitboxes/AttackAir/CollisionShape3D
+@onready var swim_hurtbox: Area3D = $Hurtboxes/SwimHurtbox
+@onready var swim_marker: Marker3D = $Hurtboxes/SwimHurtbox/SwimMarker
+@onready var torch_omni_light: OmniLight3D = $Visuals/TorchOmniLight
+@onready var light_hitbox: CollisionShape3D = $Hitboxes/LightHitbox/CollisionShape3D
 
 # Used for ledge grabbing
-@onready var head_ledge: RayCast3D = $Hitboxes/HeadLedge
-@onready var eye_ledge: RayCast3D = $Hitboxes/EyeLedge
+@onready var high_ledge: RayCast3D = $Hitboxes/HighLedge
+@onready var low_ledge: RayCast3D = $Hitboxes/LowLedge
 
 @export_subgroup("Auxiliary Scenes")
 @export var firewall_scene : PackedScene
@@ -55,6 +64,8 @@ var air_dive_hesitate = false
 var combo_counter = 0
 var air_attack_ready = true
 var ledge_available = false
+var in_water = false
+var water_surface = 0.0
 
 # These variables act as absolute stops in order to lock the player into actions
 var move_lock = false
@@ -71,30 +82,32 @@ var repeat_lock = false
 @export var slide_base_speed = 350.0
 @export var acceleration = 300.0
 @export var deceleration = 150.0
-@export var jump_strength = 10.0
+@export var jump_strength = 11.0
+@export var high_jump_multiplier = 1.75
 
 # This is a state machine
 enum States {GROUNDED, AIRBORNE, CROUCHED, SLIDING, HIGH_JUMP, LONG_JUMP, WALL_CLING, AIR_DIVE, ATTACK, AIR_ATTACK, 
-LEDGE_GRAB, REIGNITE, EXTINGUISH}
+LEDGE_GRAB, REIGNITE, EXTINGUISH, SWIMMING, FREEZE_DEATH}
 var current_state = States.GROUNDED
 
 func _ready() -> void:
-	print("-GAME START-")
-	
+	print("-PLAYER START-")
+	current_boost = 0
 	point_of_view = get_tree().get_first_node_in_group("player_pov")
 
 
 func _physics_process(delta: float) -> void:
 	
-	print(GlobalLevelStats.REMAINING_BEACONS)
 	
 	handle_state_transitions()
 	handle_state_actions(delta)
 	handle_boost(delta)
 	handle_movement(delta)
 	handle_gravity(delta)
+	handle_light(delta)
 	handle_global_stats()
-	
+	if global_position.y < GlobalLevelStats.FALL_OFF_DISTANCE:
+		handle_fall_off()
 	
 	# Variable that allows movement to be tracked by script
 	var applied_velocity: Vector3
@@ -106,25 +119,42 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	# Applies proper rotation to player based on prior code
+	
 	if Vector2(velocity.z, velocity.x).length() > 0:
 		rotation_direction = Vector2(velocity.z, velocity.x).angle()
+	if current_state == States.WALL_CLING and !rotate_lock:
+		rotation_direction = Vector2(-wall_normal.z, -wall_normal.x).angle()
+		rotation.y = lerp_angle(rotation.y, rotation_direction, delta * 15)
 	if !rotate_lock:
 		rotation.y = lerp_angle(rotation.y, rotation_direction, delta * 15)
 	
-	GlobalPlayerStats.Player_Position = self.global_position
+	
+	
+	
 
 # Allows states to be entered at any time should qualifications match, does not include states with specific triggers
 func handle_state_transitions():
 	# Treat this section similar to using "_ready"
-	if !action_lock:
-		if is_on_wall_only() and !ignore_walls:
-			current_state = States.WALL_CLING
-			
-		elif !is_on_floor() and ledge_available and ledge_cooldown.is_stopped():
+	if GlobalPlayerStats.Freeze > GlobalPlayerStats.Freeze_Max - 1:
+		current_state = States.FREEZE_DEATH
+		
+	elif in_water:
+		clear_locks()
+		GlobalPlayerStats.Light_Goal =  GlobalPlayerStats.Light_Min
+		GlobalPlayerStats.Light = GlobalPlayerStats.Light_Min
+		sfx_controller.play_freezing()
+		current_state = States.SWIMMING
+	
+	elif !action_lock:
+		if !is_on_floor() and ledge_available and ledge_cooldown.is_stopped():
 			action_lock = true
 			move_lock = true
 			rotate_lock = true
 			current_state = States.LEDGE_GRAB
+			sfx_controller.play_crumple()
+			
+		elif is_on_wall_only() and !ignore_walls:
+			current_state = States.WALL_CLING
 			
 		elif !is_on_floor() and Input.is_action_just_pressed("attack") and air_attack_ready:
 			action_lock = true
@@ -151,14 +181,17 @@ func handle_state_transitions():
 			air_dive_hesitate = true
 			gravity = -jump_strength / 1.5
 			light_drain_high()
+			sfx_controller.play_boost_fire()
 			current_state = States.AIR_DIVE
 			
-		elif is_on_floor() and is_moving and Input.is_action_just_pressed("crouch") and slide_ready and GlobalPlayerStats.Heat > 0.1:
-			action_lock = true
-			move_lock = true
-			slide_duration.start()
-			light_drain_low()
-			current_state = States.SLIDING
+		elif is_on_floor() and is_moving and Input.is_action_just_pressed("crouch") and slide_ready: 
+			if  GlobalPlayerStats.Light > GlobalPlayerStats.Light_Min + 0.1 or GlobalPlayerStats.Heat > 0.1:
+				action_lock = true
+				move_lock = true
+				slide_duration.start()
+				light_drain_low()
+				current_state = States.SLIDING
+				sfx_controller.play_slide()
 			
 		elif is_on_floor() and Input.is_action_pressed("crouch"):
 			current_state = States.CROUCHED
@@ -169,7 +202,7 @@ func handle_state_transitions():
 			
 		elif !is_on_floor() and coyote_time.is_stopped() and jump_ground:
 				coyote_time.start()
-
+	
 
 
 # Used to handle perpetual actions that either can't be inturupted or shouldn't run at all times
@@ -179,6 +212,16 @@ func handle_state_actions(delta):
 			ignore_walls = true
 			wall_jump_count = 0
 			air_attack_ready = true
+			high_ledge.enabled = false
+			low_ledge.enabled = false
+		
+		States.AIRBORNE:
+			if ignore_walls:
+				high_ledge.enabled = false
+				low_ledge.enabled = false
+			else:
+				high_ledge.enabled = true
+				low_ledge.enabled = true
 		
 		States.SLIDING:
 			slide(delta)
@@ -193,10 +236,13 @@ func handle_state_actions(delta):
 		States.WALL_CLING:
 			if is_on_wall_only():
 				wall_normal = get_wall_normal()
+				
 			elif !is_on_wall():
 				current_state = States.AIRBORNE
 			
 			if is_wall_jumping:
+				#HEY
+				rotation.y = Vector2(wall_normal.z, wall_normal.x).angle()
 				movement_velocity = wall_normal * true_speed * delta
 		
 		States.AIR_DIVE:
@@ -213,6 +259,20 @@ func handle_state_actions(delta):
 			handle_manual_heat_change(delta)
 		States.EXTINGUISH:
 			handle_manual_heat_change(delta)
+		
+		States.SWIMMING:
+			if water_buffer.is_stopped():
+				jump_ground = true
+				jump_cancel = true
+			else:
+				jump_ground = false
+				jump_midair = false
+		
+		States.FREEZE_DEATH:
+			# Must reset at moment of death or freeze will trigger for one frame when reloading
+			GlobalPlayerStats.Freeze = 0
+			GlobalPlayerStats.Freeze_Goal = 0
+			get_tree().change_scene_to_file("res://Scenes/UI/main_menu.tscn")
 
 func handle_movement(delta):
 	var input := Vector3.ZERO
@@ -224,14 +284,16 @@ func handle_movement(delta):
 		is_moving = false
 	
 	# Determines true speed based on what state the player is in and if they can slide
-	if current_state == States.CROUCHED:
+	if current_state == States.SWIMMING:
+		true_speed = walk_base_speed * 0.35
+	elif current_state == States.CROUCHED:
 		slide_ready = false
-		true_speed = walk_base_speed / 2
+		true_speed = walk_base_speed * 0.5
 	elif current_state == States.WALL_CLING:
 		if !is_wall_jumping:
-			true_speed = walk_base_speed / 4
+			true_speed = walk_base_speed * 0.25
 		else:
-			true_speed = (walk_base_speed + current_boost) * 2
+			true_speed = ((walk_base_speed + current_boost) * 2) - (current_boost * 0.25)
 	elif !move_lock:
 		true_speed = walk_base_speed + current_boost
 		if !slide_ready and slide_cooldown.is_stopped():
@@ -246,7 +308,7 @@ func handle_movement(delta):
 		# MAJOR MOVEMENT HAPPENS HERE, DON'T FUCK WITH IT UNLESS ABSOLUTELY NESSESARY
 		movement_velocity = input * true_speed * delta
 	
-	# All jumping is to be handled here!
+	# Jumping is to be handled here!
 	if Input.is_action_just_pressed("jump"):
 		if current_state == States.CROUCHED and jump_ground:
 			high_jump()
@@ -272,12 +334,15 @@ func handle_movement(delta):
 			current_state = States.LONG_JUMP
 			jump()
 		
+		elif current_state == States.SWIMMING:
+			jump()
+		
 		elif !move_lock:
 			current_state = States.AIRBORNE
 			jump()
 	
 	# This section checks if a ledge grab is possible
-	ledge_available = not head_ledge.is_colliding() and eye_ledge.is_colliding()
+	ledge_available = not high_ledge.is_colliding() and low_ledge.is_colliding()
 	
 	# This section removes locks for states that need it
 	if gravity > -3:
@@ -291,7 +356,18 @@ func handle_movement(delta):
 func handle_gravity(delta):
 	# Constantly applies gravity to the player that slowly ramps up over time based on state
 	if !ignore_gravity:
-		if current_state == States.WALL_CLING and !is_wall_jumping:
+		if in_water:
+			if !water_buffer.is_stopped() and swim_marker.global_position.y > water_surface:
+				gravity += 20 * delta
+			elif (swim_marker.global_position.y < water_surface or !water_buffer.is_stopped()) and ignore_water_timer.is_stopped():
+				gravity -= 15 * delta
+			else:
+					if ignore_water_timer.is_stopped():
+						gravity = 0
+					else:
+						return
+		
+		elif current_state == States.WALL_CLING and !is_wall_jumping:
 			if Input.is_action_pressed("crouch"):
 				gravity = 210 * delta
 			else:
@@ -314,15 +390,32 @@ func _on_heat_timer_timeout() -> void:
 	# Then checks to see if the player is immune to losing heat or under the the appropriate threshhold
 	elif heat_shield_duration.is_stopped() and GlobalPlayerStats.Light_Goal < -4:
 			GlobalPlayerStats.Heat_Goal += ( GlobalPlayerStats.Light_Goal / 5.0 )
+			
 	
-	if GlobalPlayerStats.Heat < 0.1:
-		GlobalPlayerStats.Freeze_Goal += 10
+	if GlobalPlayerStats.Heat < 0.1 or current_state == States.SWIMMING:
+		GlobalPlayerStats.Freeze_Goal += 15
+	
 
 func handle_boost(delta):
 	# If dash button is held and a reasource is available
-	if Input.is_action_pressed("dash") and GlobalPlayerStats.Heat > 0.1:
-		if boost_count_rate.is_stopped():
-			boost_count_rate.start()
+	
+	if GlobalPlayerStats.Heat < 1 and GlobalPlayerStats.Light_Goal < GlobalPlayerStats.Light_Min + 0.1:
+		boost_count_rate.stop()
+		handle_boost_decay(delta)
+		sfx_controller.stop_boost_loop()
+	
+	elif Input.is_action_pressed("dash"):
+		if Input.is_action_just_pressed("dash"):
+				if boost_count < 3:
+					GlobalPlayerStats.Light_Goal -= 0.5 
+				elif boost_count < 8:
+					GlobalPlayerStats.Light_Goal -= 1 
+				else:
+					GlobalPlayerStats.Light_Goal -= 2 
+			
+		if GlobalPlayerStats.Heat > 0 or GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1:
+			if boost_count_rate.is_stopped():
+				boost_count_rate.start()
 		
 		# Uses number of timeouts from boost count rate to determine when to change speeds
 		if boost_count < 4:
@@ -331,10 +424,12 @@ func handle_boost(delta):
 			current_boost = boost_base_speed * 2
 		else:
 			current_boost = boost_base_speed * 3
+		sfx_controller.play_boost_loop()
 	
 	else:
 		boost_count_rate.stop()
 		handle_boost_decay(delta)
+		sfx_controller.stop_boost_loop()
 	
 	# Ensures that boost never excedes limits
 	if current_boost > boost_base_speed * 4:
@@ -343,8 +438,7 @@ func handle_boost(delta):
 		current_boost = 0
 
 func _on_boost_count_rate_timeout() -> void:
-	if boost_count < 10:
-		boost_count += 1
+	boost_count += 1
 	
 	# Light drain for boost found here!
 	if boost_count < 5:
@@ -352,16 +446,19 @@ func _on_boost_count_rate_timeout() -> void:
 			GlobalPlayerStats.Light_Goal -= 0.5
 		else:
 			GlobalPlayerStats.Heat_Goal -= 5
+			sfx_controller.play_heartbeat()
 	elif boost_count < 10:
 		if GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1:
 			GlobalPlayerStats.Light_Goal -= 1
 		else:
 			GlobalPlayerStats.Heat_Goal -= 10
+			sfx_controller.play_heartbeat()
 	else:
 		if GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1:
 			GlobalPlayerStats.Light_Goal -= 2
 		else:
 			GlobalPlayerStats.Heat_Goal -= 15
+			sfx_controller.play_heartbeat()
 
 func handle_boost_decay(delta):
 	if current_boost != 0:
@@ -384,31 +481,50 @@ func handle_boost_decay(delta):
 
 
 func jump():
-	if jump_ground:
+	if current_state == States.SWIMMING:
+		if water_buffer.is_stopped():
+			ignore_water_timer.start()
+			gravity = -jump_strength * 0.75
+			sfx_controller.play_jump()
+	
+	elif current_state == States.WALL_CLING:
+		gravity = -jump_strength * 1.5
+		sfx_controller.play_jump()
+	
+	elif jump_ground:
 		gravity = -jump_strength
 		jump_ground = false
 		jump_midair = true
 		if ignore_walls:
 			ignore_walls_timer.start()
+		
+		if current_state == States.LONG_JUMP:
+			sfx_controller.play_long_jump()
+		else:
+			sfx_controller.play_jump()
 	
-	elif jump_midair:
+	elif jump_midair and !is_on_wall():
 		gravity = -jump_strength
 		jump_midair = false
 		if ignore_walls:
 			ignore_walls_timer.start()
+		
+		if current_state == States.LONG_JUMP:
+			sfx_controller.play_long_jump()
+		else:
+			sfx_controller.play_jump()
 	
-	elif current_state == States.WALL_CLING:
-		gravity = -jump_strength * 1.5
 
 func high_jump():
 	action_lock = true
 	move_lock = true
 	ignore_walls = true
-	gravity = -jump_strength * 1.65
+	gravity = -jump_strength * high_jump_multiplier
 	jump_ground = false
 	jump_midair = true
 	light_drain_low()
 	current_state = States.HIGH_JUMP
+	sfx_controller.play_high_jump()
 
 func _on_wall_jump_duration_timeout() -> void:
 	clear_locks()
@@ -456,6 +572,7 @@ func _on_slide_duration_timeout() -> void:
 		else:
 			current_state = States.GROUNDED
 		clear_locks()
+	sfx_controller.stop_slide()
 
 func _on_slide_cooldown_timeout() -> void:
 	slide_ready = true
@@ -479,18 +596,21 @@ func handle_grounded_attack(delta):
 			movement_velocity = transform.basis.z * (200 + current_boost) * delta
 			attack_recovery.start()
 			hitbox_duration.start()
+			sfx_controller.play_torch_swing()
 			
 		elif combo_counter == 3:
 			attack_combo_3_hitbox.disabled = false
 			movement_velocity = transform.basis.z * (600 + (current_boost)) * delta
 			attack_recovery.start()
 			hitbox_duration.start()
+			sfx_controller.play_torch_swing()
 
 func aerial_attack():
 	gravity -= jump_strength * 0.6
 	attack_air_hitbox.disabled = false
 	attack_recovery.start()
 	hitbox_duration.start()
+	sfx_controller.play_torch_swing()
 
 func _on_attack_recovery_timeout() -> void:
 	action_lock = false
@@ -522,11 +642,12 @@ func handle_air_dive(delta):
 		jump_cancel = false
 		light_drain_low()
 		clear_locks()
+		sfx_controller.play_flap()
 	
 	if is_on_floor():
 		if hard_landing_recovery.is_stopped():
 			hard_landing_recovery.start()
-			
+			sfx_controller.play_boom()
 			if !GlobalPlayerStats.Pillar_Active:
 				var instance = firewall_scene.instantiate()
 				
@@ -548,11 +669,12 @@ func handle_ledge_grab():
 	movement_velocity = Vector3.ZERO
 	
 	if Input.is_action_just_pressed("jump"):
-		gravity = -((jump_strength * 1.5) + (current_boost / 100))
+		gravity = -((jump_strength * 1.5) + (current_boost / 200))
 		ledge_cooldown.start()
 		ignore_walls_timer.start()
 		clear_locks()
 		current_state = States.AIRBORNE
+		sfx_controller.play_jump()
 	
 	if Input.is_action_just_pressed("crouch"):
 		ledge_cooldown.start()
@@ -587,12 +709,11 @@ func handle_manual_heat_change(_delta):
 func _on_reignite_duration_timeout() -> void:
 	#Due to the starting value for light being 0, this will always add light based on the upper limits (55% right now)
 	GlobalPlayerStats.Light_Goal += snapped(1.1 * GlobalPlayerStats.Light_Max, 1)
+	sfx_controller.play_boost_fire()
 	clear_locks()
 	repeat_lock = true
 
-
 func _on_extinguish_duration_timeout() -> void:
-	
 	#Grants a burst of heat based on how much light was extinguished
 	GlobalPlayerStats.Heat_Goal += (GlobalPlayerStats.Light_Goal + 50.0) * 5.0
 	
@@ -606,29 +727,77 @@ func _on_extinguish_duration_timeout() -> void:
 	#Then instantly reduces player light to its minimum value and clears all locks other than repeat lock
 	GlobalPlayerStats.Light_Goal = GlobalPlayerStats.Light_Min
 	GlobalPlayerStats.Light = GlobalPlayerStats.Light_Min
+	sfx_controller.play_snuff_fire()
 	clear_locks()
 	repeat_lock = true
 
+#These are the core values of light and heat that are drained when using a resource
 func light_drain_high():
 	if GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1:
 		GlobalPlayerStats.Light_Goal -= 5
+		torch_omni_light.light_energy = 12.0
 	else:
 		GlobalPlayerStats.Heat_Goal -= 25
+		sfx_controller.play_heartbeat()
 func light_drain_mid():
 	if GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1:
 		GlobalPlayerStats.Light_Goal -= 3
+		torch_omni_light.light_energy = 12.0
 	else:
 		GlobalPlayerStats.Heat_Goal -= 15
+		sfx_controller.play_heartbeat()
 func light_drain_low():
 	if GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1:
 		GlobalPlayerStats.Light_Goal -= 1
+		torch_omni_light.light_energy = 12.0
 	else:
 		GlobalPlayerStats.Heat_Goal -= 5
+		sfx_controller.play_heartbeat()
 
+#Water controlls here!
+func _on_swim_hurtbox_area_entered(area: Area3D) -> void:
+	if area.is_in_group("water"):
+		in_water = true
+		sfx_controller.play_splash()
+		water_buffer.start()
+		water_surface = swim_hurtbox.global_position.y
 
+func _on_swim_hurtbox_area_exited(area: Area3D) -> void:
+	if area.is_in_group("water"):
+		in_water = false
 
-# Used for UI
+func _on_ignore_water_timeout() -> void:
+	if in_water:
+		current_state = States.SWIMMING
+	if !in_water:
+		current_state = States.AIRBORNE
+
+func handle_light(delta):
+	#Keeps the light source at a fixed energy so that it may cause a flash from the light drain functions
+	if torch_omni_light.light_energy > 3.0:
+		torch_omni_light.light_energy -= 12.0 * delta
+	else:
+		torch_omni_light.light_energy = 3.0
+	
+	if GlobalPlayerStats.Light > GlobalPlayerStats.Light_Min:
+		torch_omni_light.omni_range = (GlobalPlayerStats.Light + 50) * 0.1 + 1.5
+	else:
+		torch_omni_light.omni_range = 0.0
+	light_hitbox.shape.radius = (GlobalPlayerStats.Light + 50) * 0.1 + 1.0
+
+func handle_fall_off():
+	GlobalPlayerStats.Freeze_Goal += GlobalPlayerStats.Heat_Max_Start_Value * 0.1
+	global_position = GlobalLevelStats.RESPAWN_LOCATION
+
+# Used for UI and SFX
 func handle_global_stats():
+	GlobalPlayerStats.Player_Position = self.global_position
+	
+	if GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min:
+		sfx_controller.play_torch_loop()
+	else:
+		sfx_controller.stop_torch_loop()
+	
 	GlobalPlayerStats.PLAYER_BOOST_COUNT = boost_count
 	GlobalPlayerStats.PLAYER_CURRENT_SPEED = true_speed
 	GlobalPlayerStats.PLAYER_GRAVITY = gravity
@@ -660,3 +829,5 @@ func handle_global_stats():
 		GlobalPlayerStats.PLAYER_CURRENT_STATE = "Reignite"
 	elif current_state == States.EXTINGUISH:
 		GlobalPlayerStats.PLAYER_CURRENT_STATE = "Extinguish"
+	elif current_state == States.SWIMMING:
+		GlobalPlayerStats.PLAYER_CURRENT_STATE = "Swimming"

@@ -26,6 +26,8 @@ MusicController="*res://Scenes/Audio/music_controller.tscn"
 
 player_pov="Player's Camera"
 player="Attached exclusively to player characters and extentions of them."
+water="Used so that areas can recognise water."
+exit="Used to identiy the end of a level."
 
 [input]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bga4lo31kpgod"]
+[gd_scene load_steps=14 format=3 uid="uid://bga4lo31kpgod"]
 
 [ext_resource type="Script" uid="uid://drqach30vcdbs" path="res://Scripts/Interactables/goal_ring.gd" id="1_s6b83"]
 
@@ -37,12 +37,45 @@ rings = 3
 height = 0.5
 radius = 3.0
 
+[sub_resource type="Curve" id="Curve_s6b83"]
+_data = [Vector2(0, 0.502833), 0.0, 5.15068, 0, 0, Vector2(0.151625, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_18a7k"]
+curve = SubResource("Curve_s6b83")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_55546"]
+emission_shape_offset = Vector3(0, 3.5, 0)
+emission_shape_scale = Vector3(0.25, 0.25, 0.1)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.9
+emission_ring_cone_angle = 90.0
+gravity = Vector3(0, -0.5, 0)
+scale_curve = SubResource("CurveTexture_18a7k")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s6b83"]
+render_priority = -1
+shading_mode = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_18a7k"]
+next_pass = SubResource("StandardMaterial3D_s6b83")
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+
+[sub_resource type="TorusMesh" id="TorusMesh_18a7k"]
+material = SubResource("StandardMaterial3D_18a7k")
+inner_radius = 2.8
+outer_radius = 3.1
+
 [node name="GoalRing" type="Node3D"]
 script = ExtResource("1_s6b83")
 
 [node name="Hitbox" type="Area3D" parent="."]
 
-[node name="Particles" type="GPUParticles3D" parent="Hitbox"]
+[node name="RingParticles" type="GPUParticles3D" parent="Hitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
 amount = 150
 local_coords = true
@@ -54,4 +87,25 @@ transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114
 shape = SubResource("CylinderShape3D_67r1a")
 debug_color = Color(0.57038, 0.389319, 1, 0.42)
 
+[node name="LeadParticles" type="GPUParticles3D" parent="."]
+amount = 80
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_55546")
+draw_pass_1 = SubResource("SphereMesh_eiody")
+
+[node name="LeadTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+light_color = Color(0.666667, 1, 1, 1)
+light_energy = 3.0
+omni_attenuation = -0.25
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 3.5, 0)
+mesh = SubResource("TorusMesh_18a7k")
+
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="timeout" from="LeadTimer" to="." method="_on_lead_timer_timeout"]

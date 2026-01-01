@@ -2,10 +2,16 @@
 extends Node3D
 
 @onready var ring_manager: Node3D = $RingManager
-@onready var delay_timer: Timer = $DelayTimer
-@onready var warm_hitbox: CollisionShape3D = $WarmthHitbox/CollisionShape3D
-@onready var warm_timer: Timer = $WarmthHitbox/WarmTimer
-@onready var warm_visual: GPUParticles3D = $WarmthHitbox/WarmVisual
+@onready var delay_timer: Timer = $Main/DelayTimer
+@onready var warm_hitbox: CollisionShape3D = $Main/WarmthHitbox/CollisionShape3D
+@onready var warm_timer: Timer = $Main/WarmthHitbox/WarmTimer
+@onready var warm_visual: GPUParticles3D = $Main/WarmthHitbox/WarmVisual
+
+@onready var wavy: AudioStreamPlayer3D = $Main/SFX/Wavy
+@onready var gong: AudioStreamPlayer3D = $Main/SFX/Gong
+@onready var alight_particles: GPUParticles3D = $Main/Visuals/AlightParticles
+@onready var omni_light_3d: OmniLight3D = $Main/Visuals/OmniLight3D
+@onready var respawn_point: Marker3D = $Main/RespawnPoint
 
 @export var number_of_rings: int = 1
 var marker_que = 0
@@ -35,6 +41,8 @@ func _ready() -> void:
 		GlobalLevelStats.REMAINING_BEACONS += 1
 		warm_hitbox.disabled = true
 		warm_visual.emitting = false
+		alight_particles.emitting = false
+		omni_light_3d.light_energy = 0.2
 
 
 func _process(_delta: float) -> void:
@@ -62,14 +70,20 @@ func _process(_delta: float) -> void:
 		# Collecting every ring
 		if GlobalLevelStats.REMAINING_RINGS < 1 and active and delay_complete:
 			completed = true
-			warm_hitbox.disabled = false
-			warm_visual.emitting = true
 			if !level_credit:
+				warm_hitbox.disabled = false
+				warm_visual.emitting = true
+				alight_particles.emitting = true
+				omni_light_3d.light_energy = 3.0
 				GlobalLevelStats.REMAINING_BEACONS -= 1
+				gong.playing = true
 				level_credit = true
+				GlobalLevelStats.RESPAWN_LOCATION = respawn_point.global_position
 
 func _on_interaction_hitbox_area_entered(area: Area3D) -> void:
 	if area.is_in_group("player"):
+		if !active:
+			wavy.playing = true
 		active = true
 
 func _on_warmth_hitbox_area_entered(area: Area3D) -> void:
@@ -80,8 +94,8 @@ func _on_warmth_hitbox_area_exited(area: Area3D) -> void:
 		warm_timer.stop()
 
 func _on_warm_timer_timeout() -> void:
-	GlobalPlayerStats.Light_Goal += 1
-	GlobalPlayerStats.Heat_Goal += 5
+	GlobalPlayerStats.Light_Goal += 0.5
+	GlobalPlayerStats.Heat_Goal += 2.5
 
 
 func _on_delay_timer_timeout() -> void:

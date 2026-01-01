@@ -2,20 +2,24 @@ extends Node3D
 
 # Variables taken from children
 @onready var camera_mount = $CameraMount
+@onready var spring_arm_3d: SpringArm3D = $CameraMount/SpringArm3D
 
 # Variables that can be edited in engine
-@export_group("Auxiliary")
-@export var target: Node
+
+var target: Node
+
 @export_group("Properties")
 @export var camera_sensitivity = 0.25
 
 # Locks Mouse to window
 func _ready():
+	target = get_tree().get_first_node_in_group("player")
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
  #Tracks position of "View" in space
 func _physics_process(delta):
 	self.position = self.position.lerp(target.position, delta * 5.5)
+	spring_arm_3d.spring_length = 2.0 + ((GlobalPlayerStats.Light + 50)/10)
 
 # Moves camera view
 func _input(event):

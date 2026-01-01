@@ -1,3 +1,21 @@
-[gd_scene format=3 uid="uid://ietc4emq02fr"]
+[gd_scene load_steps=4 format=3 uid="uid://ietc4emq02fr"]
+
+[ext_resource type="Script" uid="uid://dk00jatxiqtde" path="res://Scripts/_Global_/music_controller.gd" id="1_akw00"]
+[ext_resource type="AudioStream" uid="uid://cedodayss6o0w" path="res://Assets/Audio/Testing/V1_Placeholders/Snow_Storm.wav" id="2_8q2hb"]
+[ext_resource type="AudioStream" uid="uid://x5o18dsb5lgo" path="res://Assets/Audio/Testing/V2_Placeholders/HumBoop.wav" id="3_akw00"]
 
 [node name="MusicController" type="Node"]
+script = ExtResource("1_akw00")
+
+[node name="Test_Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_8q2hb")
+volume_db = -15.0
+bus = &"Music"
+
+[node name="UI SFX" type="Node" parent="."]
+
+[node name="HumBoop" type="AudioStreamPlayer" parent="UI SFX"]
+stream = ExtResource("3_akw00")
+volume_db = -4.0
+max_polyphony = 5
+bus = &"SFX"

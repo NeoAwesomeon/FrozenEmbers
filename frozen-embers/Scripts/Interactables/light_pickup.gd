@@ -22,4 +22,6 @@ func _physics_process(delta: float) -> void:
 func _on_collect_hitbox_area_entered(area: Area3D) -> void:
 	if area.is_in_group("player"):
 		GlobalPlayerStats.Light_Goal += 2
+		MusicController.hum_boop.pitch_scale = 1.0
+		MusicController.play_hum_boop()
 		queue_free()
