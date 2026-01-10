@@ -1,0 +1,153 @@
+[gd_scene load_steps=15 format=3 uid="uid://buddqeg181ay5"]
+
+[ext_resource type="PackedScene" uid="uid://dl827b1tvpsvc" path="res://Scenes/UI/Menus/full_main_menu.tscn" id="1_56m4n"]
+[ext_resource type="Theme" uid="uid://bp3rbmavjbrbx" path="res://Assets/Themes/PrimaryTheme.tres" id="2_djivf"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1dekw"]
+top_radius = 0.0
+bottom_radius = 42.0
+height = 45.0
+
+[sub_resource type="Environment" id="Environment_1dekw"]
+background_mode = 1
+fog_enabled = true
+fog_light_energy = 0.45
+fog_density = 0.02
+
+[sub_resource type="Curve" id="Curve_56m4n"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.09465022, 1), 0.0, 0.0, 0, 0, Vector2(0.75720173, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_djivf"]
+curve = SubResource("Curve_56m4n")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_myppa"]
+emission_shape_scale = Vector3(200, 1, 50)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+gravity = Vector3(0, -2, 0)
+scale_curve = SubResource("CurveTexture_djivf")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rthl2"]
+shading_mode = 0
+
+[sub_resource type="SphereMesh" id="SphereMesh_0tg1s"]
+material = SubResource("StandardMaterial3D_rthl2")
+radial_segments = 6
+rings = 3
+
+[sub_resource type="Curve" id="Curve_nlkjb"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.12757203, 1), 0.0, 0.0, 0, 0, Vector2(0.7695474, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_b8u6e"]
+curve = SubResource("Curve_nlkjb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hhxnm"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector3(0, 3, 0)
+radial_accel_min = -2.2351742e-06
+radial_accel_max = 0.99999774
+scale_min = 2.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_b8u6e")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mgu11"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ixktf"]
+material = SubResource("StandardMaterial3D_mgu11")
+radial_segments = 6
+rings = 3
+
+[node name="MenuLevel" type="Node3D"]
+
+[node name="FullMainMenu" parent="." instance=ExtResource("1_56m4n")]
+
+[node name="Unique Moves" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -293.0
+offset_bottom = 189.0
+grow_horizontal = 0
+theme = ExtResource("2_djivf")
+theme_override_font_sizes/font_size = 15
+text = "Unique Moves:
+Jump while on a wall = Wall Jump (x3)
+Crouch + Jump = High Jump
+Slide + Jump = Long Jump
+Crouch while Airborne = Air Dive
+Jump just before Air Dive = Jump Cancel
+
+Boost increases all horizontal speed"
+horizontal_alignment = 1
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14, 21)
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.874569, 22, -34.1388)
+mesh = SubResource("CylinderMesh_1dekw")
+
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.8049126, 7.200001, -55.028687)
+mesh = SubResource("CylinderMesh_1dekw")
+
+[node name="CSGMesh3D3" type="CSGMesh3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63.903225, -0.5343628, -22.477276)
+mesh = SubResource("CylinderMesh_1dekw")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -28.14209)
+size = Vector3(261, 2, 96.28418)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Visuals"]
+environment = SubResource("Environment_1dekw")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Visuals/WorldEnvironment"]
+transform = Transform3D(0, 0.8660253, -0.5000002, 0, 0.5000001, 0.8660253, 1, -1.1920929e-07, -5.9604645e-08, 0, 42, 0)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69.35933, -43.32038)
+amount = 200
+lifetime = 8.0
+preprocess = 8.0
+process_material = SubResource("ParticleProcessMaterial_myppa")
+draw_pass_1 = SubResource("SphereMesh_0tg1s")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.549812, 28.883556, -23.811184)
+amount = 20
+lifetime = 2.0
+preprocess = 2.0
+process_material = SubResource("ParticleProcessMaterial_hhxnm")
+draw_pass_1 = SubResource("SphereMesh_ixktf")
+
+[node name="GPUParticles3D3" type="GPUParticles3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.80574, 11.413387, -3.7357235)
+amount = 20
+lifetime = 2.0
+preprocess = 2.0
+process_material = SubResource("ParticleProcessMaterial_hhxnm")
+draw_pass_1 = SubResource("SphereMesh_ixktf")
+
+[node name="GPUParticles3D4" type="GPUParticles3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.959963, 41.72184, -37.80566)
+amount = 20
+lifetime = 2.0
+preprocess = 2.0
+process_material = SubResource("ParticleProcessMaterial_hhxnm")
+draw_pass_1 = SubResource("SphereMesh_ixktf")
+
+[node name="GPUParticles3D5" type="GPUParticles3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.30410147, 6.9002285, -4.813238)
+amount = 20
+lifetime = 2.0
+preprocess = 2.0
+process_material = SubResource("ParticleProcessMaterial_hhxnm")
+draw_pass_1 = SubResource("SphereMesh_ixktf")

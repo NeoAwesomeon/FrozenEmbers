@@ -26,6 +26,9 @@ var Freeze_Max = Heat_Max_Start_Value
 var Dive_Count = 0
 var Pillar_Active = false
 
+func _ready() -> void:
+	Heat = Heat_Goal
+
 #Goals are the main thing you manipulate, where as the stat alone is most often reserved for visuals or delays
 
 func _process(delta: float) -> void:

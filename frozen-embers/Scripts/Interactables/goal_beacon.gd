@@ -8,7 +8,7 @@ extends Node3D
 @onready var warm_visual: GPUParticles3D = $Main/WarmthHitbox/WarmVisual
 
 @onready var wavy: AudioStreamPlayer3D = $Main/SFX/Wavy
-@onready var gong: AudioStreamPlayer3D = $Main/SFX/Gong
+@onready var gong: AudioStreamPlayer = $Main/SFX/Gong
 @onready var alight_particles: GPUParticles3D = $Main/Visuals/AlightParticles
 @onready var omni_light_3d: OmniLight3D = $Main/Visuals/OmniLight3D
 @onready var respawn_point: Marker3D = $Main/RespawnPoint
@@ -67,24 +67,15 @@ func _process(_delta: float) -> void:
 				delay_timer.start()
 			activate_rings.emit()
 		
-		# Collecting every ring
-		if GlobalLevelStats.REMAINING_RINGS < 1 and active and delay_complete:
-			completed = true
-			if !level_credit:
-				warm_hitbox.disabled = false
-				warm_visual.emitting = true
-				alight_particles.emitting = true
-				omni_light_3d.light_energy = 3.0
-				GlobalLevelStats.REMAINING_BEACONS -= 1
-				gong.playing = true
-				level_credit = true
-				GlobalLevelStats.RESPAWN_LOCATION = respawn_point.global_position
 
 func _on_interaction_hitbox_area_entered(area: Area3D) -> void:
 	if area.is_in_group("player"):
 		if !active:
 			wavy.playing = true
 		active = true
+		
+		if completed:
+			GlobalLevelStats.RESPAWN_LOCATION = respawn_point.global_position
 
 func _on_warmth_hitbox_area_entered(area: Area3D) -> void:
 	if area.is_in_group("player"):
@@ -100,3 +91,22 @@ func _on_warm_timer_timeout() -> void:
 
 func _on_delay_timer_timeout() -> void:
 	delay_complete = true
+
+
+func _on_ring_manager_completed() -> void:
+	if not Engine.is_editor_hint():
+		if active and delay_complete:
+			completed = true
+			
+			if !level_credit:
+				warm_hitbox.disabled = false
+				warm_visual.emitting = true
+				alight_particles.emitting = true
+				omni_light_3d.light_energy = 3.0
+				GlobalLevelStats.REMAINING_BEACONS -= 1
+				gong.playing = true
+				level_credit = true
+				GlobalLevelStats.RESPAWN_LOCATION = respawn_point.global_position
+				
+				if GlobalLevelStats.REMAINING_BEACONS < 1:
+					GlobalLevelStats.EXIT_OPEN = true

@@ -1,8 +1,8 @@
-[gd_scene load_steps=33 format=3 uid="uid://w1bfoi0w0d8d"]
+[gd_scene load_steps=35 format=3 uid="uid://w1bfoi0w0d8d"]
 
 [ext_resource type="PackedScene" uid="uid://bsr73xwil1ngl" path="res://Scenes/Levels/_Bases/level_starter.tscn" id="1_ulxtr"]
 [ext_resource type="PackedScene" uid="uid://dqayd4wqfa7ps" path="res://Scenes/Player/player_character_ember.tscn" id="2_foaud"]
-[ext_resource type="PackedScene" uid="uid://dqcfqm4fk2wp0" path="res://Scenes/Player/player_hud.tscn" id="3_skl2j"]
+[ext_resource type="PackedScene" uid="uid://dqcfqm4fk2wp0" path="res://Scenes/UI/player_hud.tscn" id="3_skl2j"]
 [ext_resource type="PackedScene" uid="uid://cntk6hyobvon5" path="res://Scenes/Player/player_pov.tscn" id="4_utp84"]
 [ext_resource type="PackedScene" uid="uid://btlti1inruyru" path="res://Scenes/Interactables/level_exit.tscn" id="5_vivoh"]
 [ext_resource type="Script" uid="uid://bahn25apmbm5a" path="res://Scripts/Interactables/goal_beacon.gd" id="6_j51j4"]
@@ -13,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://cm1hta05sdwea" path="res://Assets/Audio/Testing/V2_Placeholders/Wavy.wav" id="10_rro3d"]
 [ext_resource type="AudioStream" uid="uid://dwdao6r4n7kuv" path="res://Assets/Audio/Testing/V2_Placeholders/Gong.mp3" id="11_nqmpr"]
 [ext_resource type="Script" uid="uid://b31fyitm1tv4s" path="res://Scripts/Interactables/ring_manager.gd" id="12_b0pg2"]
+[ext_resource type="PackedScene" uid="uid://i2h3t243ng3l" path="res://Scenes/Interactables/light_pickup.tscn" id="13_ipo01"]
 
 [sub_resource type="Environment" id="Environment_j51j4"]
 background_mode = 1
@@ -99,6 +100,10 @@ rings = 1
 left_to_right = 1.0
 size = Vector3(8, 4, 2)
 
+[sub_resource type="PrismMesh" id="PrismMesh_rro3d"]
+left_to_right = 1.0
+size = Vector3(8, 4, 6)
+
 [sub_resource type="PrismMesh" id="PrismMesh_tf0k3"]
 left_to_right = 1.0
 size = Vector3(16, 8, 8)
@@ -126,11 +131,11 @@ environment = SubResource("Environment_j51j4")
 
 [node name="Player" type="Node" parent="."]
 
-[node name="PlayerCharacterEmber" parent="Player" instance=ExtResource("2_foaud")]
+[node name="PlayerHud" parent="Player" instance=ExtResource("3_skl2j")]
 
 [node name="PlayerPOV" parent="Player" instance=ExtResource("4_utp84")]
 
-[node name="PlayerHud" parent="Player" instance=ExtResource("3_skl2j")]
+[node name="PlayerCharacterEmber" parent="Player" instance=ExtResource("2_foaud")]
 
 [node name="Gameplay" type="Node" parent="."]
 
@@ -140,8 +145,9 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 [node name="Beacons" type="Node" parent="Gameplay"]
 
 [node name="GoalBeacon" type="Node3D" parent="Gameplay/Beacons"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16)
 script = ExtResource("6_j51j4")
+number_of_rings = 3
 ring_scene = ExtResource("7_ipo01")
 
 [node name="Main" type="Node3D" parent="Gameplay/Beacons/GoalBeacon"]
@@ -206,10 +212,9 @@ stream = ExtResource("10_rro3d")
 volume_db = -2.0
 bus = &"SFX"
 
-[node name="Gong" type="AudioStreamPlayer3D" parent="Gameplay/Beacons/GoalBeacon/Main/SFX"]
+[node name="Gong" type="AudioStreamPlayer" parent="Gameplay/Beacons/GoalBeacon/Main/SFX"]
 stream = ExtResource("11_nqmpr")
 volume_db = -4.0
-bus = &"SFX"
 
 [node name="RespawnPoint" type="Marker3D" parent="Gameplay/Beacons/GoalBeacon/Main"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
@@ -217,19 +222,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
 [node name="RingManager" type="Node3D" parent="Gameplay/Beacons/GoalBeacon"]
 script = ExtResource("12_b0pg2")
 
-[node name="GoalRing1" parent="Gameplay/Beacons/GoalBeacon/RingManager" instance=ExtResource("7_ipo01")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16)
+[node name="GoalRing3" parent="Gameplay/Beacons/GoalBeacon/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 13, 0, 0)
 
 [node name="GoalRing2" parent="Gameplay/Beacons/GoalBeacon/RingManager" instance=ExtResource("7_ipo01")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -28)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 1, -12)
 
-[node name="GoalRing3" parent="Gameplay/Beacons/GoalBeacon/RingManager" instance=ExtResource("7_ipo01")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, -44)
+[node name="GoalRing1" parent="Gameplay/Beacons/GoalBeacon/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
 
 [node name="GoalBeacon2" type="Node3D" parent="Gameplay/Beacons"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -88)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -72, 8, 8)
 script = ExtResource("6_j51j4")
-number_of_rings = 8
+number_of_rings = 5
 ring_scene = ExtResource("7_ipo01")
 
 [node name="Main" type="Node3D" parent="Gameplay/Beacons/GoalBeacon2"]
@@ -294,10 +299,9 @@ stream = ExtResource("10_rro3d")
 volume_db = -2.0
 bus = &"SFX"
 
-[node name="Gong" type="AudioStreamPlayer3D" parent="Gameplay/Beacons/GoalBeacon2/Main/SFX"]
+[node name="Gong" type="AudioStreamPlayer" parent="Gameplay/Beacons/GoalBeacon2/Main/SFX"]
 stream = ExtResource("11_nqmpr")
 volume_db = -4.0
-bus = &"SFX"
 
 [node name="RespawnPoint" type="Marker3D" parent="Gameplay/Beacons/GoalBeacon2/Main"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
@@ -305,34 +309,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
 [node name="RingManager" type="Node3D" parent="Gameplay/Beacons/GoalBeacon2"]
 script = ExtResource("12_b0pg2")
 
-[node name="GoalRing8" parent="Gameplay/Beacons/GoalBeacon2/RingManager" instance=ExtResource("7_ipo01")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -32)
-
-[node name="GoalRing7" parent="Gameplay/Beacons/GoalBeacon2/RingManager" instance=ExtResource("7_ipo01")]
-transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -36, 12, 0)
-
-[node name="GoalRing6" parent="Gameplay/Beacons/GoalBeacon2/RingManager" instance=ExtResource("7_ipo01")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 32, 0, 0)
-
 [node name="GoalRing5" parent="Gameplay/Beacons/GoalBeacon2/RingManager" instance=ExtResource("7_ipo01")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 24, 16)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -40, -12, -52)
 
 [node name="GoalRing4" parent="Gameplay/Beacons/GoalBeacon2/RingManager" instance=ExtResource("7_ipo01")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -24, -20, -24)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -11, -1, -32)
 
 [node name="GoalRing3" parent="Gameplay/Beacons/GoalBeacon2/RingManager" instance=ExtResource("7_ipo01")]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 24, 2, -24)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -1, -53)
 
 [node name="GoalRing2" parent="Gameplay/Beacons/GoalBeacon2/RingManager" instance=ExtResource("7_ipo01")]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -34, 20, 32)
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 5, 0, -19)
 
 [node name="GoalRing1" parent="Gameplay/Beacons/GoalBeacon2/RingManager" instance=ExtResource("7_ipo01")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 24, 0, 24)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, -12, 0)
 
 [node name="GoalBeacon3" type="Node3D" parent="Gameplay/Beacons"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -104, 47, -80)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -92, 6, -116)
 script = ExtResource("6_j51j4")
-number_of_rings = 3
+number_of_rings = 5
 ring_scene = ExtResource("7_ipo01")
 
 [node name="Main" type="Node3D" parent="Gameplay/Beacons/GoalBeacon3"]
@@ -397,10 +392,9 @@ stream = ExtResource("10_rro3d")
 volume_db = -2.0
 bus = &"SFX"
 
-[node name="Gong" type="AudioStreamPlayer3D" parent="Gameplay/Beacons/GoalBeacon3/Main/SFX"]
+[node name="Gong" type="AudioStreamPlayer" parent="Gameplay/Beacons/GoalBeacon3/Main/SFX"]
 stream = ExtResource("11_nqmpr")
 volume_db = -4.0
-bus = &"SFX"
 
 [node name="RespawnPoint" type="Marker3D" parent="Gameplay/Beacons/GoalBeacon3/Main"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
@@ -408,14 +402,484 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
 [node name="RingManager" type="Node3D" parent="Gameplay/Beacons/GoalBeacon3"]
 script = ExtResource("12_b0pg2")
 
+[node name="GoalRing5" parent="Gameplay/Beacons/GoalBeacon3/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, -7.000023, 33, 15)
+
+[node name="GoalRing4" parent="Gameplay/Beacons/GoalBeacon3/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(-4.3711385e-08, -1, 4.371139e-08, 0, -4.371139e-08, -1, 1, -4.371139e-08, -1.6420282e-15, 10.999947, 27, 24)
+
 [node name="GoalRing3" parent="Gameplay/Beacons/GoalBeacon3/RingManager" instance=ExtResource("7_ipo01")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5258789e-05, 33, 24)
 
 [node name="GoalRing2" parent="Gameplay/Beacons/GoalBeacon3/RingManager" instance=ExtResource("7_ipo01")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.62939e-06, 0, 32)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2888184e-05, 13, 24)
 
 [node name="GoalRing1" parent="Gameplay/Beacons/GoalBeacon3/RingManager" instance=ExtResource("7_ipo01")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52588e-05, 0, 72)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6293945e-06, 0, 15)
+
+[node name="GoalBeacon4" type="Node3D" parent="Gameplay/Beacons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -88)
+script = ExtResource("6_j51j4")
+number_of_rings = 8
+ring_scene = ExtResource("7_ipo01")
+
+[node name="Main" type="Node3D" parent="Gameplay/Beacons/GoalBeacon4"]
+
+[node name="Visuals" type="Node3D" parent="Gameplay/Beacons/GoalBeacon4/Main"]
+
+[node name="Model" parent="Gameplay/Beacons/GoalBeacon4/Main/Visuals" instance=ExtResource("8_tf0k3")]
+transform = Transform3D(0.665, 0, 0, 0, 0.665, 0, 0, 0, 0.665, 0, 0, 0)
+
+[node name="AlightParticles" type="GPUParticles3D" parent="Gameplay/Beacons/GoalBeacon4/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2, 0)
+process_material = SubResource("ParticleProcessMaterial_hynl3")
+draw_pass_1 = SubResource("SphereMesh_fc1mo")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Gameplay/Beacons/GoalBeacon4/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.556302, 0)
+light_color = Color(0.647059, 1, 1, 1)
+light_energy = 3.0
+omni_range = 6.0
+omni_attenuation = -0.25
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Gameplay/Beacons/GoalBeacon4/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon4/Main/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_fl1i2")
+
+[node name="DelayTimer" type="Timer" parent="Gameplay/Beacons/GoalBeacon4/Main"]
+wait_time = 0.1
+one_shot = true
+
+[node name="InteractionHitbox" type="Area3D" parent="Gameplay/Beacons/GoalBeacon4/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon4/Main/InteractionHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+shape = SubResource("CylinderShape3D_o0vd6")
+
+[node name="WarmthHitbox" type="Area3D" parent="Gameplay/Beacons/GoalBeacon4/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon4/Main/WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("CylinderShape3D_1n40i")
+debug_color = Color(0.996078, 0, 0, 0.419608)
+
+[node name="WarmVisual" type="GPUParticles3D" parent="Gameplay/Beacons/GoalBeacon4/Main/WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+amount = 150
+lifetime = 3.0
+preprocess = 10.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_weblh")
+draw_pass_1 = SubResource("SphereMesh_bu1ld")
+script = ExtResource("9_jhh05")
+
+[node name="WarmTimer" type="Timer" parent="Gameplay/Beacons/GoalBeacon4/Main/WarmthHitbox"]
+wait_time = 0.125
+
+[node name="SFX" type="Node3D" parent="Gameplay/Beacons/GoalBeacon4/Main"]
+
+[node name="Wavy" type="AudioStreamPlayer3D" parent="Gameplay/Beacons/GoalBeacon4/Main/SFX"]
+stream = ExtResource("10_rro3d")
+volume_db = -2.0
+bus = &"SFX"
+
+[node name="Gong" type="AudioStreamPlayer" parent="Gameplay/Beacons/GoalBeacon4/Main/SFX"]
+stream = ExtResource("11_nqmpr")
+volume_db = -4.0
+
+[node name="RespawnPoint" type="Marker3D" parent="Gameplay/Beacons/GoalBeacon4/Main"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
+
+[node name="RingManager" type="Node3D" parent="Gameplay/Beacons/GoalBeacon4"]
+script = ExtResource("12_b0pg2")
+
+[node name="GoalRing8" parent="Gameplay/Beacons/GoalBeacon4/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -34, 20, 32)
+
+[node name="GoalRing7" parent="Gameplay/Beacons/GoalBeacon4/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 25, 16)
+
+[node name="GoalRing6" parent="Gameplay/Beacons/GoalBeacon4/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 20, 12, 22)
+
+[node name="GoalRing5" parent="Gameplay/Beacons/GoalBeacon4/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -24, -16, -21)
+
+[node name="GoalRing4" parent="Gameplay/Beacons/GoalBeacon4/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -37, 12, 0)
+
+[node name="GoalRing3" parent="Gameplay/Beacons/GoalBeacon4/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 32, 0, 0)
+
+[node name="GoalRing2" parent="Gameplay/Beacons/GoalBeacon4/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 24, 3, -24)
+
+[node name="GoalRing1" parent="Gameplay/Beacons/GoalBeacon4/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33)
+
+[node name="GoalBeacon5" type="Node3D" parent="Gameplay/Beacons"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -105, 47, -80)
+script = ExtResource("6_j51j4")
+number_of_rings = 3
+ring_scene = ExtResource("7_ipo01")
+
+[node name="Main" type="Node3D" parent="Gameplay/Beacons/GoalBeacon5"]
+
+[node name="Visuals" type="Node3D" parent="Gameplay/Beacons/GoalBeacon5/Main"]
+
+[node name="Model" parent="Gameplay/Beacons/GoalBeacon5/Main/Visuals" instance=ExtResource("8_tf0k3")]
+transform = Transform3D(0.665, 0, 0, 0, 0.665, 0, 0, 0, 0.665, 0, 0, 0)
+
+[node name="AlightParticles" type="GPUParticles3D" parent="Gameplay/Beacons/GoalBeacon5/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2, 0)
+process_material = SubResource("ParticleProcessMaterial_hynl3")
+draw_pass_1 = SubResource("SphereMesh_fc1mo")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Gameplay/Beacons/GoalBeacon5/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.556302, 0)
+light_color = Color(0.647059, 1, 1, 1)
+light_energy = 3.0
+omni_range = 6.0
+omni_attenuation = -0.25
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Gameplay/Beacons/GoalBeacon5/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon5/Main/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_fl1i2")
+
+[node name="DelayTimer" type="Timer" parent="Gameplay/Beacons/GoalBeacon5/Main"]
+wait_time = 0.1
+one_shot = true
+
+[node name="InteractionHitbox" type="Area3D" parent="Gameplay/Beacons/GoalBeacon5/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon5/Main/InteractionHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+shape = SubResource("CylinderShape3D_o0vd6")
+
+[node name="WarmthHitbox" type="Area3D" parent="Gameplay/Beacons/GoalBeacon5/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon5/Main/WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("CylinderShape3D_1n40i")
+debug_color = Color(0.996078, 0, 0, 0.419608)
+
+[node name="WarmVisual" type="GPUParticles3D" parent="Gameplay/Beacons/GoalBeacon5/Main/WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+amount = 150
+lifetime = 3.0
+preprocess = 10.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_weblh")
+draw_pass_1 = SubResource("SphereMesh_bu1ld")
+script = ExtResource("9_jhh05")
+
+[node name="WarmTimer" type="Timer" parent="Gameplay/Beacons/GoalBeacon5/Main/WarmthHitbox"]
+wait_time = 0.125
+
+[node name="SFX" type="Node3D" parent="Gameplay/Beacons/GoalBeacon5/Main"]
+
+[node name="Wavy" type="AudioStreamPlayer3D" parent="Gameplay/Beacons/GoalBeacon5/Main/SFX"]
+stream = ExtResource("10_rro3d")
+volume_db = -2.0
+bus = &"SFX"
+
+[node name="Gong" type="AudioStreamPlayer" parent="Gameplay/Beacons/GoalBeacon5/Main/SFX"]
+stream = ExtResource("11_nqmpr")
+volume_db = -4.0
+
+[node name="RespawnPoint" type="Marker3D" parent="Gameplay/Beacons/GoalBeacon5/Main"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
+
+[node name="RingManager" type="Node3D" parent="Gameplay/Beacons/GoalBeacon5"]
+script = ExtResource("12_b0pg2")
+
+[node name="GoalRing3" parent="Gameplay/Beacons/GoalBeacon5/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.0517578e-05, 0, 81)
+
+[node name="GoalRing2" parent="Gameplay/Beacons/GoalBeacon5/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6293945e-06, 0, 39)
+
+[node name="GoalRing1" parent="Gameplay/Beacons/GoalBeacon5/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13)
+
+[node name="GoalBeacon6" type="Node3D" parent="Gameplay/Beacons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 6, -26)
+script = ExtResource("6_j51j4")
+number_of_rings = 7
+ring_scene = ExtResource("7_ipo01")
+
+[node name="Main" type="Node3D" parent="Gameplay/Beacons/GoalBeacon6"]
+
+[node name="Visuals" type="Node3D" parent="Gameplay/Beacons/GoalBeacon6/Main"]
+
+[node name="Model" parent="Gameplay/Beacons/GoalBeacon6/Main/Visuals" instance=ExtResource("8_tf0k3")]
+transform = Transform3D(0.665, 0, 0, 0, 0.665, 0, 0, 0, 0.665, 0, 0, 0)
+
+[node name="AlightParticles" type="GPUParticles3D" parent="Gameplay/Beacons/GoalBeacon6/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2, 0)
+process_material = SubResource("ParticleProcessMaterial_hynl3")
+draw_pass_1 = SubResource("SphereMesh_fc1mo")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Gameplay/Beacons/GoalBeacon6/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.556302, 0)
+light_color = Color(0.647059, 1, 1, 1)
+light_energy = 3.0
+omni_range = 6.0
+omni_attenuation = -0.25
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Gameplay/Beacons/GoalBeacon6/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon6/Main/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_fl1i2")
+
+[node name="DelayTimer" type="Timer" parent="Gameplay/Beacons/GoalBeacon6/Main"]
+wait_time = 0.1
+one_shot = true
+
+[node name="InteractionHitbox" type="Area3D" parent="Gameplay/Beacons/GoalBeacon6/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon6/Main/InteractionHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+shape = SubResource("CylinderShape3D_o0vd6")
+
+[node name="WarmthHitbox" type="Area3D" parent="Gameplay/Beacons/GoalBeacon6/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon6/Main/WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("CylinderShape3D_1n40i")
+debug_color = Color(0.996078, 0, 0, 0.419608)
+
+[node name="WarmVisual" type="GPUParticles3D" parent="Gameplay/Beacons/GoalBeacon6/Main/WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+amount = 150
+lifetime = 3.0
+preprocess = 10.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_weblh")
+draw_pass_1 = SubResource("SphereMesh_bu1ld")
+script = ExtResource("9_jhh05")
+
+[node name="WarmTimer" type="Timer" parent="Gameplay/Beacons/GoalBeacon6/Main/WarmthHitbox"]
+wait_time = 0.125
+
+[node name="SFX" type="Node3D" parent="Gameplay/Beacons/GoalBeacon6/Main"]
+
+[node name="Wavy" type="AudioStreamPlayer3D" parent="Gameplay/Beacons/GoalBeacon6/Main/SFX"]
+stream = ExtResource("10_rro3d")
+volume_db = -2.0
+bus = &"SFX"
+
+[node name="Gong" type="AudioStreamPlayer" parent="Gameplay/Beacons/GoalBeacon6/Main/SFX"]
+stream = ExtResource("11_nqmpr")
+volume_db = -4.0
+
+[node name="RespawnPoint" type="Marker3D" parent="Gameplay/Beacons/GoalBeacon6/Main"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
+
+[node name="RingManager" type="Node3D" parent="Gameplay/Beacons/GoalBeacon6"]
+script = ExtResource("12_b0pg2")
+
+[node name="GoalRing7" parent="Gameplay/Beacons/GoalBeacon6/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -50, 13, 61)
+
+[node name="GoalRing6" parent="Gameplay/Beacons/GoalBeacon6/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -49.767635, 25, 61.164673)
+
+[node name="GoalRing5" parent="Gameplay/Beacons/GoalBeacon6/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -26, 27, 64)
+
+[node name="GoalRing4" parent="Gameplay/Beacons/GoalBeacon6/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -8, 17, 60)
+
+[node name="GoalRing3" parent="Gameplay/Beacons/GoalBeacon6/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -1, 60)
+
+[node name="GoalRing2" parent="Gameplay/Beacons/GoalBeacon6/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 42)
+
+[node name="GoalRing1" parent="Gameplay/Beacons/GoalBeacon6/RingManager" instance=ExtResource("7_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
+
+[node name="Pickups" type="Node" parent="Gameplay"]
+
+[node name="LightPickup" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -24)
+
+[node name="LightPickup2" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -24)
+
+[node name="LightPickup3" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -40)
+
+[node name="LightPickup4" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -56)
+
+[node name="LightPickup9" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -72)
+
+[node name="LightPickup28" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 29, -72)
+
+[node name="LightPickup29" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 29, -72)
+
+[node name="LightPickup30" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 38, -59)
+
+[node name="LightPickup31" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 27, -88)
+
+[node name="LightPickup33" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67, 18, -98)
+
+[node name="LightPickup34" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67, 26, -61)
+
+[node name="LightPickup35" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67, 33, -70)
+
+[node name="LightPickup37" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67, 33, -98)
+
+[node name="LightPickup38" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 47, -52)
+
+[node name="LightPickup39" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -76, 47, -52)
+
+[node name="LightPickup40" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -84, 47, -52)
+
+[node name="LightPickup41" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52, 4, -12)
+
+[node name="LightPickup42" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 4, -12)
+
+[node name="LightPickup43" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 4, -12)
+
+[node name="LightPickup44" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -88, 8, 8)
+
+[node name="LightPickup45" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -104, -4, 8)
+
+[node name="LightPickup46" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -120, -4, -28)
+
+[node name="LightPickup47" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -92, 6, -64)
+
+[node name="LightPickup48" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -92, 6, -80)
+
+[node name="LightPickup49" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -92, 6, -96)
+
+[node name="LightPickup50" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 46, -80)
+
+[node name="LightPickup51" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 47, -80)
+
+[node name="LightPickup10" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -104)
+
+[node name="LightPickup11" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 6, -112)
+
+[node name="LightPickup12" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -6, -92)
+
+[node name="LightPickup13" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -6, -84)
+
+[node name="LightPickup14" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, -6, -88)
+
+[node name="LightPickup15" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, -6, -88)
+
+[node name="LightPickup16" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -6, -92)
+
+[node name="LightPickup17" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -6, -84)
+
+[node name="LightPickup19" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, -6, -88)
+
+[node name="LightPickup18" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -6, -76)
+
+[node name="LightPickup20" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -6, -80)
+
+[node name="LightPickup21" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -6, -84)
+
+[node name="LightPickup27" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -6, -80)
+
+[node name="LightPickup22" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6, -80)
+
+[node name="LightPickup23" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -6.8284273, -6, -77.17157)
+
+[node name="LightPickup24" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -6.8284273, -6, -82.82843)
+
+[node name="LightPickup25" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -1.1715729, -6, -82.82843)
+
+[node name="LightPickup26" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -1.1715729, -6, -77.17157)
+
+[node name="LightPickup32" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32, 43.02689)
+
+[node name="LightPickup36" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 32, 32.02689)
+
+[node name="LightPickup52" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32, 21.02689)
+
+[node name="LightPickup53" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32, 32.02689)
+
+[node name="LightPickup54" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 32, 32.02689)
+
+[node name="LightPickup55" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -7.8284273, 32, 39.85532)
+
+[node name="LightPickup56" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -7.8284273, 32, 23.19846)
+
+[node name="LightPickup57" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 7.8284273, 32, 24.19846)
+
+[node name="LightPickup58" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 7.8284273, 32, 39.85532)
+
+[node name="LightPickup5" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29, 14, -61)
+
+[node name="LightPickup6" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 18, -61)
+
+[node name="LightPickup7" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 22, -51)
+
+[node name="LightPickup8" parent="Gameplay/Pickups" instance=ExtResource("13_ipo01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 26, -51)
 
 [node name="Environment" type="Node" parent="."]
 
@@ -435,6 +899,38 @@ collision_layer = 3
 collision_mask = 3
 size = Vector3(32, 80, 32)
 
+[node name="CSGBox3D75" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 31, 32)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(12, 2, 32)
+
+[node name="CSGBox3D77" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 31, 42)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(8, 2, 12)
+
+[node name="CSGBox3D78" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 31, 22)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(8, 2, 12)
+
+[node name="CSGBox3D76" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 31, 32)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(12, 2, 32)
+
 [node name="CSGBox3D2" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -7, -56)
 material_override = ExtResource("7_foaud")
@@ -444,7 +940,7 @@ collision_mask = 3
 size = Vector3(38, 26, 16)
 
 [node name="CSGBox3D25" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, -7, -64)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, -7, -65)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
@@ -460,20 +956,20 @@ collision_mask = 3
 size = Vector3(12, 1, 4)
 
 [node name="CSGBox3D30" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 9.5, -60)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 8, -60)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(4, 1, 4)
+size = Vector3(4, 4, 4)
 
 [node name="CSGBox3D27" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 21.5, -66)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 21, -66)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(8, 1, 8)
+size = Vector3(8, 2, 8)
 
 [node name="CSGBox3D29" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 28.5, -72)
@@ -484,28 +980,36 @@ collision_mask = 3
 size = Vector3(16, 1, 6)
 
 [node name="CSGBox3D32" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 28.5, -72)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.5, 28.5, -72)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(16, 1, 6)
+size = Vector3(31, 1, 6)
+
+[node name="CSGBox3D62" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 42, -80)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 8, 2)
 
 [node name="CSGBox3D33" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 28.5, -59)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 33, -59)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(6, 1, 12)
+size = Vector3(6, 10, 5)
 
 [node name="CSGBox3D28" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 17.5, -66)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 16, -66)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(4, 1, 8)
+size = Vector3(4, 4, 8)
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -120)
@@ -514,6 +1018,14 @@ use_collision = true
 collision_layer = 3
 collision_mask = 3
 size = Vector3(16, 4, 16)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, -127)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(16, 12, 2)
 
 [node name="CSGBox3D39" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, -6, -112)
@@ -532,12 +1044,12 @@ collision_mask = 3
 size = Vector3(32, 4, 16)
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7, -72)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -72)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(16, 26, 16)
+size = Vector3(16, 4, 16)
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -104)
@@ -629,7 +1141,7 @@ mesh = SubResource("PrismMesh_j51j4")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -20, 8, -56)
 material_override = ExtResource("7_foaud")
 use_collision = true
-mesh = SubResource("PrismMesh_j51j4")
+mesh = SubResource("PrismMesh_rro3d")
 
 [node name="CSGMesh3D2" type="CSGMesh3D" parent="Environment"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -34, 16, -61)
@@ -748,12 +1260,20 @@ collision_mask = 3
 size = Vector3(16, 20, 2)
 
 [node name="CSGBox3D12" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 28, -13, -87)
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 12, -13, -80)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(26, 14, 40)
+size = Vector3(32, 14, 72)
+
+[node name="CSGBox3D61" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 31.999998, -13, -100)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(8, 14, 32)
 
 [node name="CSGBox3D13" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 12, 0, -88)
@@ -764,12 +1284,12 @@ collision_mask = 3
 size = Vector3(6, 12, 8)
 
 [node name="CSGBox3D51" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 13.5, 44, -79.5)
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 13.5, 44, -80)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(11, 100, 11)
+size = Vector3(10, 100, 11)
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, -8, -12)
@@ -779,29 +1299,173 @@ collision_layer = 3
 collision_mask = 3
 size = Vector3(30, 24, 8)
 
-[node name="CSGBox3D40" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -69, -7, -11)
+[node name="CSGBox3D63" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, -8, -12)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(6, 26, 6)
+size = Vector3(30, 24, 8)
+
+[node name="CSGBox3D79" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, -7, -26)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(12, 26, 12)
+
+[node name="CSGBox3D67" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, -8, 34)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(8, 24, 12)
+
+[node name="CSGBox3D68" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, -4, 34)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(12, 32, 12)
+
+[node name="CSGBox3D72" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 27, 30)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(4, 6, 4)
+
+[node name="CSGBox3D73" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 30.999, 38)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(12, 2, 4)
+
+[node name="CSGBox3D74" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 30.999, 38)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(16, 2, 4)
+
+[node name="CSGBox3D69" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 18, 38)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(4, 12, 4)
+
+[node name="CSGBox3D70" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 18, 30)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(4, 12, 4)
+
+[node name="CSGBox3D71" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 18, 38)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(4, 12, 4)
+
+[node name="CSGBox3D64" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 14, -2)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 68, 12)
+
+[node name="CSGBox3D66" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 14, 22)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 68, 12)
+
+[node name="CSGBox3D65" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 14, 10)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(2, 68, 12)
+
+[node name="CSGBox3D40" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67, -6.5, -11)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(6, 27, 6)
+
+[node name="CSGBox3D57" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67, -6.5, -11)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(6, 27, 6)
+
+[node name="CSGBox3D58" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -120, -12, 0)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(16, 16, 32)
+
+[node name="CSGBox3D59" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, -12, -44)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(56, 16, 8)
+
+[node name="CSGBox3D60" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -120, -7, -49)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(16, 26, 2)
+
+[node name="CSGBox3D56" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -72, -6, 8)
+material_override = ExtResource("7_foaud")
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(16, 28, 16)
 
 [node name="CSGBox3D41" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -84, -7, -24)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -84, -7, -24.5)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(24, 26, 6)
+size = Vector3(24, 26, 7)
 
 [node name="CSGBox3D42" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -92, -7, -44)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -92, 1, -44)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(8, 26, 8)
+size = Vector3(8, 10, 8)
 
 [node name="CSGBox3D45" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, -7, -116)
@@ -844,12 +1508,12 @@ collision_mask = 3
 size = Vector3(8, 32, 1)
 
 [node name="CSGBox3D48" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -68, 12, -80)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -68, -1, -80)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(8, 12, 48)
+size = Vector3(8, 38, 48)
 
 [node name="CSGBox3D52" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -68, 22, -60)
@@ -876,20 +1540,20 @@ collision_mask = 3
 size = Vector3(8, 2, 48)
 
 [node name="CSGBox3D43" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 13.5, -80)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 13.5, -76)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(16, 67, 48)
+size = Vector3(16, 67, 56)
 
 [node name="CSGBox3D44" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -104, 13.5, -80)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -104, 13.5, -76)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(16, 67, 48)
+size = Vector3(16, 67, 56)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9, -40)
@@ -905,15 +1569,39 @@ size = Vector3(16, 22, 16)
 [connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon" method="_on_warmth_hitbox_area_entered"]
 [connection signal="area_exited" from="Gameplay/Beacons/GoalBeacon/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon" method="_on_warmth_hitbox_area_exited"]
 [connection signal="timeout" from="Gameplay/Beacons/GoalBeacon/Main/WarmthHitbox/WarmTimer" to="Gameplay/Beacons/GoalBeacon" method="_on_warm_timer_timeout"]
+[connection signal="completed" from="Gameplay/Beacons/GoalBeacon/RingManager" to="Gameplay/Beacons/GoalBeacon" method="_on_ring_manager_completed"]
 [connection signal="activate_rings" from="Gameplay/Beacons/GoalBeacon2" to="Gameplay/Beacons/GoalBeacon2/RingManager" method="_on_goal_beacon_activate_rings"]
 [connection signal="timeout" from="Gameplay/Beacons/GoalBeacon2/Main/DelayTimer" to="Gameplay/Beacons/GoalBeacon2" method="_on_delay_timer_timeout"]
 [connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon2/Main/InteractionHitbox" to="Gameplay/Beacons/GoalBeacon2" method="_on_interaction_hitbox_area_entered"]
 [connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon2/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon2" method="_on_warmth_hitbox_area_entered"]
 [connection signal="area_exited" from="Gameplay/Beacons/GoalBeacon2/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon2" method="_on_warmth_hitbox_area_exited"]
 [connection signal="timeout" from="Gameplay/Beacons/GoalBeacon2/Main/WarmthHitbox/WarmTimer" to="Gameplay/Beacons/GoalBeacon2" method="_on_warm_timer_timeout"]
+[connection signal="completed" from="Gameplay/Beacons/GoalBeacon2/RingManager" to="Gameplay/Beacons/GoalBeacon2" method="_on_ring_manager_completed"]
 [connection signal="activate_rings" from="Gameplay/Beacons/GoalBeacon3" to="Gameplay/Beacons/GoalBeacon3/RingManager" method="_on_goal_beacon_activate_rings"]
 [connection signal="timeout" from="Gameplay/Beacons/GoalBeacon3/Main/DelayTimer" to="Gameplay/Beacons/GoalBeacon3" method="_on_delay_timer_timeout"]
 [connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon3/Main/InteractionHitbox" to="Gameplay/Beacons/GoalBeacon3" method="_on_interaction_hitbox_area_entered"]
 [connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon3/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon3" method="_on_warmth_hitbox_area_entered"]
 [connection signal="area_exited" from="Gameplay/Beacons/GoalBeacon3/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon3" method="_on_warmth_hitbox_area_exited"]
 [connection signal="timeout" from="Gameplay/Beacons/GoalBeacon3/Main/WarmthHitbox/WarmTimer" to="Gameplay/Beacons/GoalBeacon3" method="_on_warm_timer_timeout"]
+[connection signal="completed" from="Gameplay/Beacons/GoalBeacon3/RingManager" to="Gameplay/Beacons/GoalBeacon3" method="_on_ring_manager_completed"]
+[connection signal="activate_rings" from="Gameplay/Beacons/GoalBeacon4" to="Gameplay/Beacons/GoalBeacon4/RingManager" method="_on_goal_beacon_activate_rings"]
+[connection signal="timeout" from="Gameplay/Beacons/GoalBeacon4/Main/DelayTimer" to="Gameplay/Beacons/GoalBeacon4" method="_on_delay_timer_timeout"]
+[connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon4/Main/InteractionHitbox" to="Gameplay/Beacons/GoalBeacon4" method="_on_interaction_hitbox_area_entered"]
+[connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon4/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon4" method="_on_warmth_hitbox_area_entered"]
+[connection signal="area_exited" from="Gameplay/Beacons/GoalBeacon4/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon4" method="_on_warmth_hitbox_area_exited"]
+[connection signal="timeout" from="Gameplay/Beacons/GoalBeacon4/Main/WarmthHitbox/WarmTimer" to="Gameplay/Beacons/GoalBeacon4" method="_on_warm_timer_timeout"]
+[connection signal="completed" from="Gameplay/Beacons/GoalBeacon4/RingManager" to="Gameplay/Beacons/GoalBeacon4" method="_on_ring_manager_completed"]
+[connection signal="activate_rings" from="Gameplay/Beacons/GoalBeacon5" to="Gameplay/Beacons/GoalBeacon5/RingManager" method="_on_goal_beacon_activate_rings"]
+[connection signal="timeout" from="Gameplay/Beacons/GoalBeacon5/Main/DelayTimer" to="Gameplay/Beacons/GoalBeacon5" method="_on_delay_timer_timeout"]
+[connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon5/Main/InteractionHitbox" to="Gameplay/Beacons/GoalBeacon5" method="_on_interaction_hitbox_area_entered"]
+[connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon5/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon5" method="_on_warmth_hitbox_area_entered"]
+[connection signal="area_exited" from="Gameplay/Beacons/GoalBeacon5/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon5" method="_on_warmth_hitbox_area_exited"]
+[connection signal="timeout" from="Gameplay/Beacons/GoalBeacon5/Main/WarmthHitbox/WarmTimer" to="Gameplay/Beacons/GoalBeacon5" method="_on_warm_timer_timeout"]
+[connection signal="completed" from="Gameplay/Beacons/GoalBeacon5/RingManager" to="Gameplay/Beacons/GoalBeacon5" method="_on_ring_manager_completed"]
+[connection signal="activate_rings" from="Gameplay/Beacons/GoalBeacon6" to="Gameplay/Beacons/GoalBeacon6/RingManager" method="_on_goal_beacon_activate_rings"]
+[connection signal="timeout" from="Gameplay/Beacons/GoalBeacon6/Main/DelayTimer" to="Gameplay/Beacons/GoalBeacon6" method="_on_delay_timer_timeout"]
+[connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon6/Main/InteractionHitbox" to="Gameplay/Beacons/GoalBeacon6" method="_on_interaction_hitbox_area_entered"]
+[connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon6/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon6" method="_on_warmth_hitbox_area_entered"]
+[connection signal="area_exited" from="Gameplay/Beacons/GoalBeacon6/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon6" method="_on_warmth_hitbox_area_exited"]
+[connection signal="timeout" from="Gameplay/Beacons/GoalBeacon6/Main/WarmthHitbox/WarmTimer" to="Gameplay/Beacons/GoalBeacon6" method="_on_warm_timer_timeout"]
+[connection signal="completed" from="Gameplay/Beacons/GoalBeacon6/RingManager" to="Gameplay/Beacons/GoalBeacon6" method="_on_ring_manager_completed"]

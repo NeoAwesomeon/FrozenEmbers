@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bga4lo31kpgod"]
+[gd_scene load_steps=12 format=3 uid="uid://bga4lo31kpgod"]
 
 [ext_resource type="Script" uid="uid://drqach30vcdbs" path="res://Scripts/Interactables/goal_ring.gd" id="1_s6b83"]
 
@@ -22,9 +22,24 @@ gravity = Vector3(0, 0, 0)
 attractor_interaction_enabled = false
 scale_curve = SubResource("CurveTexture_s6b83")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_55546"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s6b83"]
+render_priority = 1
+transparency = 1
+no_depth_test = true
 shading_mode = 0
 albedo_color = Color(0, 1, 1, 1)
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_55546"]
+next_pass = SubResource("StandardMaterial3D_s6b83")
+shading_mode = 0
+albedo_color = Color(0, 1, 1, 1)
+stencil_mode = 2
+stencil_flags = 2
+stencil_color = Color(0, 1, 1, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_eiody"]
 material = SubResource("StandardMaterial3D_55546")
@@ -55,20 +70,6 @@ emission_ring_inner_radius = 0.9
 emission_ring_cone_angle = 90.0
 gravity = Vector3(0, -0.5, 0)
 scale_curve = SubResource("CurveTexture_18a7k")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s6b83"]
-render_priority = -1
-shading_mode = 0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_18a7k"]
-next_pass = SubResource("StandardMaterial3D_s6b83")
-transparency = 1
-albedo_color = Color(1, 1, 1, 0)
-
-[sub_resource type="TorusMesh" id="TorusMesh_18a7k"]
-material = SubResource("StandardMaterial3D_18a7k")
-inner_radius = 2.8
-outer_radius = 3.1
 
 [node name="GoalRing" type="Node3D"]
 script = ExtResource("1_s6b83")
@@ -102,10 +103,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
 light_color = Color(0.666667, 1, 1, 1)
 light_energy = 3.0
 omni_attenuation = -0.25
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 3.5, 0)
-mesh = SubResource("TorusMesh_18a7k")
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="timeout" from="LeadTimer" to="." method="_on_lead_timer_timeout"]

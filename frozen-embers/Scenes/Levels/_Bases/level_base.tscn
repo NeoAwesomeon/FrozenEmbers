@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bsr73xwil1ngl" path="res://Scenes/Levels/_Bases/level_starter.tscn" id="1_8s78d"]
 [ext_resource type="PackedScene" uid="uid://dqayd4wqfa7ps" path="res://Scenes/Player/player_character_ember.tscn" id="2_t8ai0"]
-[ext_resource type="PackedScene" uid="uid://dqcfqm4fk2wp0" path="res://Scenes/Player/player_hud.tscn" id="3_ej2hx"]
+[ext_resource type="PackedScene" uid="uid://dqcfqm4fk2wp0" path="res://Scenes/UI/player_hud.tscn" id="3_ej2hx"]
 [ext_resource type="PackedScene" uid="uid://cntk6hyobvon5" path="res://Scenes/Player/player_pov.tscn" id="4_614yd"]
 [ext_resource type="PackedScene" uid="uid://btlti1inruyru" path="res://Scenes/Interactables/level_exit.tscn" id="5_4f6dp"]
 [ext_resource type="PackedScene" uid="uid://bf0tai1fquw38" path="res://Scenes/Interactables/goal_beacon.tscn" id="6_t8ai0"]

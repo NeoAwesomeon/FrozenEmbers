@@ -1,0 +1,82 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfxbnmnxw8egv"]
+
+[ext_resource type="Script" uid="uid://bpusvvg8rdp1u" path="res://Scripts/UI/input_settings.gd" id="1_7l50d"]
+[ext_resource type="PackedScene" uid="uid://c03afljjt3aps" path="res://Scenes/UI/Menus/input_button.tscn" id="1_t6xi2"]
+
+[node name="InputSettings" type="Control"]
+custom_minimum_size = Vector2(500, 500)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_7l50d")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(500, 525)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Control Settings"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionList" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="InputButton" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/ActionList" instance=ExtResource("1_t6xi2")]
+layout_mode = 2
+
+[node name="InputButton2" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/ActionList" instance=ExtResource("1_t6xi2")]
+layout_mode = 2
+
+[node name="InputButton3" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/ActionList" instance=ExtResource("1_t6xi2")]
+layout_mode = 2
+
+[node name="InputButton4" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/ActionList" instance=ExtResource("1_t6xi2")]
+layout_mode = 2
+
+[node name="InputButton5" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/ActionList" instance=ExtResource("1_t6xi2")]
+layout_mode = 2
+
+[node name="InputButton6" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/ActionList" instance=ExtResource("1_t6xi2")]
+layout_mode = 2
+
+[node name="InputButton7" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/ActionList" instance=ExtResource("1_t6xi2")]
+layout_mode = 2
+
+[node name="InputButton8" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/ActionList" instance=ExtResource("1_t6xi2")]
+layout_mode = 2
+
+[node name="InputButton9" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/ActionList" instance=ExtResource("1_t6xi2")]
+layout_mode = 2
+
+[node name="InputButton10" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/ActionList" instance=ExtResource("1_t6xi2")]
+layout_mode = 2
+
+[node name="InputButton11" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/ActionList" instance=ExtResource("1_t6xi2")]
+layout_mode = 2

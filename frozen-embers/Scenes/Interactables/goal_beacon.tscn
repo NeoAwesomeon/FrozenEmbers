@@ -148,10 +148,9 @@ stream = ExtResource("4_1mcjq")
 volume_db = -2.0
 bus = &"SFX"
 
-[node name="Gong" type="AudioStreamPlayer3D" parent="Main/SFX"]
+[node name="Gong" type="AudioStreamPlayer" parent="Main/SFX"]
 stream = ExtResource("6_fl1i2")
 volume_db = -4.0
-bus = &"SFX"
 
 [node name="RespawnPoint" type="Marker3D" parent="Main"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
@@ -167,3 +166,4 @@ script = ExtResource("3_1n40i")
 [connection signal="area_entered" from="Main/WarmthHitbox" to="." method="_on_warmth_hitbox_area_entered"]
 [connection signal="area_exited" from="Main/WarmthHitbox" to="." method="_on_warmth_hitbox_area_exited"]
 [connection signal="timeout" from="Main/WarmthHitbox/WarmTimer" to="." method="_on_warm_timer_timeout"]
+[connection signal="completed" from="RingManager" to="." method="_on_ring_manager_completed"]

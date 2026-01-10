@@ -35,6 +35,7 @@ extends CharacterBody3D
 @onready var low_ledge: RayCast3D = $Hitboxes/LowLedge
 
 @export_subgroup("Auxiliary Scenes")
+@export var pause_menu : PackedScene
 @export var firewall_scene : PackedScene
 
 # These variables keep track of the CharacterBody3D's mobility
@@ -97,7 +98,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	
+	#Placed here that that pauses will happen as soon as possible:
+	if Input.is_action_just_pressed("pause"):
+		add_sibling(pause_menu.instantiate())
 	
 	handle_state_transitions()
 	handle_state_actions(delta)
@@ -151,6 +154,8 @@ func handle_state_transitions():
 			move_lock = true
 			rotate_lock = true
 			current_state = States.LEDGE_GRAB
+			jump_midair = true
+			wall_jump_count = 0
 			sfx_controller.play_crumple()
 			
 		elif is_on_wall_only() and !ignore_walls:
@@ -175,7 +180,7 @@ func handle_state_transitions():
 			current_state = States.EXTINGUISH
 			
 			
-		elif !is_on_floor() and Input.is_action_just_pressed("crouch") and GlobalPlayerStats.Heat > 0.1:
+		elif !is_on_floor() and Input.is_action_just_pressed("crouch") and !Input.is_action_pressed("jump") and GlobalPlayerStats.Heat > 0.1:
 			action_lock = true
 			move_lock = true
 			air_dive_hesitate = true
@@ -233,6 +238,9 @@ func handle_state_actions(delta):
 				clear_locks()
 				current_state = States.GROUNDED
 		
+		States.HIGH_JUMP:
+			hard_landing_recovery.stop()
+		
 		States.WALL_CLING:
 			if is_on_wall_only():
 				wall_normal = get_wall_normal()
@@ -247,6 +255,8 @@ func handle_state_actions(delta):
 		
 		States.AIR_DIVE:
 			handle_air_dive(delta)
+			if is_on_floor() and Input.is_action_just_pressed("jump"):
+				current_state = States.HIGH_JUMP
 		
 		States.ATTACK:
 			handle_grounded_attack(delta)
@@ -272,7 +282,7 @@ func handle_state_actions(delta):
 			# Must reset at moment of death or freeze will trigger for one frame when reloading
 			GlobalPlayerStats.Freeze = 0
 			GlobalPlayerStats.Freeze_Goal = 0
-			get_tree().change_scene_to_file("res://Scenes/UI/main_menu.tscn")
+			get_tree().change_scene_to_file("res://Scenes/Levels/Final/Level_Menu.tscn")
 
 func handle_movement(delta):
 	var input := Vector3.ZERO
@@ -357,16 +367,20 @@ func handle_gravity(delta):
 	# Constantly applies gravity to the player that slowly ramps up over time based on state
 	if !ignore_gravity:
 		if in_water:
+			#If the player is no longer sinking and are underwater, rise to the surface
 			if !water_buffer.is_stopped() and swim_marker.global_position.y > water_surface:
 				gravity += 20 * delta
+			#If the player just entered the water, make them sink for a time
 			elif (swim_marker.global_position.y < water_surface or !water_buffer.is_stopped()) and ignore_water_timer.is_stopped():
 				gravity -= 15 * delta
 			else:
+					#Make player float on the surface of the water
 					if ignore_water_timer.is_stopped():
 						gravity = 0
 					else:
 						return
 		
+		#Enables the sliding effect of wall clinging
 		elif current_state == States.WALL_CLING and !is_wall_jumping:
 			if Input.is_action_pressed("crouch"):
 				gravity = 210 * delta
@@ -464,10 +478,10 @@ func handle_boost_decay(delta):
 	if current_boost != 0:
 		# Applies increased deceleration based on how fast the player is going
 		if current_boost > boost_base_speed * 2:
-			boost_decay_rate = 1.5
+			boost_decay_rate = 0.6
 			boost_count = 8
 		elif current_boost > boost_base_speed:
-			boost_decay_rate = 1.0
+			boost_decay_rate = 0.55
 			boost_count = 4
 		elif current_boost > 0:
 			boost_decay_rate = 0.5
@@ -522,8 +536,10 @@ func high_jump():
 	gravity = -jump_strength * high_jump_multiplier
 	jump_ground = false
 	jump_midair = true
+	jump_cancel = true
 	light_drain_low()
 	current_state = States.HIGH_JUMP
+	wall_jump_count = 0
 	sfx_controller.play_high_jump()
 
 func _on_wall_jump_duration_timeout() -> void:
@@ -636,8 +652,8 @@ func handle_air_dive(delta):
 	if gravity > -1:
 		air_dive_hesitate = false
 	
-	elif Input.is_action_just_pressed("jump") and jump_cancel and GlobalPlayerStats.Heat > 0.1:
-		gravity = - jump_strength / 1.5
+	elif Input.is_action_just_pressed("jump") and jump_cancel and GlobalPlayerStats.Heat > 0.1 and !is_on_floor():
+		gravity = - jump_strength * 0.8
 		current_state = States.AIRBORNE
 		jump_cancel = false
 		light_drain_low()
@@ -645,6 +661,12 @@ func handle_air_dive(delta):
 		sfx_controller.play_flap()
 	
 	if is_on_floor():
+		if Input.is_action_just_pressed("jump"):
+			clear_locks()
+			jump_ground = true
+			gravity = -20
+			high_jump()
+			
 		if hard_landing_recovery.is_stopped():
 			hard_landing_recovery.start()
 			sfx_controller.play_boom()
@@ -659,7 +681,8 @@ func handle_air_dive(delta):
 	else: 
 		GlobalPlayerStats.Dive_Count += 6 * delta
 	
-	if !air_dive_hesitate:
+	#This fucker right here is an asshole. Make it identify what state it is in or else.
+	if !air_dive_hesitate and current_state == States.AIR_DIVE:
 		gravity += 900 * delta
 
 func handle_ledge_grab():
@@ -734,24 +757,24 @@ func _on_extinguish_duration_timeout() -> void:
 #These are the core values of light and heat that are drained when using a resource
 func light_drain_high():
 	if GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1:
-		GlobalPlayerStats.Light_Goal -= 5
+		GlobalPlayerStats.Light_Goal -= 5.0
 		torch_omni_light.light_energy = 12.0
 	else:
-		GlobalPlayerStats.Heat_Goal -= 25
+		GlobalPlayerStats.Heat_Goal -= 25.0
 		sfx_controller.play_heartbeat()
 func light_drain_mid():
 	if GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1:
-		GlobalPlayerStats.Light_Goal -= 3
+		GlobalPlayerStats.Light_Goal -= 3.0
 		torch_omni_light.light_energy = 12.0
 	else:
-		GlobalPlayerStats.Heat_Goal -= 15
+		GlobalPlayerStats.Heat_Goal -= 15.0
 		sfx_controller.play_heartbeat()
 func light_drain_low():
 	if GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1:
-		GlobalPlayerStats.Light_Goal -= 1
+		GlobalPlayerStats.Light_Goal -= 1.0
 		torch_omni_light.light_energy = 12.0
 	else:
-		GlobalPlayerStats.Heat_Goal -= 5
+		GlobalPlayerStats.Heat_Goal -= 5.0
 		sfx_controller.play_heartbeat()
 
 #Water controlls here!

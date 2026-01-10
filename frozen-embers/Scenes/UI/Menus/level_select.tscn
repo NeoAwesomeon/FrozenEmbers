@@ -1,0 +1,68 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgtnpej5ybplp"]
+
+[ext_resource type="Script" uid="uid://e28jo22sggfc" path="res://Scripts/UI/level_select.gd" id="1_xqnso"]
+[ext_resource type="PackedScene" uid="uid://dxrixc8ao8i" path="res://Scenes/UI/Menus/main_menu.tscn" id="2_1ixn2"]
+
+[node name="LevelSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xqnso")
+main_menu_scene = ExtResource("2_1ixn2")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Test Areas:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Test01" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(135, 135)
+layout_mode = 2
+text = "Testing Arena"
+
+[node name="Test02" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(135, 135)
+layout_mode = 2
+text = "Safe Test Level"
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Full Levels:"
+
+[node name="Return" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_top = -36.0
+offset_right = 48.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Main Menu"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Test01" to="." method="_on_test_01_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Test02" to="." method="_on_test_02_pressed"]
+[connection signal="pressed" from="Return" to="." method="_on_return_pressed"]

@@ -1,0 +1,250 @@
+[gd_scene load_steps=5 format=3 uid="uid://dl827b1tvpsvc"]
+
+[ext_resource type="Script" uid="uid://ca88rxnkrb568" path="res://Scripts/UI/full_main_menu.gd" id="1_nabfd"]
+[ext_resource type="Theme" uid="uid://bp3rbmavjbrbx" path="res://Assets/Themes/PrimaryTheme.tres" id="2_jb40b"]
+[ext_resource type="PackedScene" uid="uid://cfxbnmnxw8egv" path="res://Scenes/UI/Menus/input_settings.tscn" id="2_u6iyn"]
+[ext_resource type="Texture2D" uid="uid://dqpkikr735uro" path="res://Assets/Images/Discord-Logo-PNG-Image-3165834122.png" id="3_h36b7"]
+
+[node name="FullMainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nabfd")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 17.0
+offset_right = 374.0
+offset_bottom = 86.0
+theme = ExtResource("2_jb40b")
+theme_override_font_sizes/font_size = 50
+text = "Frozen Embers"
+
+[node name="Top Menu" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -68.0
+offset_right = 109.0
+offset_bottom = 68.0
+grow_vertical = 2
+
+[node name="Start" type="Button" parent="Top Menu"]
+layout_mode = 2
+theme = ExtResource("2_jb40b")
+text = "Begin"
+
+[node name="LevelSelect" type="Button" parent="Top Menu"]
+layout_mode = 2
+theme = ExtResource("2_jb40b")
+text = " Level Select "
+
+[node name="Options" type="Button" parent="Top Menu"]
+layout_mode = 2
+theme = ExtResource("2_jb40b")
+text = "Options"
+
+[node name="Quit" type="Button" parent="Top Menu"]
+layout_mode = 2
+theme = ExtResource("2_jb40b")
+text = "Quit"
+
+[node name="LevelSelectMenu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_jb40b")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LevelSelectMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="LevelSelectMenu/VBoxContainer"]
+layout_mode = 2
+text = "Test Areas:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LevelSelectMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="Test01" type="Button" parent="LevelSelectMenu/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(135, 135)
+layout_mode = 2
+text = "Testing Arena"
+
+[node name="ButtonSpacer" type="Control" parent="LevelSelectMenu/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="Test02" type="Button" parent="LevelSelectMenu/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(135, 135)
+layout_mode = 2
+text = "Safe Test Level"
+
+[node name="Label2" type="Label" parent="LevelSelectMenu/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Full Levels:"
+
+[node name="LSMReturn" type="Button" parent="LevelSelectMenu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_top = -36.0
+offset_right = 48.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Main Menu"
+
+[node name="OptionsMenu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_jb40b")
+
+[node name="InputSettings" parent="OptionsMenu" instance=ExtResource("2_u6iyn")]
+layout_mode = 1
+offset_top = 17.0
+offset_bottom = 17.0
+
+[node name="Volume Settings" type="VBoxContainer" parent="OptionsMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = 163.0
+offset_right = 155.0
+offset_bottom = 267.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="OptionsMenu/Volume Settings"]
+layout_mode = 2
+text = "Volume Settings:"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="OptionsMenu/Volume Settings"]
+layout_mode = 2
+columns = 2
+
+[node name="MasterLabel" type="Label" parent="OptionsMenu/Volume Settings/GridContainer"]
+layout_mode = 2
+text = "Master"
+
+[node name="MasterSlider" type="HSlider" parent="OptionsMenu/Volume Settings/GridContainer"]
+custom_minimum_size = Vector2(250, 10)
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="MusicLabel" type="Label" parent="OptionsMenu/Volume Settings/GridContainer"]
+layout_mode = 2
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="OptionsMenu/Volume Settings/GridContainer"]
+custom_minimum_size = Vector2(250, 10)
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="SFXLabel" type="Label" parent="OptionsMenu/Volume Settings/GridContainer"]
+layout_mode = 2
+text = "SFX"
+
+[node name="SFXSlider" type="HSlider" parent="OptionsMenu/Volume Settings/GridContainer"]
+custom_minimum_size = Vector2(250, 10)
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="OMReturn" type="Button" parent="OptionsMenu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_top = -36.0
+offset_right = 48.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Main Menu"
+
+[node name="LinkDisplay" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -229.0
+offset_top = -50.0
+offset_right = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="DiscordLink" type="TextureButton" parent="LinkDisplay"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("3_h36b7")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ButtonSpacer" type="Control" parent="LinkDisplay"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="FeedbackLink" type="LinkButton" parent="LinkDisplay"]
+layout_mode = 2
+theme = ExtResource("2_jb40b")
+theme_override_font_sizes/font_size = 32
+text = "Feedback"
+uri = "https://docs.google.com/forms/d/e/1FAIpQLSfFBa7EBQumdSmzZsCpcGKENfom5NT8yTftUE0ZePEshVlYeQ/viewform?usp=sharing&ouid=106926925777322296066"
+
+[connection signal="pressed" from="Top Menu/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Top Menu/LevelSelect" to="." method="_on_level_select_pressed"]
+[connection signal="pressed" from="Top Menu/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Top Menu/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="LevelSelectMenu/VBoxContainer/HBoxContainer/Test01" to="." method="_on_test_01_pressed"]
+[connection signal="pressed" from="LevelSelectMenu/VBoxContainer/HBoxContainer/Test02" to="." method="_on_test_02_pressed"]
+[connection signal="pressed" from="LevelSelectMenu/LSMReturn" to="." method="_on_lsm_return_pressed"]
+[connection signal="value_changed" from="OptionsMenu/Volume Settings/GridContainer/MasterSlider" to="." method="_on_master_slider_value_changed"]
+[connection signal="value_changed" from="OptionsMenu/Volume Settings/GridContainer/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="OptionsMenu/Volume Settings/GridContainer/SFXSlider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="pressed" from="OptionsMenu/OMReturn" to="." method="_on_om_return_pressed"]
+[connection signal="pressed" from="LinkDisplay/DiscordLink" to="." method="_on_discord_link_pressed"]
