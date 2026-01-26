@@ -31,6 +31,12 @@ player_pov="Player's Camera"
 player="Attached exclusively to player characters and extentions of them."
 water="Used so that areas can recognise water."
 exit="Used to identiy the end of a level."
+player_attack="Used to mark areas that represent the player's attacks."
+player_light=""
+monster_attack="Used to mark areas that represent monster attacks."
+minor_noise="Used to alert monsters and give them a target to chase. Low Priority."
+major_noise="Used to alert mosters and give them a target to chase. High Priority."
+place_of_interest="Used for monster navigation. Tells monsters when they've reached thier targeted objective if they are not currently hunting for the player."
 
 [input]
 

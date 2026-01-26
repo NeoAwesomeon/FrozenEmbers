@@ -26,7 +26,7 @@ func _ready() -> void:
 	GlobalLevelStats.FALL_OFF_DISTANCE = Fall_Off
 	
 	player = get_tree().get_first_node_in_group("player")
-	GlobalLevelStats.RESPAWN_LOCATION = player.global_position
+	
 	
 	SpeedrunDisplay.stopwatch_reset()
 	SpeedrunDisplay.stopwatch_start()

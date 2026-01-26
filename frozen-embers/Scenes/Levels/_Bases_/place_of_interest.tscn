@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dagem8qfgrn8o"]
+
+[ext_resource type="Script" uid="uid://w3wsxb3kfumd" path="res://Scripts/Levels/place_of_interest.gd" id="1_rtyco"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0fro8"]
+height = 6.0
+
+[node name="PlaceOfInterest" type="Area3D" groups=["place_of_interest"]]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_rtyco")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+shape = SubResource("CylinderShape3D_0fro8")
+debug_color = Color(1, 1, 1, 1)

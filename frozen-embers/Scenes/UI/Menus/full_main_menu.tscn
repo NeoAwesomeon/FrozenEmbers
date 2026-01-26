@@ -88,7 +88,8 @@ layout_mode = 2
 [node name="Test01" type="Button" parent="LevelSelectMenu/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(135, 135)
 layout_mode = 2
-text = "Testing Arena"
+text = "Testing
+Arena"
 
 [node name="ButtonSpacer" type="Control" parent="LevelSelectMenu/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(15, 0)
@@ -97,7 +98,18 @@ layout_mode = 2
 [node name="Test02" type="Button" parent="LevelSelectMenu/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(135, 135)
 layout_mode = 2
-text = "Safe Test Level"
+text = "Safe
+Test Level"
+
+[node name="ButtonSpacer2" type="Control" parent="LevelSelectMenu/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="Test03" type="Button" parent="LevelSelectMenu/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(135, 135)
+layout_mode = 2
+text = "Monster
+Test Level"
 
 [node name="Label2" type="Label" parent="LevelSelectMenu/VBoxContainer"]
 visible = false
@@ -120,6 +132,7 @@ grow_vertical = 0
 text = "Main Menu"
 
 [node name="OptionsMenu" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -232,6 +245,7 @@ layout_mode = 2
 [node name="FeedbackLink" type="LinkButton" parent="LinkDisplay"]
 layout_mode = 2
 theme = ExtResource("2_jb40b")
+theme_override_colors/font_color = Color(1, 0, 0.23529412, 1)
 theme_override_font_sizes/font_size = 32
 text = "Feedback"
 uri = "https://docs.google.com/forms/d/e/1FAIpQLSfFBa7EBQumdSmzZsCpcGKENfom5NT8yTftUE0ZePEshVlYeQ/viewform?usp=sharing&ouid=106926925777322296066"
@@ -242,6 +256,7 @@ uri = "https://docs.google.com/forms/d/e/1FAIpQLSfFBa7EBQumdSmzZsCpcGKENfom5NT8y
 [connection signal="pressed" from="Top Menu/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/VBoxContainer/HBoxContainer/Test01" to="." method="_on_test_01_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/VBoxContainer/HBoxContainer/Test02" to="." method="_on_test_02_pressed"]
+[connection signal="pressed" from="LevelSelectMenu/VBoxContainer/HBoxContainer/Test03" to="." method="_on_test_03_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/LSMReturn" to="." method="_on_lsm_return_pressed"]
 [connection signal="value_changed" from="OptionsMenu/Volume Settings/GridContainer/MasterSlider" to="." method="_on_master_slider_value_changed"]
 [connection signal="value_changed" from="OptionsMenu/Volume Settings/GridContainer/MusicSlider" to="." method="_on_music_slider_value_changed"]

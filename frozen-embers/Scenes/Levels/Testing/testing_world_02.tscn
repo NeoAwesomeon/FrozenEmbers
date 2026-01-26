@@ -1,6 +1,6 @@
 [gd_scene load_steps=35 format=3 uid="uid://w1bfoi0w0d8d"]
 
-[ext_resource type="PackedScene" uid="uid://bsr73xwil1ngl" path="res://Scenes/Levels/_Bases/level_starter.tscn" id="1_ulxtr"]
+[ext_resource type="PackedScene" uid="uid://bsr73xwil1ngl" path="res://Scenes/Levels/_Bases_/level_starter.tscn" id="1_ulxtr"]
 [ext_resource type="PackedScene" uid="uid://dqayd4wqfa7ps" path="res://Scenes/Player/player_character_ember.tscn" id="2_foaud"]
 [ext_resource type="PackedScene" uid="uid://dqcfqm4fk2wp0" path="res://Scenes/UI/player_hud.tscn" id="3_skl2j"]
 [ext_resource type="PackedScene" uid="uid://cntk6hyobvon5" path="res://Scenes/Player/player_pov.tscn" id="4_utp84"]
@@ -122,7 +122,7 @@ radial_segments = 8
 left_to_right = 1.0
 size = Vector3(6, 4, 2)
 
-[node name="testing_world_02" type="Node3D"]
+[node name="SafeTestLevel" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_j51j4")

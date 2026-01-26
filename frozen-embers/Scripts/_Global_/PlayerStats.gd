@@ -7,7 +7,7 @@ var PLAYER_GRAVITY : int
 var PLAYER_CURRENT_STATE : String
 var PLAYER_HEAT_SHIELD : float
 
-var Player_Position
+var Player_Position : Vector3
 
 var Heat = 600.0
 var Heat_Max_Start_Value = 600.0

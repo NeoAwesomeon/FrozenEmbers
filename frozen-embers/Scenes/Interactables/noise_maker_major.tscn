@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://yvju4qkwisk6"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8u0fe"]
+radius = 1.0
+
+[node name="NoiseMakerMajor" type="Area3D" groups=["major_noise"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_8u0fe")
+debug_color = Color(1, 0.47058824, 0, 0.41960785)

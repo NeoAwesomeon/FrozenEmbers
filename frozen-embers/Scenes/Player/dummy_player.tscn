@@ -1,0 +1,69 @@
+[gd_scene load_steps=8 format=3 uid="uid://bthgaqwyhqgt5"]
+
+[ext_resource type="Script" uid="uid://eue8lg0kpmi8" path="res://Scripts/Player/dummy_player.gd" id="1_sk6i7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oke3n"]
+render_priority = 1
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(0, 1, 0, 1)
+grow_amount = 0.1
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sk6i7"]
+next_pass = SubResource("StandardMaterial3D_oke3n")
+albedo_color = Color(0, 1, 0, 1)
+stencil_mode = 2
+stencil_flags = 2
+stencil_color = Color(0, 1, 0, 1)
+stencil_outline_thickness = 0.1
+
+[sub_resource type="PrismMesh" id="PrismMesh_m66tt"]
+material = SubResource("StandardMaterial3D_sk6i7")
+size = Vector3(0.5, 1.25, 0.3)
+
+[sub_resource type="SphereMesh" id="SphereMesh_xyjq8"]
+material = SubResource("StandardMaterial3D_sk6i7")
+radius = 0.25
+height = 0.5
+radial_segments = 8
+rings = 6
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6crq6"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_oke3n"]
+
+[node name="DummyPlayer" type="CharacterBody3D" groups=["player"]]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_sk6i7")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 0, 0.75, 0)
+mesh = SubResource("PrismMesh_m66tt")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+mesh = SubResource("SphereMesh_xyjq8")
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_6crq6")
+
+[node name="Hurtbox" type="Area3D" parent="." groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 17
+collision_mask = 17
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+shape = SubResource("CapsuleShape3D_oke3n")
+debug_color = Color(0.010676339, 0.6506467, 0, 0.41960785)
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

@@ -29,6 +29,8 @@ extends CharacterBody3D
 @onready var swim_marker: Marker3D = $Hurtboxes/SwimHurtbox/SwimMarker
 @onready var torch_omni_light: OmniLight3D = $Visuals/TorchOmniLight
 @onready var light_hitbox: CollisionShape3D = $Hitboxes/LightHitbox/CollisionShape3D
+@onready var noise_hitbox: CollisionShape3D = $Hitboxes/NoiseHitbox/CollisionShape3D
+@onready var main_hurtbox: Area3D = $Hurtboxes/MainHurtbox
 
 # Used for ledge grabbing
 @onready var high_ledge: RayCast3D = $Hitboxes/HighLedge
@@ -95,6 +97,7 @@ func _ready() -> void:
 	print("-PLAYER START-")
 	current_boost = 0
 	point_of_view = get_tree().get_first_node_in_group("player_pov")
+	GlobalLevelStats.RESPAWN_LOCATION = self.global_position
 
 
 func _physics_process(delta: float) -> void:
@@ -735,6 +738,8 @@ func _on_reignite_duration_timeout() -> void:
 	sfx_controller.play_boost_fire()
 	clear_locks()
 	repeat_lock = true
+	GlobalLevelStats.MAX_NOISE_ACTIVE = true
+	GlobalLevelStats.MAX_NOISE_LOCATION = self.global_position
 
 func _on_extinguish_duration_timeout() -> void:
 	#Grants a burst of heat based on how much light was extinguished
@@ -802,11 +807,18 @@ func handle_light(delta):
 	else:
 		torch_omni_light.light_energy = 3.0
 	
+	#Matches the visual size of the light and its hitbox to the light resource of the player
 	if GlobalPlayerStats.Light > GlobalPlayerStats.Light_Min:
-		torch_omni_light.omni_range = (GlobalPlayerStats.Light + 50) * 0.1 + 1.5
+		if !current_state == States.CROUCHED:
+			torch_omni_light.omni_range = (GlobalPlayerStats.Light + 50) * 0.1 + 1.5
+			light_hitbox.shape.radius = (GlobalPlayerStats.Light + 50) * 0.1 + 2.0
+		else:
+			torch_omni_light.omni_range = ((GlobalPlayerStats.Light + 50) * 0.1 + 1.5) / 4
+			light_hitbox.shape.radius = ((GlobalPlayerStats.Light + 50) * 0.1 + 2.0) / 4
 	else:
 		torch_omni_light.omni_range = 0.0
-	light_hitbox.shape.radius = (GlobalPlayerStats.Light + 50) * 0.1 + 1.0
+		light_hitbox.shape.radius = 0.5
+	
 
 func handle_fall_off():
 	GlobalPlayerStats.Freeze_Goal += GlobalPlayerStats.Heat_Max_Start_Value * 0.1
@@ -814,7 +826,7 @@ func handle_fall_off():
 
 # Used for UI and SFX
 func handle_global_stats():
-	GlobalPlayerStats.Player_Position = self.global_position
+	GlobalPlayerStats.Player_Position = main_hurtbox.global_position
 	
 	if GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min:
 		sfx_controller.play_torch_loop()

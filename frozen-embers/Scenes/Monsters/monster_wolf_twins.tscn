@@ -1,0 +1,144 @@
+[gd_scene load_steps=10 format=3 uid="uid://cmmkpao2txtya"]
+
+[ext_resource type="Script" uid="uid://d0bx0fqmu34ei" path="res://Scripts/Monsters/monster_wolf_twins.gd" id="1_5jvge"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsn3x"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5jvge"]
+render_priority = 1
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6x8o4"]
+next_pass = SubResource("StandardMaterial3D_5jvge")
+albedo_color = Color(1, 0, 0, 1)
+stencil_mode = 2
+stencil_flags = 2
+stencil_color = Color(1, 0, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_22wh0"]
+material = SubResource("StandardMaterial3D_6x8o4")
+size = Vector3(1, 1.25, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5jvge"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5jvge"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6x8o4"]
+radius = 20.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6x8o4"]
+size = Vector3(30, 30, 15)
+
+[node name="MonsterWolfTwins" type="CharacterBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_5jvge")
+Difficulty = 20
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_bsn3x")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+debug_enabled = true
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.125, 0.08307415)
+mesh = SubResource("PrismMesh_22wh0")
+skeleton = NodePath("../..")
+
+[node name="Hitboxes" type="Node3D" parent="."]
+
+[node name="AttackHitbox" type="Area3D" parent="Hitboxes" groups=["monster_attack"]]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitboxes/AttackHitbox" groups=["monster_attack"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
+shape = SubResource("BoxShape3D_5jvge")
+debug_color = Color(0.9977123, 0, 0.17001125, 0.41960785)
+
+[node name="Hurtboxes" type="Node3D" parent="."]
+
+[node name="MainBodyHurtbox" type="Area3D" parent="Hurtboxes"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtboxes/MainBodyHurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_5jvge")
+debug_color = Color(1, 0, 0.27450982, 0.41960785)
+
+[node name="Hearing" type="Area3D" parent="Hurtboxes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtboxes/Hearing"]
+visible = false
+shape = SubResource("SphereShape3D_6x8o4")
+debug_color = Color(1, 1, 0, 0.41960785)
+
+[node name="Raycasts" type="Node3D" parent="Hurtboxes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
+
+[node name="LightVision" type="RayCast3D" parent="Hurtboxes/Raycasts"]
+enabled = false
+target_position = Vector3(0, 0, -20)
+collision_mask = 9
+collide_with_areas = true
+debug_shape_custom_color = Color(1, 1, 0.49019608, 1)
+debug_shape_thickness = 5
+
+[node name="PlayerVision" type="RayCast3D" parent="Hurtboxes/Raycasts"]
+enabled = false
+target_position = Vector3(0, 0, -20)
+collision_mask = 9
+collide_with_areas = true
+debug_shape_custom_color = Color(1, 1, 0.49019608, 1)
+debug_shape_thickness = 5
+
+[node name="VisionArea" type="Area3D" parent="Hurtboxes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtboxes/VisionArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 7.5)
+shape = SubResource("BoxShape3D_6x8o4")
+debug_color = Color(1, 1, 1, 0.41960785)
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="SpawnTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="HuhTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="StareTimer" type="Timer" parent="Timers"]
+wait_time = 5.0
+one_shot = true
+
+[node name="BoostCountRate" type="Timer" parent="Timers"]
+
+[node name="BoredomTimer" type="Timer" parent="Timers"]
+wait_time = 60.0
+
+[connection signal="area_entered" from="Hurtboxes/MainBodyHurtbox" to="." method="_on_main_body_hurtbox_area_entered"]
+[connection signal="area_entered" from="Hurtboxes/Hearing" to="." method="_on_hearing_area_entered"]
+[connection signal="area_entered" from="Hurtboxes/VisionArea" to="." method="_on_vision_area_entered"]
+[connection signal="area_exited" from="Hurtboxes/VisionArea" to="." method="_on_vision_area_exited"]
+[connection signal="timeout" from="Timers/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="Timers/HuhTimer" to="." method="_on_huh_timer_timeout"]
+[connection signal="timeout" from="Timers/BoostCountRate" to="." method="_on_boost_count_rate_timeout"]
+[connection signal="timeout" from="Timers/BoredomTimer" to="." method="_on_boredom_timer_timeout"]

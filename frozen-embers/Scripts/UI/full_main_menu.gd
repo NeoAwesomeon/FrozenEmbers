@@ -49,6 +49,10 @@ func _on_test_02_pressed() -> void:
 	MusicController.play_hum_boop()
 	get_tree().change_scene_to_file("res://Scenes/Levels/Testing/testing_world_02.tscn")
 
+func _on_test_03_pressed() -> void:
+	MusicController.play_hum_boop()
+	get_tree().change_scene_to_file("res://Scenes/Levels/Testing/testing_world_03.tscn")
+
 #OPTIONS MENU
 func _on_master_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(MASTER_BUS_ID, linear_to_db(value))

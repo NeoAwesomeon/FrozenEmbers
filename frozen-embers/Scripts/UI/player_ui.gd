@@ -20,7 +20,7 @@ extends Control
 @onready var freeze_meter: ProgressBar = $VBoxContainer/HeatMeter/FreezeMeter
 
 @onready var progres_counter: Label = $ProgresCounter
-var xxx
+var xxx = 0
 var yyy = 0
 var zzz = 0
 var distance = 1

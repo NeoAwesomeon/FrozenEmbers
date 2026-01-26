@@ -36,3 +36,5 @@ Collision Rules:
 	1 World
 	2 Player Output / Recieve from Player / Hostile Exclusive Surface
 	3 Hostile Output / Recieve from Hostile / Player Exclusive Surface
+	4 Hostile Light Vision
+	5 Hostile Player Vision

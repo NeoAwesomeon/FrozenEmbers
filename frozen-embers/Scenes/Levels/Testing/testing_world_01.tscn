@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://b17ckqseh7ohd"]
 
-[ext_resource type="PackedScene" uid="uid://bsr73xwil1ngl" path="res://Scenes/Levels/_Bases/level_starter.tscn" id="1_j3v8o"]
+[ext_resource type="PackedScene" uid="uid://bsr73xwil1ngl" path="res://Scenes/Levels/_Bases_/level_starter.tscn" id="1_j3v8o"]
 [ext_resource type="Material" uid="uid://7gyyy28j40ns" path="res://Assets/Materials/Testing/Testing_Grey.tres" id="1_rfxub"]
 [ext_resource type="PackedScene" uid="uid://dqayd4wqfa7ps" path="res://Scenes/Player/player_character_ember.tscn" id="1_y6eyc"]
 [ext_resource type="PackedScene" uid="uid://cntk6hyobvon5" path="res://Scenes/Player/player_pov.tscn" id="2_c86lb"]
@@ -14,7 +14,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_p626d"]
 size = Vector3(8, 8, 8)
 
-[node name="TestingWorld01" type="Node3D"]
+[node name="Testing Arena" type="Node3D"]
 
 [node name="LevelStarter" parent="." instance=ExtResource("1_j3v8o")]
 
