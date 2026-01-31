@@ -1,11 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://bf6b4q0swbpim"]
+[gd_scene load_steps=8 format=3 uid="uid://bf6b4q0swbpim"]
 
 [ext_resource type="PackedScene" uid="uid://bsr73xwil1ngl" path="res://Scenes/Levels/_Bases_/level_starter.tscn" id="1_amtsf"]
 [ext_resource type="Material" uid="uid://7gyyy28j40ns" path="res://Assets/Materials/Testing/Testing_Grey.tres" id="1_qf25m"]
 [ext_resource type="PackedScene" uid="uid://b1ps3v47kk8xf" path="res://Scenes/Player/dummy_spawner.tscn" id="2_oyna6"]
-[ext_resource type="PackedScene" uid="uid://cmmkpao2txtya" path="res://Scenes/Monsters/monster_wolf_twins.tscn" id="3_fitkn"]
 [ext_resource type="PackedScene" uid="uid://bf0tai1fquw38" path="res://Scenes/Interactables/goal_beacon.tscn" id="4_5mstw"]
-[ext_resource type="PackedScene" uid="uid://bthgaqwyhqgt5" path="res://Scenes/Player/dummy_player.tscn" id="6_uh1kj"]
+[ext_resource type="PackedScene" uid="uid://owaa1ynbn566" path="res://Scenes/Monsters/monster_wolf_together.tscn" id="5_amtsf"]
 
 [sub_resource type="Environment" id="Environment_oyna6"]
 
@@ -13,9 +12,6 @@
 vertices = PackedVector3Array(-49.5, 0.5, -40, -41.25, 0.5, -40, -41.25, 0.5, -41, -40, 0.5, -41.25, -40, 0.5, -49.5, -49.5, 0.5, -49.5, -41, 0.5, 38.75, -41, 0.5, -38.75, -49.5, 0.5, 40, -41.25, 0.5, 40, -38.75, 0.5, 41, 38.75, 0.5, 41, 38.75, 0.5, 39, -39, 0.5, 38.75, -40, 0.5, 41.25, -40, 0.5, 49.5, 40, 0.5, 49.5, 40, 0.5, 41.25, -38.75, 0.5, -41, -39, 0.5, -38.75, 38.75, 0.5, -39, 38.75, 0.5, -41, 41, 0.5, -38.75, 41, 0.5, 38.75, 41.25, 0.5, 40, 49.5, 0.5, 40, 49.5, 0.5, -40, 41.25, 0.5, -40, 40, 0.5, -41.25, 40, 0.5, -49.5, 41, 0.5, -41.25, 49.5, 0.5, -49.5, -40.25, 2.5, -40.25, -40.25, 2.5, -39.75, -39.75, 2.5, -39.75, -39.75, 2.5, -40.25, 39.75, 2.5, -40.25, 39.75, 2.5, -39.75, 40.25, 2.5, -39.75, 40.25, 2.5, -40.25, -40.25, 2.5, 39.75, -40.25, 2.5, 40.25, -39.75, 2.5, 40.25, -39.75, 2.5, 39.75, 39.75, 2.5, 39.75, 39.75, 2.5, 40.25, 40.25, 2.5, 40.25, 40.25, 2.5, 39.75, -41.25, 0.5, 41, -49.5, 0.5, 49.5, 41, 0.5, 41.25, 49.5, 0.5, 49.5)
 polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(3, 2, 4), PackedInt32Array(4, 2, 5), PackedInt32Array(5, 2, 0), PackedInt32Array(9, 8, 6), PackedInt32Array(6, 8, 7), PackedInt32Array(7, 8, 1), PackedInt32Array(1, 8, 0), PackedInt32Array(11, 10, 12), PackedInt32Array(12, 10, 13), PackedInt32Array(17, 16, 11), PackedInt32Array(11, 16, 10), PackedInt32Array(10, 16, 14), PackedInt32Array(14, 16, 15), PackedInt32Array(21, 20, 18), PackedInt32Array(18, 20, 19), PackedInt32Array(27, 26, 22), PackedInt32Array(22, 26, 23), PackedInt32Array(23, 26, 24), PackedInt32Array(24, 26, 25), PackedInt32Array(13, 6, 19), PackedInt32Array(19, 6, 7), PackedInt32Array(3, 4, 18), PackedInt32Array(18, 4, 21), PackedInt32Array(21, 4, 28), PackedInt32Array(28, 4, 29), PackedInt32Array(23, 12, 22), PackedInt32Array(22, 12, 20), PackedInt32Array(20, 12, 13), PackedInt32Array(20, 13, 19), PackedInt32Array(30, 28, 29), PackedInt32Array(27, 30, 26), PackedInt32Array(26, 30, 31), PackedInt32Array(31, 30, 29), PackedInt32Array(35, 34, 32), PackedInt32Array(32, 34, 33), PackedInt32Array(39, 38, 36), PackedInt32Array(36, 38, 37), PackedInt32Array(43, 42, 40), PackedInt32Array(40, 42, 41), PackedInt32Array(47, 46, 44), PackedInt32Array(44, 46, 45), PackedInt32Array(8, 9, 48), PackedInt32Array(14, 15, 48), PackedInt32Array(48, 15, 49), PackedInt32Array(48, 49, 8), PackedInt32Array(16, 17, 50), PackedInt32Array(24, 25, 50), PackedInt32Array(50, 25, 51), PackedInt32Array(50, 51, 16)]
 geometry_parsed_geometry_type = 1
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_amtsf"]
-radius = 30.0
 
 [node name="MonsterTest" type="Node3D"]
 
@@ -29,8 +25,6 @@ environment = SubResource("Environment_oyna6")
 
 [node name="DummySpawner" parent="." instance=ExtResource("2_oyna6")]
 transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 42, 62)
-
-[node name="MonsterWolfTwins" parent="." instance=ExtResource("3_fitkn")]
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_oyna6")
@@ -59,14 +53,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, -40)
 [node name="GoalBeacon4" parent="NavigationRegion3D/Gameplay/Beacons" instance=ExtResource("4_5mstw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 40)
 
-[node name="Area3D" type="Area3D" parent="." groups=["player_light"]]
-collision_layer = 2
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.226618, 0, -33.23088)
-shape = SubResource("SphereShape3D_amtsf")
-debug_color = Color(1, 1, 1, 0.41960785)
-
-[node name="DummyPlayer" parent="." instance=ExtResource("6_uh1kj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.767689, 0, -18.312986)
+[node name="MonsterWolfTogether" parent="." instance=ExtResource("5_amtsf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

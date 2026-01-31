@@ -4,6 +4,8 @@
 radius = 1.0
 
 [node name="NoiseMakerMinor" type="Area3D" groups=["minor_noise"]]
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_8u0fe")

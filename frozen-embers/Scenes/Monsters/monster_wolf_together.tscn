@@ -1,0 +1,99 @@
+[gd_scene load_steps=8 format=3 uid="uid://owaa1ynbn566"]
+
+[ext_resource type="Script" uid="uid://ddtku72fqxkk" path="res://Scripts/Monsters/monster_wolf_together.gd" id="1_irfuy"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_km87v"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_km87v"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_irfuy"]
+material = SubResource("StandardMaterial3D_km87v")
+size = Vector3(1.5, 2, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_km87v"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_irfuy"]
+radius = 20.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0smr1"]
+size = Vector3(40, 40, 20)
+
+[node name="MonsterWolfTogether" type="CharacterBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_irfuy")
+difficulty = 20
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_km87v")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+debug_enabled = true
+debug_path_custom_color = Color(1, 0, 0, 1)
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.25, 0)
+mesh = SubResource("PrismMesh_irfuy")
+
+[node name="Hitboxes" type="Node3D" parent="."]
+
+[node name="Hurtbox" type="Node3D" parent="."]
+
+[node name="MainHurtbox" type="Area3D" parent="Hurtbox"]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/MainHurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_km87v")
+debug_color = Color(1, 0, 0, 0.41960785)
+
+[node name="HearingArea" type="Area3D" parent="Hurtbox"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/HearingArea"]
+shape = SubResource("SphereShape3D_irfuy")
+debug_color = Color(1, 1, 0, 0.41960785)
+
+[node name="VisionArea" type="Area3D" parent="Hurtbox"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/VisionArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+shape = SubResource("BoxShape3D_0smr1")
+debug_color = Color(1, 1, 1, 0.41960785)
+
+[node name="Rays" type="Node3D" parent="."]
+
+[node name="LightRay" type="RayCast3D" parent="Rays"]
+target_position = Vector3(0, 0, -20)
+collision_mask = 8
+debug_shape_custom_color = Color(1, 1, 1, 1)
+debug_shape_thickness = 4
+
+[node name="PlayerRay" type="RayCast3D" parent="Rays"]
+target_position = Vector3(0, 0, -22)
+collision_mask = 16
+debug_shape_custom_color = Color(0, 1, 1, 1)
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="SpawnTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="HuhDuration" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="BoredomTimer" type="Timer" parent="Timers"]
+
+[connection signal="area_entered" from="Hurtbox/MainHurtbox" to="." method="_on_main_hurtbox_area_entered"]
+[connection signal="area_entered" from="Hurtbox/HearingArea" to="." method="_on_hearing_area_area_entered"]
+[connection signal="timeout" from="Timers/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="Timers/HuhDuration" to="." method="_on_huh_duration_timeout"]

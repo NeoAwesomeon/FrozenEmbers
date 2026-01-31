@@ -18,7 +18,7 @@ var max_response_count = 0
 var frame_delay : float
 var frame_count = 0.0
 
-var Points_of_Interest = []
+var Points_of_Interest_Wolf = []
 
 func _ready() -> void:
 	RESPAWN_LOCATION = Vector3.ZERO
