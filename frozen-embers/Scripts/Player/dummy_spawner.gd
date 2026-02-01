@@ -23,9 +23,9 @@ func shoot_ray():
 	if !raycast_result.is_empty():
 		var instance = dummy.instantiate()
 		instance.position = raycast_result["position"]
-		instance.scale = Vector3(20,20,20)
+		instance.scale = Vector3(1,1,1)
 		add_sibling(instance)
 		
 		#GlobalLevelStats.MAX_NOISE_ACTIVE = true
 		#GlobalLevelStats.MAX_NOISE_LOCATION = raycast_result["position"]
-		#print(GlobalLevelStats.MAX_NOISE_LOCATION)
+		#print("Max Noise Location: " + str(GlobalLevelStats.MAX_NOISE_LOCATION))

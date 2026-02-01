@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bthgaqwyhqgt5"]
+[gd_scene load_steps=9 format=3 uid="uid://bthgaqwyhqgt5"]
 
 [ext_resource type="Script" uid="uid://eue8lg0kpmi8" path="res://Scripts/Player/dummy_player.gd" id="1_sk6i7"]
 
@@ -37,6 +37,9 @@ rings = 6
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_oke3n"]
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_sk6i7"]
+radius = 10.0
+
 [node name="DummyPlayer" type="CharacterBody3D" groups=["player"]]
 collision_layer = 0
 collision_mask = 0
@@ -65,5 +68,13 @@ collision_mask = 17
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
 shape = SubResource("CapsuleShape3D_oke3n")
 debug_color = Color(0.010676339, 0.6506467, 0, 0.41960785)
+
+[node name="TestLight" type="Area3D" parent="." groups=["player_light"]]
+collision_layer = 10
+collision_mask = 10
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestLight"]
+shape = SubResource("SphereShape3D_sk6i7")
+debug_color = Color(1, 1, 1, 0.41960785)
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ddtku72fqxkk" path="res://Scripts/Monsters/monster_wolf_together.gd" id="1_irfuy"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_km87v"]
+radius = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_km87v"]
 albedo_color = Color(1, 0, 0, 1)
@@ -12,7 +13,7 @@ material = SubResource("StandardMaterial3D_km87v")
 size = Vector3(1.5, 2, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_km87v"]
-size = Vector3(1, 2, 1)
+size = Vector3(2, 2, 2)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_irfuy"]
 radius = 20.0
@@ -71,16 +72,21 @@ shape = SubResource("BoxShape3D_0smr1")
 debug_color = Color(1, 1, 1, 0.41960785)
 
 [node name="Rays" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="LightRay" type="RayCast3D" parent="Rays"]
-target_position = Vector3(0, 0, -20)
-collision_mask = 8
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+target_position = Vector3(0, 0, -18.5)
+collision_mask = 9
+collide_with_areas = true
 debug_shape_custom_color = Color(1, 1, 1, 1)
 debug_shape_thickness = 4
 
 [node name="PlayerRay" type="RayCast3D" parent="Rays"]
-target_position = Vector3(0, 0, -22)
-collision_mask = 16
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+target_position = Vector3(0, 0, -20.5)
+collision_mask = 17
+collide_with_areas = true
 debug_shape_custom_color = Color(0, 1, 1, 1)
 
 [node name="Timers" type="Node" parent="."]
@@ -88,12 +94,26 @@ debug_shape_custom_color = Color(0, 1, 1, 1)
 [node name="SpawnTimer" type="Timer" parent="Timers"]
 one_shot = true
 
+[node name="BoredomTimer" type="Timer" parent="Timers"]
+wait_time = 60.0
+
 [node name="HuhDuration" type="Timer" parent="Timers"]
 one_shot = true
 
-[node name="BoredomTimer" type="Timer" parent="Timers"]
+[node name="StareDuration" type="Timer" parent="Timers"]
+wait_time = 3.0
+one_shot = true
+
+[node name="ChaseDuration" type="Timer" parent="Timers"]
+wait_time = 45.0
+one_shot = true
 
 [connection signal="area_entered" from="Hurtbox/MainHurtbox" to="." method="_on_main_hurtbox_area_entered"]
 [connection signal="area_entered" from="Hurtbox/HearingArea" to="." method="_on_hearing_area_area_entered"]
+[connection signal="area_entered" from="Hurtbox/VisionArea" to="." method="_on_vision_area_area_entered"]
+[connection signal="area_exited" from="Hurtbox/VisionArea" to="." method="_on_vision_area_area_exited"]
 [connection signal="timeout" from="Timers/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="Timers/BoredomTimer" to="." method="_on_boredom_timer_timeout"]
 [connection signal="timeout" from="Timers/HuhDuration" to="." method="_on_huh_duration_timeout"]
+[connection signal="timeout" from="Timers/StareDuration" to="." method="_on_stare_duration_timeout"]
+[connection signal="timeout" from="Timers/ChaseDuration" to="." method="_on_chase_duration_timeout"]

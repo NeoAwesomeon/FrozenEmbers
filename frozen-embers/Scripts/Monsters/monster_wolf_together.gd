@@ -15,13 +15,18 @@ extends CharacterBody3D
 
 #Timers
 @onready var spawn_timer: Timer = $Timers/SpawnTimer
-@onready var huh_duration: Timer = $Timers/HuhDuration
 @onready var boredom_timer: Timer = $Timers/BoredomTimer
+@onready var huh_duration: Timer = $Timers/HuhDuration
+@onready var stare_duration: Timer = $Timers/StareDuration
+@onready var chase_duration: Timer = $Timers/ChaseDuration
+
 
 #Determines where the monster will move to, if at all
 var target_pos: Vector3
 var previous_target_pos: Vector3
 var has_target = false
+var vision_active = false
+var chase_prep = false
 var chase_active = false
 
 #Movement Requirements
@@ -64,7 +69,7 @@ func _ready() -> void:
 	if difficulty == -1:
 		queue_free()
 	else:
-		print("Twins spawning...")
+		print("Twins: Spawning...")
 	
 	spawn_timer.wait_time = 23.0 - difficulty
 	if difficulty < 20:
@@ -87,8 +92,10 @@ func _on_spawn_timer_timeout() -> void:
 
 func _physics_process(delta: float) -> void:
 	
+	handle_line_of_sight()
 	handle_distance_and_noise()
 	handle_state_actions()
+	handle_boost_and_chase_logic()
 	
 	visuals.scale = visuals.scale.lerp(Vector3(1, 1, 1), delta * 10)
 	
@@ -123,9 +130,19 @@ func handle_distance_and_noise():
 	zzz = abs(self.global_position.z - target_pos.z)
 	distance_from_target = xxx + yyy + zzz
 	
-	if current_state != States.SPAWN:
-		if distance_from_target < 5 and priority < 4 and priority != 0:
-			reset_wander()
+	if !chase_active:
+		if GlobalLevelStats.MAX_NOISE_ACTIVE and priority < 4:
+			trigger_huh()
+			priority = 3
+			target_pos = GlobalLevelStats.MAX_NOISE_LOCATION
+			GlobalLevelStats.max_response_count += 2
+			print("Twins: Max Noise Heard")
+		
+		if current_state != States.SPAWN:
+			if distance_from_target < 5 and priority < 4 and priority != 0:
+				if priority == 3:
+					detective_points += 1
+				reset_wander()
 
 func trigger_huh():
 	current_state = States.HUH
@@ -135,10 +152,25 @@ func trigger_huh():
 #Automatic target changing from huh state
 func _on_huh_duration_timeout() -> void:
 	change_speed()
+	boredom_timer.start()
 	boost_count = 0
 
+func trigger_stare():
+	current_state = States.STARE
+	stare_duration.start()
+	boost_count = 0
+
+func _on_stare_duration_timeout() -> void:
+	chase_active = true
+	if chase_duration.is_stopped():
+		chase_duration.start()
+	change_speed()
+
 func change_speed():
-	if priority == 4 and !chase_active:
+	if chase_active and !GlobalLevelStats.EXIT_OPEN:
+		current_state = States.CHASE
+	
+	elif priority == 4 and !chase_active:
 		current_state = States.PURSUIT
 	
 	elif priority == 3:
@@ -162,24 +194,30 @@ func reset_wander():
 		reset_wander()
 	else:
 		boredom_timer.start()
+		print("Twins: Wandering...")
+
+func _on_boredom_timer_timeout() -> void:
+	if chase_active:
+		reset_wander()
 
 func handle_state_actions():
 	match current_state:
 		States.SPAWN:
 			true_speed = 0
-			
 		
 		States.HUH:
 			true_speed = 0
-			
 		
 		States.STARE:
 			true_speed = 0
-			
+			if distance_from_target > 28 or distance_from_target < 12:
+				chase_active = true
+				if chase_duration.is_stopped():
+					chase_duration.start()
+				change_speed()
 		
 		States.WANDER:
 			true_speed = base_move_speed + (difficulty * 2.5)
-			
 		
 		States.CURIOUS:
 			if priority == 1:
@@ -187,7 +225,6 @@ func handle_state_actions():
 				
 			if priority == 2:
 				true_speed = (base_move_speed + (difficulty * 2.5)) * 1.5
-				
 		
 		States.PURSUIT:
 			if priority == 3:
@@ -201,6 +238,43 @@ func handle_state_actions():
 		States.ENDGAME:
 			true_speed = (base_move_speed + (difficulty * 2.5)) * 1.5 + (difficulty * boost_count)
 
+func handle_line_of_sight():
+	if vision_active:
+		ray_parent.look_at(GlobalPlayerStats.Player_Position)
+		
+		if light_ray.is_colliding():
+			var ray_target = light_ray.get_collider()
+			
+			if ray_target.is_in_group("player_light") and !chase_active:
+				if priority < 4:
+					trigger_huh()
+					print("Twins: Light Spotted!")
+				priority = 4
+				target_pos = GlobalPlayerStats.Player_Position
+				
+		
+		if player_ray.is_colliding():
+			var ray_target = player_ray.get_collider()
+			
+			if ray_target.is_in_group("player") and !chase_active:
+				if !chase_prep:
+					trigger_stare()
+					print("Twins: PLAYER SEEN!")
+				priority = 4
+				target_pos = GlobalPlayerStats.Player_Position
+				chase_prep = true
+
+func handle_boost_and_chase_logic():
+	if chase_active:
+		current_state = States.CHASE
+		target_pos = GlobalPlayerStats.Player_Position
+		print(chase_duration.time_left)
+
+func _on_chase_duration_timeout() -> void:
+	chase_prep = false
+	chase_active = false
+	reset_wander()
+
 #AREA REACTIONS HERE
 func _on_main_hurtbox_area_entered(area: Area3D) -> void:
 	#Only awards detective points if an objective is found
@@ -208,7 +282,6 @@ func _on_main_hurtbox_area_entered(area: Area3D) -> void:
 		detective_points += 1
 		hearing_area.shape.radius = (5.0 + ((difficulty)/4.0)) + ((difficulty/4.0) * detective_points)
 		reset_wander()
-
 
 func _on_hearing_area_area_entered(area: Area3D) -> void:
 	if area.is_in_group("major_noise") and priority < 3:
@@ -222,4 +295,12 @@ func _on_hearing_area_area_entered(area: Area3D) -> void:
 		priority = 1
 		target_pos = area.global_position
 		print("Twins: Minor Noise Heard")
-		
+
+func _on_vision_area_area_entered(area: Area3D) -> void:
+	if area.is_in_group("player_light"):
+		vision_active = true
+		print("Vision Active")
+func _on_vision_area_area_exited(area: Area3D) -> void:
+	if area.is_in_group("player_light"):
+		vision_active = false
+		print("No Vision")
