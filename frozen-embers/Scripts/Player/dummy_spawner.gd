@@ -1,7 +1,5 @@
 extends Camera3D
 
-@onready var spawn_label: Label = $SpawnLabel
-
 @export_subgroup("Spawns")
 @export var dummy : PackedScene
 
@@ -23,7 +21,7 @@ func shoot_ray():
 	if !raycast_result.is_empty():
 		var instance = dummy.instantiate()
 		instance.position = raycast_result["position"]
-		instance.scale = Vector3(1,1,1)
+		#instance.scale = Vector3(50,50,50)
 		add_sibling(instance)
 		
 		#GlobalLevelStats.MAX_NOISE_ACTIVE = true

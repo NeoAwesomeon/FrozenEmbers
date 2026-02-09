@@ -7,6 +7,7 @@ extends CharacterBody3D
 @onready var main_hurtbox: CollisionShape3D = $Hurtbox/MainHurtbox/CollisionShape3D
 @onready var hearing_area: CollisionShape3D = $Hurtbox/HearingArea/CollisionShape3D
 @onready var vision_area: CollisionShape3D = $Hurtbox/VisionArea/CollisionShape3D
+@onready var attack_hitbox: CollisionShape3D = $Hitboxes/AttackHitbox/CollisionShape3D
 
 #Raycast3Ds
 @onready var ray_parent: Node3D = $Rays
@@ -19,15 +20,22 @@ extends CharacterBody3D
 @onready var huh_duration: Timer = $Timers/HuhDuration
 @onready var stare_duration: Timer = $Timers/StareDuration
 @onready var chase_duration: Timer = $Timers/ChaseDuration
+@onready var boost_count_rate: Timer = $Timers/BoostCountRate
+@onready var stun_duration: Timer = $Timers/StunDuration
+@onready var detective_anti_spam: Timer = $Timers/DetectiveAntiSpam
 
+#HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
+@onready var testingdesperationtimer: Timer = $Timers/TESTINGDESPERATIONTIMER
 
 #Determines where the monster will move to, if at all
 var target_pos: Vector3
 var previous_target_pos: Vector3
 var has_target = false
+var boost_active = false
 var vision_active = false
 var chase_prep = false
 var chase_active = false
+var desp_safe = false
 
 #Movement Requirements
 var movement_velocity: Vector3
@@ -36,7 +44,7 @@ var gravity = 0
 var true_speed = 0
 var boost_count = 0.0
 var detective_points = 0.0
-
+var spawn_location : Vector3
 #Used to measure distance from objectives in prefered units
 var xxx = 0
 var yyy = 0
@@ -63,8 +71,11 @@ var priority = 0
 
 
 func _ready() -> void:
+	
 	GlobalLevelStats.NUMBER_OF_MONSTERS += 2
+	spawn_location = self.global_position
 	previous_target_pos = self.global_position
+	
 	
 	if difficulty == -1:
 		queue_free()
@@ -79,23 +90,29 @@ func _ready() -> void:
 		huh_duration.wait_time = 1.0
 		hearing_area.shape.radius = 10.0
 	
+	if difficulty > 5:
+		chase_duration.wait_time = 45.0 + (difficulty - 5.0)
+	
 	vision_area.disabled = true
 	hearing_area.disabled = true
+	attack_hitbox.disabled = true
 	spawn_timer.start()
 
 func _on_spawn_timer_timeout() -> void:
+	print("Twins: Spawn Complete.")
 	reset_wander()
-	change_speed()
 	has_target = true
 	vision_area.disabled = false
 	hearing_area.disabled = false
 
 func _physics_process(delta: float) -> void:
 	
+	
+	
 	handle_line_of_sight()
 	handle_distance_and_noise()
 	handle_state_actions()
-	handle_boost_and_chase_logic()
+	handle_chase_logic()
 	
 	visuals.scale = visuals.scale.lerp(Vector3(1, 1, 1), delta * 10)
 	
@@ -122,6 +139,7 @@ func _physics_process(delta: float) -> void:
 		rotation.y = move_toward(rotation.y, target_rotation, delta * rotation_speed)
 	
 	move_and_slide()
+	#print(str(true_speed))
 
 func handle_distance_and_noise():
 	#Finds distance from target
@@ -148,59 +166,78 @@ func trigger_huh():
 	current_state = States.HUH
 	huh_duration.start()
 	visuals.scale = Vector3(50,50,50)
+	boost_count = 0
+	boost_count_rate.stop()
 
 #Automatic target changing from huh state
 func _on_huh_duration_timeout() -> void:
-	change_speed()
+	print("Twins: Huh Complete.")
 	boredom_timer.start()
-	boost_count = 0
+	boost_count_rate.start()
+	change_speed()
 
 func trigger_stare():
+	print("Twins: Stare Complete!")
 	current_state = States.STARE
 	stare_duration.start()
 	boost_count = 0
+	boost_count_rate.stop()
 
 func _on_stare_duration_timeout() -> void:
-	chase_active = true
-	if chase_duration.is_stopped():
-		chase_duration.start()
-	change_speed()
+	if current_state == States.STARE:
+		chase_active = true
+		if chase_duration.is_stopped():
+			chase_duration.start()
+		boost_count_rate.start()
+		change_speed()
 
 func change_speed():
 	if chase_active and !GlobalLevelStats.EXIT_OPEN:
+		print("Twins: Speed - Chase")
 		current_state = States.CHASE
 	
 	elif priority == 4 and !chase_active:
+		print("Twins: Speed - Pursuit")
 		current_state = States.PURSUIT
 	
 	elif priority == 3:
+		print("Twins: Speed - Pursuit")
 		current_state = States.PURSUIT
 	
 	elif priority < 3 and priority != 0:
+		print("Twins: Speed - Curious")
 		current_state = States.CURIOUS
 	
 	elif priority == 0:
+		print("Twins: Speed - Wander")
 		current_state = States.WANDER
+		boost_count = 0
+		boost_count_rate.stop()
 
 func reset_wander():
 	current_state = States.WANDER
 	priority = 0
 	boost_count = 0
+	boost_count_rate.stop()
 	previous_target_pos = target_pos
 	target_pos = GlobalLevelStats.Points_of_Interest_Wolf.pick_random()
-	change_speed()
 	
-	if target_pos == previous_target_pos:
+	if target_pos.round() == previous_target_pos.round():
 		reset_wander()
 	else:
 		boredom_timer.start()
-		print("Twins: Wandering...")
+		print("Twins: Wandering to " + str(target_pos))
+		change_speed()
 
 func _on_boredom_timer_timeout() -> void:
-	if chase_active:
+	if !chase_active:
+		print("Twins: Bored with Target. Switching Targets...")
 		reset_wander()
 
 func handle_state_actions():
+	if GlobalLevelStats.DESPERATION_MODE:
+		current_state = States.DESPERATION
+	
 	match current_state:
 		States.SPAWN:
 			true_speed = 0
@@ -215,6 +252,39 @@ func handle_state_actions():
 				if chase_duration.is_stopped():
 					chase_duration.start()
 				change_speed()
+		
+		States.DESPERATION:
+			true_speed = 0
+			if desp_safe:
+				
+				if Input.is_action_just_pressed("attack"):
+					if GlobalLevelStats.DESPERATION_SAVE_ACTIVE:
+						GlobalLevelStats.DESPERATION_MODE = false
+						GlobalLevelStats.DESPERATION_SAVE_ACTIVE = false
+						priority = 0
+						current_state = States.STUNNED
+						desp_safe = false
+						boost_active = false
+						vision_active = false
+						chase_prep = false
+						chase_active = false
+						#HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
+						testingdesperationtimer.stop()
+						stun_duration.start()
+						print("Twins: Stunned!")
+					else:
+						GlobalLevelStats.game_over()
+			
+			elif !GlobalLevelStats.DESPERATION_MODE:
+				reset_respawn()
+		
+		States.STUNNED:
+			true_speed = 0
+			
+			print("Twins: Stun Duration = " + str(stun_duration.time_left))
+			
+			if distance_from_target > 100:
+				reset_respawn()
 		
 		States.WANDER:
 			true_speed = base_move_speed + (difficulty * 2.5)
@@ -233,15 +303,17 @@ func handle_state_actions():
 				true_speed = (base_move_speed + (difficulty * 2.5)) * 1.5 + (difficulty/1.5 * boost_count)
 		
 		States.CHASE:
-			true_speed = (base_move_speed + (difficulty * 2.5)) * 1.5 + (difficulty * boost_count)
+			true_speed = (base_move_speed + (difficulty * 2.5)) * 1.5 + (difficulty * (boost_count * 2))
 		
 		States.ENDGAME:
-			true_speed = (base_move_speed + (difficulty * 2.5)) * 1.5 + (difficulty * boost_count)
+			true_speed = (base_move_speed + (difficulty * 2.5)) * 1.5 + (difficulty * (boost_count * 2))
+
 
 func handle_line_of_sight():
 	if vision_active:
 		ray_parent.look_at(GlobalPlayerStats.Player_Position)
 		
+		#This one checks to see if the light is visible
 		if light_ray.is_colliding():
 			var ray_target = light_ray.get_collider()
 			
@@ -253,6 +325,7 @@ func handle_line_of_sight():
 				target_pos = GlobalPlayerStats.Player_Position
 				
 		
+		#This one checks to see if the player is visible
 		if player_ray.is_colliding():
 			var ray_target = player_ray.get_collider()
 			
@@ -264,23 +337,49 @@ func handle_line_of_sight():
 				target_pos = GlobalPlayerStats.Player_Position
 				chase_prep = true
 
-func handle_boost_and_chase_logic():
-	if chase_active:
+func handle_chase_logic():
+	if chase_active and !desp_safe:
 		current_state = States.CHASE
 		target_pos = GlobalPlayerStats.Player_Position
-		print(chase_duration.time_left)
+		attack_hitbox.disabled = false
+	else:
+		attack_hitbox.disabled = true
 
+func _on_boost_count_rate_timeout() -> void:
+	#Maxes out at the fastest speed it should have, difficulty effects scaling
+	if true_speed < 1000:
+		boost_count += 1
+
+#When chase goes on for too long, this resets everything back to the wander state
 func _on_chase_duration_timeout() -> void:
+	print("Twins: Chase Over - Out of Time")
 	chase_prep = false
 	chase_active = false
+	reset_wander()
+
+#Used to teleport the monster away when the player is caught by a different monster
+func reset_respawn():
+	self.global_position = spawn_location
+	current_state = States.SPAWN
+	vision_area.disabled = true
+	hearing_area.disabled = true
+	attack_hitbox.disabled = true
+	desp_safe = false
+	spawn_timer.start()
+
+#If the player is still in range when the stun wares off, monster will begin wandering again
+func _on_stun_duration_timeout() -> void:
+	print("Twins: Stun Complete.")
 	reset_wander()
 
 #AREA REACTIONS HERE
 func _on_main_hurtbox_area_entered(area: Area3D) -> void:
 	#Only awards detective points if an objective is found
 	if area.is_in_group("place_of_interest") and priority == 0:
-		detective_points += 1
-		hearing_area.shape.radius = (5.0 + ((difficulty)/4.0)) + ((difficulty/4.0) * detective_points)
+		if detective_anti_spam.is_stopped():
+			detective_anti_spam.start()
+			detective_points += 1
+			hearing_area.shape.radius = (5.0 + ((difficulty)/4.0)) + ((difficulty/4.0) * detective_points)
 		reset_wander()
 
 func _on_hearing_area_area_entered(area: Area3D) -> void:
@@ -299,8 +398,27 @@ func _on_hearing_area_area_entered(area: Area3D) -> void:
 func _on_vision_area_area_entered(area: Area3D) -> void:
 	if area.is_in_group("player_light"):
 		vision_active = true
-		print("Vision Active")
+		print("Twins: Vision Active")
 func _on_vision_area_area_exited(area: Area3D) -> void:
 	if area.is_in_group("player_light"):
 		vision_active = false
-		print("No Vision")
+		print("Twins: No Vision")
+
+func _on_attack_hitbox_area_entered(area: Area3D) -> void:
+	if area.is_in_group("player"):
+		desp_safe = true
+		chase_prep = false
+		chase_active = false
+		current_state = States.DESPERATION
+		GlobalLevelStats.DESPERATION_MODE = true
+		print("Twins: ATTACKING")
+		#HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
+		GlobalLevelStats.DESPERATION_SAVE_ACTIVE = true
+		testingdesperationtimer.start()
+
+#HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
+#MAKE SURE TO RESET THE GLOBAL VALUES WHEN A GAME OVER IS TRIGGERED!
+func _on_testingdesperationtimer_timeout() -> void:
+	current_state = States.SPAWN
+	reset_respawn()
+	GlobalLevelStats.game_over()

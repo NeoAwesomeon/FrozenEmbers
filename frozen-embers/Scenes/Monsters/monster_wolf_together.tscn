@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://owaa1ynbn566"]
+[gd_scene load_steps=9 format=3 uid="uid://owaa1ynbn566"]
 
 [ext_resource type="Script" uid="uid://ddtku72fqxkk" path="res://Scripts/Monsters/monster_wolf_together.gd" id="1_irfuy"]
 
@@ -11,6 +11,9 @@ albedo_color = Color(1, 0, 0, 1)
 [sub_resource type="PrismMesh" id="PrismMesh_irfuy"]
 material = SubResource("StandardMaterial3D_km87v")
 size = Vector3(1.5, 2, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_irfuy"]
+size = Vector3(1, 2, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_km87v"]
 size = Vector3(2, 2, 2)
@@ -42,6 +45,12 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0
 mesh = SubResource("PrismMesh_irfuy")
 
 [node name="Hitboxes" type="Node3D" parent="."]
+
+[node name="AttackHitbox" type="Area3D" parent="Hitboxes" groups=["monster_attack"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitboxes/AttackHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.5)
+shape = SubResource("BoxShape3D_irfuy")
 
 [node name="Hurtbox" type="Node3D" parent="."]
 
@@ -108,6 +117,20 @@ one_shot = true
 wait_time = 45.0
 one_shot = true
 
+[node name="BoostCountRate" type="Timer" parent="Timers"]
+
+[node name="StunDuration" type="Timer" parent="Timers"]
+wait_time = 4.0
+one_shot = true
+
+[node name="DetectiveAntiSpam" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="TESTINGDESPERATIONTIMER" type="Timer" parent="Timers"]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="area_entered" from="Hitboxes/AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]
 [connection signal="area_entered" from="Hurtbox/MainHurtbox" to="." method="_on_main_hurtbox_area_entered"]
 [connection signal="area_entered" from="Hurtbox/HearingArea" to="." method="_on_hearing_area_area_entered"]
 [connection signal="area_entered" from="Hurtbox/VisionArea" to="." method="_on_vision_area_area_entered"]
@@ -117,3 +140,6 @@ one_shot = true
 [connection signal="timeout" from="Timers/HuhDuration" to="." method="_on_huh_duration_timeout"]
 [connection signal="timeout" from="Timers/StareDuration" to="." method="_on_stare_duration_timeout"]
 [connection signal="timeout" from="Timers/ChaseDuration" to="." method="_on_chase_duration_timeout"]
+[connection signal="timeout" from="Timers/BoostCountRate" to="." method="_on_boost_count_rate_timeout"]
+[connection signal="timeout" from="Timers/StunDuration" to="." method="_on_stun_duration_timeout"]
+[connection signal="timeout" from="Timers/TESTINGDESPERATIONTIMER" to="." method="_on_testingdesperationtimer_timeout"]

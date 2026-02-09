@@ -15,6 +15,9 @@ var MAX_NOISE_ACTIVE = false
 var MAX_NOISE_LOCATION : Vector3
 var max_response_count = 0
 
+var DESPERATION_MODE = false
+var DESPERATION_SAVE_ACTIVE = false
+
 var frame_delay : float
 var frame_count = 0.0
 
@@ -27,3 +30,10 @@ func _process(_delta: float) -> void:
 	if max_response_count == NUMBER_OF_MONSTERS or max_response_count > NUMBER_OF_MONSTERS:
 		MAX_NOISE_ACTIVE = false
 		max_response_count = 0
+
+func game_over():
+	EXIT_OPEN = false
+	MAX_NOISE_ACTIVE = false
+	DESPERATION_MODE = false
+	DESPERATION_SAVE_ACTIVE = false
+	get_tree().reload_current_scene()
