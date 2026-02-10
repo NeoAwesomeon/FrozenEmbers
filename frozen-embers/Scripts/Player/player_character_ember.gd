@@ -131,6 +131,8 @@ func _physics_process(delta: float) -> void:
 	if current_state == States.WALL_CLING and !rotate_lock:
 		rotation_direction = Vector2(-wall_normal.z, -wall_normal.x).angle()
 		rotation.y = lerp_angle(rotation.y, rotation_direction, delta * 15)
+	if current_state == States.LONG_JUMP:
+		rotation.y = lerp_angle(rotation.y, rotation_direction, delta * 3)
 	if !rotate_lock:
 		rotation.y = lerp_angle(rotation.y, rotation_direction, delta * 15)
 	
@@ -206,6 +208,7 @@ func handle_state_transitions():
 			
 		elif is_on_floor():
 			current_state = States.GROUNDED
+			clear_locks()
 			coyote_time.stop()
 			
 		elif !is_on_floor() and coyote_time.is_stopped() and jump_ground:
@@ -233,13 +236,25 @@ func handle_state_actions(delta):
 		
 		States.SLIDING:
 			slide(delta)
-			
+			if Input.is_action_pressed("move_left"):
+				rotation.y += deg_to_rad(150 * delta)
+			if Input.is_action_pressed("move_right"):
+				rotation.y -= deg_to_rad(150 * delta)
+		
 		States.LONG_JUMP:
 			slide(delta)
 			if is_on_floor() or is_on_wall_only():
 				slide_ready = true
 				clear_locks()
-				current_state = States.GROUNDED
+				if is_on_floor():
+					current_state = States.GROUNDED
+				elif is_on_wall_only():
+					current_state = States.WALL_CLING
+			
+			if Input.is_action_pressed("move_left"):
+				rotation.y += deg_to_rad(120 * delta)
+			if Input.is_action_pressed("move_right"):
+				rotation.y -= deg_to_rad(120 * delta)
 		
 		States.HIGH_JUMP:
 			hard_landing_recovery.stop()
@@ -252,11 +267,10 @@ func handle_state_actions(delta):
 				current_state = States.AIRBORNE
 			
 			if is_wall_jumping:
-				#HEY
-				rotation.y = Vector2(wall_normal.z, wall_normal.x).angle()
 				movement_velocity = wall_normal * true_speed * delta
 		
 		States.AIR_DIVE:
+			movement_velocity = Vector3.ZERO
 			handle_air_dive(delta)
 			if is_on_floor() and Input.is_action_just_pressed("jump"):
 				current_state = States.HIGH_JUMP
@@ -625,7 +639,7 @@ func handle_grounded_attack(delta):
 			sfx_controller.play_torch_swing()
 
 func aerial_attack():
-	gravity -= jump_strength * 0.6
+	gravity = -jump_strength * 0.75
 	attack_air_hitbox.disabled = false
 	attack_recovery.start()
 	hitbox_duration.start()
@@ -660,8 +674,8 @@ func handle_air_dive(delta):
 		current_state = States.AIRBORNE
 		jump_cancel = false
 		light_drain_low()
-		clear_locks()
 		sfx_controller.play_flap()
+		clear_locks()
 	
 	if is_on_floor():
 		if Input.is_action_just_pressed("jump"):

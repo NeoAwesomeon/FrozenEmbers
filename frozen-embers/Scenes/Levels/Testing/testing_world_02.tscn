@@ -1332,7 +1332,7 @@ collision_mask = 3
 size = Vector3(12, 32, 12)
 
 [node name="CSGBox3D72" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 27, 30)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 27, 28)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
@@ -1356,12 +1356,12 @@ collision_mask = 3
 size = Vector3(16, 2, 4)
 
 [node name="CSGBox3D69" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 18, 38)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 17, 38)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(4, 12, 4)
+size = Vector3(4, 10, 4)
 
 [node name="CSGBox3D70" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 18, 30)
@@ -1372,12 +1372,12 @@ collision_mask = 3
 size = Vector3(4, 12, 4)
 
 [node name="CSGBox3D71" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 18, 38)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 17, 38)
 material_override = ExtResource("7_foaud")
 use_collision = true
 collision_layer = 3
 collision_mask = 3
-size = Vector3(4, 12, 4)
+size = Vector3(4, 10, 4)
 
 [node name="CSGBox3D64" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 14, -2)

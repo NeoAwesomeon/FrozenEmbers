@@ -107,7 +107,8 @@ func _on_spawn_timer_timeout() -> void:
 
 func _physics_process(delta: float) -> void:
 	
-	
+	if !stun_duration.is_stopped():
+		current_state = States.STUNNED
 	
 	handle_line_of_sight()
 	handle_distance_and_noise()
@@ -157,9 +158,7 @@ func handle_distance_and_noise():
 			print("Twins: Max Noise Heard")
 		
 		if current_state != States.SPAWN:
-			if distance_from_target < 5 and priority < 4 and priority != 0:
-				if priority == 3:
-					detective_points += 1
+			if distance_from_target < 6.0 and priority < 4:
 				reset_wander()
 
 func trigger_huh():
@@ -227,6 +226,11 @@ func reset_wander():
 	else:
 		boredom_timer.start()
 		print("Twins: Wandering to " + str(target_pos))
+		if priority == 3 or priority == 0:
+			if detective_anti_spam.is_stopped():
+				detective_anti_spam.start()
+				detective_points += 1
+				hearing_area.shape.radius = (5.0 + ((difficulty)/4.0)) + ((difficulty/4.0) * detective_points)
 		change_speed()
 
 func _on_boredom_timer_timeout() -> void:
@@ -237,6 +241,7 @@ func _on_boredom_timer_timeout() -> void:
 func handle_state_actions():
 	if GlobalLevelStats.DESPERATION_MODE:
 		current_state = States.DESPERATION
+	
 	
 	match current_state:
 		States.SPAWN:
@@ -255,6 +260,8 @@ func handle_state_actions():
 		
 		States.DESPERATION:
 			true_speed = 0
+			
+			
 			if desp_safe:
 				
 				if Input.is_action_just_pressed("attack"):
@@ -273,9 +280,10 @@ func handle_state_actions():
 						stun_duration.start()
 						print("Twins: Stunned!")
 					else:
+						print("TWINS: PLAYER KILL")
 						GlobalLevelStats.game_over()
 			
-			elif !GlobalLevelStats.DESPERATION_MODE:
+			else:
 				reset_respawn()
 		
 		States.STUNNED:
@@ -352,10 +360,11 @@ func _on_boost_count_rate_timeout() -> void:
 
 #When chase goes on for too long, this resets everything back to the wander state
 func _on_chase_duration_timeout() -> void:
-	print("Twins: Chase Over - Out of Time")
-	chase_prep = false
-	chase_active = false
-	reset_wander()
+	if current_state == States.CHASE:
+		print("Twins: Chase Over - Out of Time")
+		chase_prep = false
+		chase_active = false
+		reset_wander()
 
 #Used to teleport the monster away when the player is caught by a different monster
 func reset_respawn():
@@ -365,7 +374,9 @@ func reset_respawn():
 	hearing_area.disabled = true
 	attack_hitbox.disabled = true
 	desp_safe = false
+	spawn_timer.wait_time = 30.0 - difficulty
 	spawn_timer.start()
+	print("Twins: Respawning...")
 
 #If the player is still in range when the stun wares off, monster will begin wandering again
 func _on_stun_duration_timeout() -> void:
@@ -373,14 +384,12 @@ func _on_stun_duration_timeout() -> void:
 	reset_wander()
 
 #AREA REACTIONS HERE
-func _on_main_hurtbox_area_entered(area: Area3D) -> void:
-	#Only awards detective points if an objective is found
-	if area.is_in_group("place_of_interest") and priority == 0:
-		if detective_anti_spam.is_stopped():
-			detective_anti_spam.start()
-			detective_points += 1
-			hearing_area.shape.radius = (5.0 + ((difficulty)/4.0)) + ((difficulty/4.0) * detective_points)
-		reset_wander()
+func _on_main_hurtbox_area_entered(_area: Area3D) -> void:
+	##Only awards detective points if an objective is found
+	#if area.is_in_group("place_of_interest") and priority == 0:
+		#
+		#reset_wander()
+	pass
 
 func _on_hearing_area_area_entered(area: Area3D) -> void:
 	if area.is_in_group("major_noise") and priority < 3:
