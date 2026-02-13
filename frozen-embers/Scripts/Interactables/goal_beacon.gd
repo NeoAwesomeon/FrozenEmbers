@@ -43,7 +43,9 @@ func _ready() -> void:
 		warm_visual.emitting = false
 		alight_particles.emitting = false
 		omni_light_3d.light_energy = 0.2
-
+		
+		if GlobalLevelStats.Wolf_Difficulty > -1:
+			GlobalLevelStats.Points_of_Interest_Wolf.append(self.global_position)
 
 func _process(_delta: float) -> void:
 	# Works in editor
@@ -107,6 +109,7 @@ func _on_ring_manager_completed() -> void:
 				gong.playing = true
 				level_credit = true
 				GlobalLevelStats.RESPAWN_LOCATION = respawn_point.global_position
+				GlobalLevelStats.Points_of_Interest_Wolf.erase(self.global_position)
 				
 				if GlobalLevelStats.REMAINING_BEACONS < 1:
 					GlobalLevelStats.EXIT_OPEN = true

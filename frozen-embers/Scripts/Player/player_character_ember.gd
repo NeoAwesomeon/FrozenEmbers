@@ -125,17 +125,17 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	# Applies proper rotation to player based on prior code
-	
-	if Vector2(velocity.z, velocity.x).length() > 0:
-		rotation_direction = Vector2(velocity.z, velocity.x).angle()
-	if current_state == States.WALL_CLING and !rotate_lock:
-		rotation_direction = Vector2(-wall_normal.z, -wall_normal.x).angle()
-		rotation.y = lerp_angle(rotation.y, rotation_direction, delta * 15)
-	if current_state == States.LONG_JUMP:
-		rotation.y = lerp_angle(rotation.y, rotation_direction, delta * 3)
 	if !rotate_lock:
-		rotation.y = lerp_angle(rotation.y, rotation_direction, delta * 15)
-	
+		if Vector2(velocity.z, velocity.x).length() > 0:
+			rotation_direction = Vector2(velocity.z, velocity.x).angle()
+		if current_state == States.WALL_CLING:
+			rotation_direction = Vector2(-wall_normal.z, -wall_normal.x).angle()
+			rotation.y = lerp_angle(rotation.y, rotation_direction, delta * 15)
+		else:
+			rotation.y = lerp_angle(rotation.y, rotation_direction, delta * 15)
+	elif rotate_lock and current_state == States.WALL_CLING:
+		rotation_direction = Vector2(wall_normal.z, wall_normal.x).angle()
+		rotation.y = rotation_direction
 	
 	
 	
@@ -243,6 +243,16 @@ func handle_state_actions(delta):
 		
 		States.LONG_JUMP:
 			slide(delta)
+			
+			if !is_on_floor() and Input.is_action_just_pressed("attack") and air_attack_ready:
+				move_lock = false
+				rotate_lock = false
+				action_lock = true
+				air_attack_ready = false
+				aerial_attack()
+				light_drain_mid()
+				current_state = States.AIR_ATTACK
+				
 			if is_on_floor() or is_on_wall_only():
 				slide_ready = true
 				clear_locks()
@@ -639,7 +649,7 @@ func handle_grounded_attack(delta):
 			sfx_controller.play_torch_swing()
 
 func aerial_attack():
-	gravity = -jump_strength * 0.75
+	gravity = -jump_strength * 0.65
 	attack_air_hitbox.disabled = false
 	attack_recovery.start()
 	hitbox_duration.start()

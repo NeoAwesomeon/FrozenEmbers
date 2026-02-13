@@ -45,6 +45,8 @@ var true_speed = 0
 var boost_count = 0.0
 var detective_points = 0.0
 var spawn_location : Vector3
+var rotate_lock = false
+
 #Used to measure distance from objectives in prefered units
 var xxx = 0
 var yyy = 0
@@ -71,11 +73,10 @@ var priority = 0
 
 
 func _ready() -> void:
-	
+	difficulty = GlobalLevelStats.Wolf_Difficulty
 	GlobalLevelStats.NUMBER_OF_MONSTERS += 2
 	spawn_location = self.global_position
 	previous_target_pos = self.global_position
-	
 	
 	if difficulty == -1:
 		queue_free()
@@ -86,9 +87,11 @@ func _ready() -> void:
 	if difficulty < 20:
 		huh_duration.wait_time = (2.0 - (difficulty)/10.0) + 1.0
 		hearing_area.shape.radius = 5.0 + ((difficulty)/4.0)
+		stun_duration.wait_time = 30.0 - difficulty
 	else:
 		huh_duration.wait_time = 1.0
 		hearing_area.shape.radius = 10.0
+		stun_duration.wait_time = 10.0
 	
 	if difficulty > 5:
 		chase_duration.wait_time = 45.0 + (difficulty - 5.0)
@@ -133,14 +136,31 @@ func _physics_process(delta: float) -> void:
 			velocity = Vector3.ZERO
 			has_target = false
 		
-		var rotation_speed = 4
-		var target_rotation := direction.signed_angle_to(Vector3.MODEL_FRONT, Vector3.DOWN)
-		if abs(target_rotation - rotation.y) > deg_to_rad(60):
-				rotation_speed = 20
-		rotation.y = move_toward(rotation.y, target_rotation, delta * rotation_speed)
+		if !rotate_lock:
+			var rotation_speed = 4
+			var target_rotation := direction.signed_angle_to(Vector3.MODEL_FRONT, Vector3.DOWN)
+			if abs(target_rotation - rotation.y) > deg_to_rad(60):
+					rotation_speed = 20
+			rotation.y = move_toward(rotation.y, target_rotation, delta * rotation_speed)
 	
 	move_and_slide()
-	#print(str(true_speed))
+	
+	if Input.is_action_just_pressed("jump"):
+		print(" --- TWINS CHECKUP --- ")
+		print("Difficulty = " + str(difficulty))
+		print("Current State = " + str(current_state))
+		print("Priority = " + str(priority))
+		print("Target Distance: " + str(distance_from_target))
+		print("Speed:" + str(true_speed))
+		print("Boost:" + str(boost_count))
+		print("Detective Points:" + str(detective_points))
+		print("Has Target? " + str(has_target))
+		print("Boosting? "  + str(boost_active))
+		print("Vision? "  + str(vision_active))
+		print("Chase Prep? " + str(chase_prep))
+		print("Chase Active? " + str(chase_active))
+		print("Desp Safe? " + str(desp_safe))
+		print(" ------------------------- ")
 
 func handle_distance_and_noise():
 	#Finds distance from target
@@ -157,12 +177,13 @@ func handle_distance_and_noise():
 			GlobalLevelStats.max_response_count += 2
 			print("Twins: Max Noise Heard")
 		
-		if current_state != States.SPAWN:
+		if current_state != States.SPAWN and current_state != States.STUNNED:
 			if distance_from_target < 6.0 and priority < 4:
 				reset_wander()
 
 func trigger_huh():
 	current_state = States.HUH
+	rotate_lock = true
 	huh_duration.start()
 	visuals.scale = Vector3(50,50,50)
 	boost_count = 0
@@ -171,6 +192,7 @@ func trigger_huh():
 #Automatic target changing from huh state
 func _on_huh_duration_timeout() -> void:
 	print("Twins: Huh Complete.")
+	rotate_lock = false
 	boredom_timer.start()
 	boost_count_rate.start()
 	change_speed()
@@ -178,11 +200,13 @@ func _on_huh_duration_timeout() -> void:
 func trigger_stare():
 	print("Twins: Stare Complete!")
 	current_state = States.STARE
+	rotate_lock = true
 	stare_duration.start()
 	boost_count = 0
 	boost_count_rate.stop()
 
 func _on_stare_duration_timeout() -> void:
+	rotate_lock = false
 	if current_state == States.STARE:
 		chase_active = true
 		if chase_duration.is_stopped():
@@ -215,6 +239,7 @@ func change_speed():
 
 func reset_wander():
 	current_state = States.WANDER
+	rotate_lock = false
 	priority = 0
 	boost_count = 0
 	boost_count_rate.stop()
@@ -242,7 +267,6 @@ func handle_state_actions():
 	if GlobalLevelStats.DESPERATION_MODE:
 		current_state = States.DESPERATION
 	
-	
 	match current_state:
 		States.SPAWN:
 			true_speed = 0
@@ -260,7 +284,7 @@ func handle_state_actions():
 		
 		States.DESPERATION:
 			true_speed = 0
-			
+			rotate_lock = true
 			
 			if desp_safe:
 				
@@ -282,16 +306,18 @@ func handle_state_actions():
 					else:
 						print("TWINS: PLAYER KILL")
 						GlobalLevelStats.game_over()
-			
+			#If this monster did not land the attack but another did, respawn.
 			else:
 				reset_respawn()
 		
 		States.STUNNED:
 			true_speed = 0
+			rotate_lock = true
 			
-			print("Twins: Stun Duration = " + str(stun_duration.time_left))
+			#print("Twins: Stun Duration = " + str(stun_duration.time_left))
+			target_pos = GlobalPlayerStats.Player_Position
 			
-			if distance_from_target > 100:
+			if distance_from_target > 250:
 				reset_respawn()
 		
 		States.WANDER:
@@ -347,6 +373,7 @@ func handle_line_of_sight():
 
 func handle_chase_logic():
 	if chase_active and !desp_safe:
+		rotate_lock = false
 		current_state = States.CHASE
 		target_pos = GlobalPlayerStats.Player_Position
 		attack_hitbox.disabled = false
@@ -368,6 +395,7 @@ func _on_chase_duration_timeout() -> void:
 
 #Used to teleport the monster away when the player is caught by a different monster
 func reset_respawn():
+	rotate_lock = false
 	self.global_position = spawn_location
 	current_state = States.SPAWN
 	vision_area.disabled = true
@@ -385,10 +413,6 @@ func _on_stun_duration_timeout() -> void:
 
 #AREA REACTIONS HERE
 func _on_main_hurtbox_area_entered(_area: Area3D) -> void:
-	##Only awards detective points if an objective is found
-	#if area.is_in_group("place_of_interest") and priority == 0:
-		#
-		#reset_wander()
 	pass
 
 func _on_hearing_area_area_entered(area: Area3D) -> void:

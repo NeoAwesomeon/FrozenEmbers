@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bf0tai1fquw38"]
+[gd_scene load_steps=21 format=3 uid="uid://bf0tai1fquw38"]
 
 [ext_resource type="Script" uid="uid://bahn25apmbm5a" path="res://Scripts/Interactables/goal_beacon.gd" id="1_hmbae"]
 [ext_resource type="PackedScene" uid="uid://bga4lo31kpgod" path="res://Scenes/Interactables/goal_ring.tscn" id="2_1mcjq"]
@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://1f2jwhmig8w4" path="res://Assets/Models/Placeholders/VerticalSlice/GoalBeacon.glb" id="3_weblh"]
 [ext_resource type="AudioStream" uid="uid://cm1hta05sdwea" path="res://Assets/Audio/Testing/V2_Placeholders/Wavy.wav" id="4_1mcjq"]
 [ext_resource type="AudioStream" uid="uid://dwdao6r4n7kuv" path="res://Assets/Audio/Testing/V2_Placeholders/Gong.mp3" id="6_fl1i2"]
-[ext_resource type="PackedScene" uid="uid://dagem8qfgrn8o" path="res://Scenes/Levels/_Bases_/place_of_interest.tscn" id="8_bu1ld"]
 
 [sub_resource type="Curve" id="Curve_fl1i2"]
 _data = [Vector2(0, 0), 0.0, 20.0225, 0, 0, Vector2(0.168724, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.33708, 0.0, 0, 0]
@@ -155,10 +154,6 @@ volume_db = -4.0
 
 [node name="RespawnPoint" type="Marker3D" parent="Main"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
-
-[node name="PlaceOfInterest" parent="Main" instance=ExtResource("8_bu1ld")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.017508984, 0, -0.012259483)
-area_scale = 3.0
 
 [node name="RingManager" type="Node3D" parent="."]
 script = ExtResource("3_1n40i")

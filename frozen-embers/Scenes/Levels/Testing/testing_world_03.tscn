@@ -17,6 +17,7 @@ agent_radius = 1.5
 [node name="MonsterTest" type="Node3D"]
 
 [node name="LevelStarter" parent="." instance=ExtResource("1_amtsf")]
+Wolf_Difficulty = 10
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.49999997, 0.8660254, 0, -0.8660254, 0.49999997, 0, 3, 0)

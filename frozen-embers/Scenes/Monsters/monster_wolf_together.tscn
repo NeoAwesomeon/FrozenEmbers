@@ -6,7 +6,7 @@
 radius = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_km87v"]
-albedo_color = Color(1, 0, 0, 1)
+albedo_color = Color(1, 0.5336117, 0.4686132, 1)
 
 [sub_resource type="PrismMesh" id="PrismMesh_irfuy"]
 material = SubResource("StandardMaterial3D_km87v")
@@ -54,7 +54,7 @@ shape = SubResource("BoxShape3D_irfuy")
 
 [node name="Hurtbox" type="Node3D" parent="."]
 
-[node name="MainHurtbox" type="Area3D" parent="Hurtbox"]
+[node name="MainHurtbox" type="Area3D" parent="Hurtbox" groups=["monster"]]
 collision_layer = 3
 collision_mask = 3
 
@@ -120,7 +120,7 @@ one_shot = true
 [node name="BoostCountRate" type="Timer" parent="Timers"]
 
 [node name="StunDuration" type="Timer" parent="Timers"]
-wait_time = 4.0
+wait_time = 10.0
 one_shot = true
 
 [node name="DetectiveAntiSpam" type="Timer" parent="Timers"]

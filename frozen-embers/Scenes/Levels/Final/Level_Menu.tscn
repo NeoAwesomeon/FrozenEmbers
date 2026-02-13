@@ -74,16 +74,29 @@ offset_left = -293.0
 offset_bottom = 189.0
 grow_horizontal = 0
 theme = ExtResource("2_djivf")
+theme_override_colors/font_color = Color(0, 1, 1, 1)
 theme_override_font_sizes/font_size = 15
 text = "Unique Moves:
+
+Crouch while moving = Slide
 Jump while on a wall = Wall Jump (x3)
-Crouch + Jump = High Jump
-Slide + Jump = Long Jump
+Jump While Crouched = High Jump
+Jump While Sliding = Long Jump
+Attack While Long Jumping = Attack Cancel
 Crouch while Airborne = Air Dive
 Jump just before Air Dive = Jump Cancel
 
 Boost increases all horizontal speed"
 horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="."]
+offset_left = 1.0
+offset_top = 624.0
+offset_right = 146.0
+offset_bottom = 647.0
+theme = ExtResource("2_djivf")
+text = "v0.1.1.1"
+vertical_alignment = 2
 
 [node name="Visuals" type="Node3D" parent="."]
 

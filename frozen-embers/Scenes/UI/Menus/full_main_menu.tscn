@@ -24,38 +24,54 @@ theme = ExtResource("2_jb40b")
 theme_override_font_sizes/font_size = 50
 text = "Frozen Embers"
 
-[node name="Top Menu" type="VBoxContainer" parent="."]
+[node name="Top Menu" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 344.0
+offset_right = 50.0
+offset_bottom = 384.0
+
+[node name="VBox" type="VBoxContainer" parent="Top Menu"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 10.0
-offset_top = -68.0
-offset_right = 109.0
-offset_bottom = 68.0
+offset_top = -108.0
+offset_right = 132.0
+offset_bottom = 28.0
 grow_vertical = 2
 
-[node name="Start" type="Button" parent="Top Menu"]
+[node name="Start" type="Button" parent="Top Menu/VBox"]
 layout_mode = 2
 theme = ExtResource("2_jb40b")
 text = "Begin"
 
-[node name="LevelSelect" type="Button" parent="Top Menu"]
+[node name="LevelSelect" type="Button" parent="Top Menu/VBox"]
 layout_mode = 2
 theme = ExtResource("2_jb40b")
 text = " Level Select "
 
-[node name="Options" type="Button" parent="Top Menu"]
+[node name="Options" type="Button" parent="Top Menu/VBox"]
 layout_mode = 2
 theme = ExtResource("2_jb40b")
 text = "Options"
 
-[node name="Quit" type="Button" parent="Top Menu"]
+[node name="Quit" type="Button" parent="Top Menu/VBox"]
 layout_mode = 2
 theme = ExtResource("2_jb40b")
 text = "Quit"
 
+[node name="Label" type="Label" parent="Top Menu"]
+layout_mode = 0
+offset_left = 140.0
+offset_top = -23.0
+offset_right = 272.0
+offset_bottom = -1.0
+theme = ExtResource("2_jb40b")
+text = " <<  Controls Here!"
+
 [node name="LevelSelectMenu" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -109,7 +125,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(135, 135)
 layout_mode = 2
 text = "Monster
-Test Level"
+Logic Test"
 
 [node name="Label2" type="Label" parent="LevelSelectMenu/VBoxContainer"]
 visible = false
@@ -250,10 +266,10 @@ theme_override_font_sizes/font_size = 32
 text = "Feedback"
 uri = "https://docs.google.com/forms/d/e/1FAIpQLSfFBa7EBQumdSmzZsCpcGKENfom5NT8yTftUE0ZePEshVlYeQ/viewform?usp=sharing&ouid=106926925777322296066"
 
-[connection signal="pressed" from="Top Menu/Start" to="." method="_on_start_pressed"]
-[connection signal="pressed" from="Top Menu/LevelSelect" to="." method="_on_level_select_pressed"]
-[connection signal="pressed" from="Top Menu/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Top Menu/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Top Menu/VBox/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Top Menu/VBox/LevelSelect" to="." method="_on_level_select_pressed"]
+[connection signal="pressed" from="Top Menu/VBox/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Top Menu/VBox/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/VBoxContainer/HBoxContainer/Test01" to="." method="_on_test_01_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/VBoxContainer/HBoxContainer/Test02" to="." method="_on_test_02_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/VBoxContainer/HBoxContainer/Test03" to="." method="_on_test_03_pressed"]

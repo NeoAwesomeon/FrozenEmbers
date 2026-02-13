@@ -21,6 +21,7 @@ var DESPERATION_SAVE_ACTIVE = false
 var frame_delay : float
 var frame_count = 0.0
 
+var Wolf_Difficulty = -1
 var Points_of_Interest_Wolf = []
 
 func _ready() -> void:

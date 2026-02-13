@@ -1,6 +1,6 @@
 extends Control
 
-@onready var top_menu: VBoxContainer = $"Top Menu"
+@onready var top_menu: Control = $"Top Menu"
 @onready var level_select_menu: Control = $LevelSelectMenu
 @onready var options_menu: Control = $OptionsMenu
 
@@ -81,5 +81,4 @@ func _on_om_return_pressed() -> void:
 # LINK BUTTONS
 func _on_discord_link_pressed() -> void:
 	OS.shell_open("https://discord.gg/nsDmJ7mtGe")
-	
 	

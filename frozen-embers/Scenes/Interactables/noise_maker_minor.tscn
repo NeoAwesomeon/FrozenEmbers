@@ -1,12 +1,36 @@
-[gd_scene load_steps=2 format=3 uid="uid://juy8aluoxd1w"]
+[gd_scene load_steps=5 format=3 uid="uid://juy8aluoxd1w"]
+
+[ext_resource type="Script" uid="uid://crbsabid7xoq" path="res://Scripts/Interactables/noise_maker.gd" id="1_bv4kp"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_8u0fe"]
 radius = 1.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j2b1s"]
+transparency = 1
+albedo_color = Color(1, 1, 0, 0.13725491)
+
+[sub_resource type="SphereMesh" id="SphereMesh_su2ym"]
+material = SubResource("StandardMaterial3D_j2b1s")
+radius = 1.0
+height = 2.0
+radial_segments = 12
+rings = 6
+
 [node name="NoiseMakerMinor" type="Area3D" groups=["minor_noise"]]
 collision_layer = 2
 collision_mask = 2
+script = ExtResource("1_bv4kp")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_8u0fe")
 debug_color = Color(1, 1, 0, 0.41960785)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_su2ym")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
