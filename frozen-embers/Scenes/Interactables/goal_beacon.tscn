@@ -100,7 +100,7 @@ draw_pass_1 = SubResource("SphereMesh_fc1mo")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Main/Visuals"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.556302, 0)
-light_color = Color(0.647059, 1, 1, 1)
+light_color = Color(0.64705884, 1, 1, 1)
 light_energy = 3.0
 omni_range = 6.0
 omni_attenuation = -0.25

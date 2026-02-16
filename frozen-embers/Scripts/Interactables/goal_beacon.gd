@@ -27,6 +27,7 @@ var completed = false
 var level_credit = false
 
 func create_markers():
+	# This button removes all existing rings and then ques up new ones to be made
 	for old_spawn in ring_manager.get_children():
 		ring_manager.remove_child(old_spawn)
 		old_spawn.queue_free()
@@ -42,7 +43,8 @@ func _ready() -> void:
 		warm_hitbox.disabled = true
 		warm_visual.emitting = false
 		alight_particles.emitting = false
-		omni_light_3d.light_energy = 0.2
+		omni_light_3d.light_energy = 0.3
+		
 		
 		if GlobalLevelStats.Wolf_Difficulty > -1:
 			GlobalLevelStats.Points_of_Interest_Wolf.append(self.global_position)
@@ -76,9 +78,11 @@ func _on_interaction_hitbox_area_entered(area: Area3D) -> void:
 			wavy.playing = true
 		active = true
 		
+		# Lets the player respawn at a beacon if they fall off the map
 		if completed:
 			GlobalLevelStats.RESPAWN_LOCATION = respawn_point.global_position
 
+# Increase light and heat when standing near a completed beacon
 func _on_warmth_hitbox_area_entered(area: Area3D) -> void:
 	if area.is_in_group("player"):
 		warm_timer.start()
@@ -111,5 +115,7 @@ func _on_ring_manager_completed() -> void:
 				GlobalLevelStats.RESPAWN_LOCATION = respawn_point.global_position
 				GlobalLevelStats.Points_of_Interest_Wolf.erase(self.global_position)
 				
+				
+				# If this is the last beacon of the level, open the exit and begin endgame mode!
 				if GlobalLevelStats.REMAINING_BEACONS < 1:
 					GlobalLevelStats.EXIT_OPEN = true

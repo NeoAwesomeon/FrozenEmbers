@@ -12,6 +12,7 @@ var lead_sent = false
 var lead_speed = 10.0
 
 func _ready() -> void:
+	# Hides the ring until it is activated
 	hitbox_area.visible = false
 	hitbox_collision.disabled = true
 	ring_particles.emitting = false
@@ -21,6 +22,7 @@ func _ready() -> void:
 	omni_light_3d.visible = false
 
 func _process(delta: float) -> void:
+	# Checks if a variable on the parent is activated, then makes the ring interactable
 	if get_parent().start:
 		if !counted:
 			GlobalLevelStats.REMAINING_RINGS += 1
@@ -47,7 +49,7 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 		queue_free()
 
 func lead_to_ring(delta):
-	var direction: Vector3 = (self.global_position - lead_particles.global_position).normalized()
+	var direction: Vector3 = (hitbox_collision.global_position - lead_particles.global_position).normalized()
 	
 	lead_particles.global_position += direction * lead_speed * delta
 	lead_speed += 2.0 * delta

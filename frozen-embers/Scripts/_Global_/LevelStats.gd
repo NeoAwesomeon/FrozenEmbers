@@ -28,11 +28,13 @@ func _ready() -> void:
 	RESPAWN_LOCATION = Vector3.ZERO
 
 func _process(_delta: float) -> void:
+	# When Max Noise happens, it is only turned off when all monsters have heard it
 	if max_response_count == NUMBER_OF_MONSTERS or max_response_count > NUMBER_OF_MONSTERS:
 		MAX_NOISE_ACTIVE = false
 		max_response_count = 0
 
 func game_over():
+	# Replace with a proper scene or transition at some point, might need to build it somewhere else...
 	EXIT_OPEN = false
 	MAX_NOISE_ACTIVE = false
 	DESPERATION_MODE = false

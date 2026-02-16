@@ -7,8 +7,10 @@ var PLAYER_GRAVITY : int
 var PLAYER_CURRENT_STATE : String
 var PLAYER_HEAT_SHIELD : float
 
+# Tells other scripts where the player currently is
 var Player_Position : Vector3
 
+# THESE are the real stats. Try to only mess with them in other scripts.
 var Heat = 600.0
 var Heat_Max_Start_Value = 600.0
 var Heat_Max = Heat_Max_Start_Value

@@ -21,7 +21,12 @@ func _ready() -> void:
 	GlobalPlayerStats.Light = Light
 	GlobalLevelStats.Wolf_Difficulty = Wolf_Difficulty
 	
-	#Not Working!?
+	GlobalPlayerStats.Dive_Count = 0
+	GlobalPlayerStats.Pillar_Active = false
+	
+	# Not Working!? I don't fucking know, that's why most of the redundancies exist in my code.
+	# Shit just stops working half the time and I gotta do the crap seen below.
+	#There is no reason this shouldn't work.
 	GlobalPlayerStats.Heat_Goal = Heat
 	GlobalPlayerStats.Heat = Heat
 	

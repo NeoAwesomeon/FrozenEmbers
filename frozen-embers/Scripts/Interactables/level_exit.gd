@@ -12,9 +12,11 @@ func _ready() -> void:
 	GlobalLevelStats.EXIT_OPEN = false
 
 func _process(_delta: float) -> void:
+	# Exit is only visible if all beacons are complete
 	if GlobalLevelStats.EXIT_OPEN:
 		visuals.visible = true
 		gpu_particles_3d.emitting = true
+		# This is here as a small 1 frame buffer to ensure everything is cleared out before leaving the level
 		if hold_up:
 			exit_level()
 

@@ -16,6 +16,7 @@ func _physics_process(delta: float) -> void:
 	
 	var direction: Vector3 = (GlobalPlayerStats.Player_Position - global_position).normalized()
 	
+	# Floats to player if they slightly miss it. Gets faster over time.
 	global_position += direction * speed * delta
 	speed += 2.0 * delta
 

@@ -142,10 +142,10 @@ func _physics_process(delta: float) -> void:
 
 # Allows states to be entered at any time should qualifications match, does not include states with specific triggers
 func handle_state_transitions():
-	# Treat this section similar to using "_ready"
+	# Treat this section similar to using "_ready" as these trigger only once
 	if GlobalPlayerStats.Freeze > GlobalPlayerStats.Freeze_Max - 1:
 		current_state = States.FREEZE_DEATH
-		
+	
 	elif in_water:
 		clear_locks()
 		GlobalPlayerStats.Light_Goal =  GlobalPlayerStats.Light_Min
@@ -432,7 +432,7 @@ func _on_heat_timer_timeout() -> void:
 	elif heat_shield_duration.is_stopped() and GlobalPlayerStats.Light_Goal < -4:
 			GlobalPlayerStats.Heat_Goal += ( GlobalPlayerStats.Light_Goal / 5.0 )
 			
-	
+	# If the player is out of heat or enters the water, begin adding freeze
 	if GlobalPlayerStats.Heat < 0.1 or current_state == States.SWIMMING:
 		GlobalPlayerStats.Freeze_Goal += 15
 	
@@ -446,6 +446,7 @@ func handle_boost(delta):
 		sfx_controller.stop_boost_loop()
 	
 	elif Input.is_action_pressed("dash"):
+		# This is here to punish mashing
 		if Input.is_action_just_pressed("dash"):
 				if boost_count < 3:
 					GlobalPlayerStats.Light_Goal -= 0.5 
@@ -460,13 +461,14 @@ func handle_boost(delta):
 		
 		# Uses number of timeouts from boost count rate to determine when to change speeds
 		if boost_count < 4:
-			current_boost = boost_base_speed
+			current_boost = boost_base_speed + (walk_base_speed/16 * boost_count)
 		elif boost_count < 8:
-			current_boost = boost_base_speed * 2
+			current_boost = (boost_base_speed * 2) + (walk_base_speed/16 * (boost_count - 4))
 		else:
-			current_boost = boost_base_speed * 3
+			current_boost = boost_base_speed * 3 
 		sfx_controller.play_boost_loop()
 	
+	# When the button is released, speed returns to normal over time  
 	else:
 		boost_count_rate.stop()
 		handle_boost_decay(delta)
@@ -585,7 +587,6 @@ func _on_coyote_time_timeout() -> void:
 func _on_ignore_walls_timeout() -> void:
 	ignore_walls = false
 
-
 func clear_locks():
 	move_lock = false
 	rotate_lock = false
@@ -593,16 +594,16 @@ func clear_locks():
 	repeat_lock = false
 	ignore_gravity = false
 
-
-
 func slide(delta):
 	slide_ready = false
 	
+	# Speed is based on the state that triggers this code
 	if current_state == States.LONG_JUMP:
 		true_speed =  (walk_base_speed + current_boost) * 1.5
 	else:
 		true_speed =  walk_base_speed + current_boost + slide_base_speed
 	
+	# This is what restricts movement, this happens because it is using transform rather than inputs
 	movement_velocity = transform.basis.z * true_speed * delta
 
 func _on_slide_duration_timeout() -> void:
@@ -620,10 +621,8 @@ func _on_slide_duration_timeout() -> void:
 func _on_slide_cooldown_timeout() -> void:
 	slide_ready = true
 
-
 func _on_hard_landing_recovery_timeout() -> void:
 	clear_locks()
-
 
 func handle_grounded_attack(delta):
 	# These are kept here to ensure that an attacking player isn't taken out of the state easily
@@ -679,6 +678,7 @@ func handle_air_dive(delta):
 	if gravity > -1:
 		air_dive_hesitate = false
 	
+	# Air Dive Jump Cancel is here!
 	elif Input.is_action_just_pressed("jump") and jump_cancel and GlobalPlayerStats.Heat > 0.1 and !is_on_floor():
 		gravity = - jump_strength * 0.8
 		current_state = States.AIRBORNE
@@ -688,12 +688,13 @@ func handle_air_dive(delta):
 		clear_locks()
 	
 	if is_on_floor():
+		#Allows you to cancel your recovery with a jump, which also grants you a high jump
 		if Input.is_action_just_pressed("jump"):
 			clear_locks()
 			jump_ground = true
 			gravity = -20
 			high_jump()
-			
+		
 		if hard_landing_recovery.is_stopped():
 			hard_landing_recovery.start()
 			sfx_controller.play_boom()
@@ -713,6 +714,7 @@ func handle_air_dive(delta):
 		gravity += 900 * delta
 
 func handle_ledge_grab():
+	# HEY! FIND A WAY TO MAKE THE PLAYER SNAP TO THE LEDGE'S LOCATION AS WELL!
 	ignore_walls = true
 	ignore_gravity = true
 	gravity = 0
@@ -845,6 +847,7 @@ func handle_light(delta):
 	
 
 func handle_fall_off():
+	# Respawns the player if they fall into a pit by placing them at the last triggered respawn location
 	GlobalPlayerStats.Freeze_Goal += GlobalPlayerStats.Heat_Max_Start_Value * 0.1
 	global_position = GlobalLevelStats.RESPAWN_LOCATION
 

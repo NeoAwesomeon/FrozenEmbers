@@ -56,7 +56,6 @@ var distance_from_target = 0
 #Used for line of sight
 var use_vision = false
 
-
 #Stats
 @export_category("Monster Stats")
 @export_range(-1, 20) var difficulty = 0
@@ -78,11 +77,13 @@ func _ready() -> void:
 	spawn_location = self.global_position
 	previous_target_pos = self.global_position
 	
+	# Instantly destroys this monster if the difficulty is set to a negative value
 	if difficulty == -1:
 		queue_free()
 	else:
 		print("Twins: Spawning...")
 	
+	# Initial difficulty modifiers here
 	spawn_timer.wait_time = 23.0 - difficulty
 	if difficulty < 20:
 		huh_duration.wait_time = (2.0 - (difficulty)/10.0) + 1.0
@@ -163,12 +164,13 @@ func _physics_process(delta: float) -> void:
 		print(" ------------------------- ")
 
 func handle_distance_and_noise():
-	#Finds distance from target
+	# Finds distance from target
 	xxx = abs(self.global_position.x - target_pos.x)
 	yyy = abs(self.global_position.y - target_pos.y)
 	zzz = abs(self.global_position.z - target_pos.z)
 	distance_from_target = xxx + yyy + zzz
 	
+	# Responds to noise only if not currently chasing the player
 	if !chase_active:
 		if GlobalLevelStats.MAX_NOISE_ACTIVE and priority < 4:
 			trigger_huh()
@@ -177,6 +179,7 @@ func handle_distance_and_noise():
 			GlobalLevelStats.max_response_count += 2
 			print("Twins: Max Noise Heard")
 		
+		# If monster reaches desired destination, change targets to a random point of interest
 		if current_state != States.SPAWN and current_state != States.STUNNED:
 			if distance_from_target < 6.0 and priority < 4:
 				reset_wander()
@@ -189,7 +192,7 @@ func trigger_huh():
 	boost_count = 0
 	boost_count_rate.stop()
 
-#Automatic target changing from huh state
+# Automatic target changing from huh state
 func _on_huh_duration_timeout() -> void:
 	print("Twins: Huh Complete.")
 	rotate_lock = false
@@ -205,6 +208,7 @@ func trigger_stare():
 	boost_count = 0
 	boost_count_rate.stop()
 
+# If player has not run from the monster, this will trigger a chase
 func _on_stare_duration_timeout() -> void:
 	rotate_lock = false
 	if current_state == States.STARE:
@@ -215,7 +219,11 @@ func _on_stare_duration_timeout() -> void:
 		change_speed()
 
 func change_speed():
-	if chase_active and !GlobalLevelStats.EXIT_OPEN:
+	if GlobalLevelStats.EXIT_OPEN:
+		print("Twins: Speed - Endgame")
+		current_state = States.ENDGAME
+	
+	elif chase_active and !GlobalLevelStats.EXIT_OPEN:
 		print("Twins: Speed - Chase")
 		current_state = States.CHASE
 	
@@ -238,17 +246,22 @@ func change_speed():
 		boost_count_rate.stop()
 
 func reset_wander():
+	# Resets monster's pathing and speed, forcing them to find a new target in the process
 	current_state = States.WANDER
 	rotate_lock = false
 	priority = 0
 	boost_count = 0
 	boost_count_rate.stop()
+	
 	previous_target_pos = target_pos
 	target_pos = GlobalLevelStats.Points_of_Interest_Wolf.pick_random()
 	
+	# If the prior target is identical to the last, rerun script until a new one is found
+	# Can crash if it gets the same target 1024 times in a row, but that won't happen... right?
 	if target_pos.round() == previous_target_pos.round():
 		reset_wander()
 	else:
+		# If a new target is selected, updates the speed and possibly the hearing radius of the monster
 		boredom_timer.start()
 		print("Twins: Wandering to " + str(target_pos))
 		if priority == 3 or priority == 0:
@@ -258,11 +271,13 @@ func reset_wander():
 				hearing_area.shape.radius = (5.0 + ((difficulty)/4.0)) + ((difficulty/4.0) * detective_points)
 		change_speed()
 
+# Resets target if monster gets stuck on one for too long
 func _on_boredom_timer_timeout() -> void:
 	if !chase_active:
 		print("Twins: Bored with Target. Switching Targets...")
 		reset_wander()
 
+# Used to handle perpetual actions
 func handle_state_actions():
 	if GlobalLevelStats.DESPERATION_MODE:
 		current_state = States.DESPERATION
@@ -286,13 +301,14 @@ func handle_state_actions():
 			true_speed = 0
 			rotate_lock = true
 			
+			# If this was the monster that triggered desperation, start QTE.
 			if desp_safe:
-				
 				if Input.is_action_just_pressed("attack"):
 					if GlobalLevelStats.DESPERATION_SAVE_ACTIVE:
 						GlobalLevelStats.DESPERATION_MODE = false
 						GlobalLevelStats.DESPERATION_SAVE_ACTIVE = false
 						priority = 0
+						detective_points = 0
 						current_state = States.STUNNED
 						desp_safe = false
 						boost_active = false
@@ -317,6 +333,7 @@ func handle_state_actions():
 			#print("Twins: Stun Duration = " + str(stun_duration.time_left))
 			target_pos = GlobalPlayerStats.Player_Position
 			
+			# Forces Monster to respawn if the player survives and is out of range
 			if distance_from_target > 250:
 				reset_respawn()
 		
@@ -413,6 +430,7 @@ func _on_stun_duration_timeout() -> void:
 
 #AREA REACTIONS HERE
 func _on_main_hurtbox_area_entered(_area: Area3D) -> void:
+	# Use this for taking damage
 	pass
 
 func _on_hearing_area_area_entered(area: Area3D) -> void:
