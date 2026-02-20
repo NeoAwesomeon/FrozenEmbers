@@ -1,0 +1,76 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfmcdxjxx1joc"]
+
+[ext_resource type="Theme" uid="uid://bp3rbmavjbrbx" path="res://Assets/Themes/PrimaryTheme.tres" id="1_bal2s"]
+[ext_resource type="PackedScene" uid="uid://cd3606qmnnqu5" path="res://Scenes/UI/Menus/audio_settings.tscn" id="2_2jb1t"]
+[ext_resource type="PackedScene" uid="uid://dxw1bw0gllkq2" path="res://Scenes/UI/Menus/display_settings.tscn" id="2_lhm8b"]
+[ext_resource type="PackedScene" uid="uid://tfcyeacky4uo" path="res://Scenes/UI/Menus/input_settings_v2.tscn" id="4_2jb1t"]
+
+[node name="SettingsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_bal2s")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -400.0
+offset_right = 600.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+tab_alignment = 1
+current_tab = 2
+
+[node name="Display" type="MarginContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+focus_neighbor_left = NodePath("../Controls")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath("../Audio")
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+metadata/_tab_index = 0
+
+[node name="DisplaySettings" parent="TabContainer/Display" instance=ExtResource("2_lhm8b")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Audio" type="MarginContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+focus_neighbor_left = NodePath("../Display")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath("../Controls")
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+metadata/_tab_index = 1
+
+[node name="AudioSettings" parent="TabContainer/Audio" instance=ExtResource("2_2jb1t")]
+layout_mode = 2
+
+[node name="Controls" type="MarginContainer" parent="TabContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../Audio")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath("../Display")
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+metadata/_tab_index = 2
+
+[node name="InputSettingsV2" parent="TabContainer/Controls" instance=ExtResource("4_2jb1t")]
+layout_mode = 2

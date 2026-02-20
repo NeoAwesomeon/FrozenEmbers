@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://cqlcfdp2vbgel"]
+
+[ext_resource type="Script" uid="uid://3kssiiytrhoy" path="res://Scripts/UI/input_remap_button.gd" id="1_cm243"]
+[ext_resource type="Theme" uid="uid://bp3rbmavjbrbx" path="res://Assets/Themes/PrimaryTheme.tres" id="1_to4d5"]
+
+[node name="InputRemapButton" type="Button"]
+custom_minimum_size = Vector2(200, 30)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -15.0
+offset_right = 50.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_to4d5")
+text = "Input"
+script = ExtResource("1_cm243")

@@ -1,0 +1,1085 @@
+[gd_scene load_steps=3 format=3 uid="uid://tfcyeacky4uo"]
+
+[ext_resource type="Theme" uid="uid://bp3rbmavjbrbx" path="res://Assets/Themes/PrimaryTheme.tres" id="1_cafqa"]
+[ext_resource type="Script" uid="uid://3kssiiytrhoy" path="res://Scripts/UI/input_remap_button.gd" id="2_ygma5"]
+
+[node name="InputSettingsV2" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+tab_alignment = 1
+current_tab = 0
+
+[node name="Menus" type="VBoxContainer" parent="TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Titles" type="HBoxContainer" parent="TabContainer/Menus"]
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="Label" type="Label" parent="TabContainer/Menus/Titles"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Action"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Menus/Titles"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="TabContainer/Menus/Titles"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Keyboard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Titles"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="TabContainer/Menus/Titles"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Controller"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Titles"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="TabContainer/Menus"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Menus/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Accept"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Menus/Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "ui_accept"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "ui_accept"
+action_event_index = 3
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel2" type="Panel" parent="TabContainer/Menus"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Panel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Menus/Panel2/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Cancel"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Menus/Panel2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Panel2/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "ui_cancel"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Panel2/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Panel2/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "ui_cancel"
+action_event_index = 1
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Panel2/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel3" type="Panel" parent="TabContainer/Menus"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Panel3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Menus/Panel3/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Up"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Menus/Panel3/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Panel3/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "ui_up"
+action_event_index = 3
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Panel3/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Panel3/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "ui_up"
+action_event_index = 2
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Panel3/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel4" type="Panel" parent="TabContainer/Menus"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Panel4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Menus/Panel4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Left"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Menus/Panel4/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Panel4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "ui_left"
+action_event_index = 3
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Panel4/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Panel4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "ui_left"
+action_event_index = 2
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Panel4/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel5" type="Panel" parent="TabContainer/Menus"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Panel5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Menus/Panel5/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Down"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Menus/Panel5/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Panel5/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "ui_down"
+action_event_index = 3
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Panel5/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Panel5/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "ui_down"
+action_event_index = 2
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Panel5/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel6" type="Panel" parent="TabContainer/Menus"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Panel6"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Menus/Panel6/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Right"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Menus/Panel6/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Panel6/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "ui_right"
+action_event_index = 3
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Panel6/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Panel6/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "ui_right"
+action_event_index = 2
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Panel6/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Gameplay" type="VBoxContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Titles" type="HBoxContainer" parent="TabContainer/Gameplay"]
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Titles"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Action"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Titles"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="TabContainer/Gameplay/Titles"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Keyboard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Titles"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="TabContainer/Gameplay/Titles"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Controller"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Titles"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Move Forward"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "move_forward"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "move_forward"
+action_event_index = 1
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel2" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel2/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Move Left"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel2/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "move_left"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel2/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel2/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "move_left"
+action_event_index = 1
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel2/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel3" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel3/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Move Back"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel3/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel3/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "move_back"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel3/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel3/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "move_back"
+action_event_index = 1
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel3/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel4" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Move Right"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel4/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "move_right"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel4/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "move_right"
+action_event_index = 1
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel4/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel5" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel5/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Jump"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel5/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel5/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "jump"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel5/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel5/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "jump"
+action_event_index = 1
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel5/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel6" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel6"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel6/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Dash"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel6/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel6/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "dash"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel6/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel6/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "dash"
+action_event_index = 1
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel6/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel7" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel7"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel7/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Crouch/Slide"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel7/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel7/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "crouch"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel7/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel7/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "crouch"
+action_event_index = 1
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel7/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel8" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel8"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel8/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Attack"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel8/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel8/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "attack"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel8/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel8/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "attack"
+action_event_index = 1
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel8/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel9" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel9"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel9/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Reignite"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel9/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel9/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "reignite"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel9/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel9/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "reignite"
+action_event_index = 1
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel9/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel10" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel10"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel10/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Extinguish"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel10/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel10/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "extinguish"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel10/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel10/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "extinguish"
+action_event_index = 1
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel10/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel11" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel11"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel11/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Pause Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel11/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel11/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "pause"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel11/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel11/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "pause"
+action_event_index = 1
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel11/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel12" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel12"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel12/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Camera Look Up"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel12/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel12/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "controller_rotate_up"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel12/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel13" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel13"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel13/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Camera Look Down"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel13/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel13/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "controller_rotate_down"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel13/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel14" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel14"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel14/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Camera Look Left"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel14/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel14/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "controller_rotate_left"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel14/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel15" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel15"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel15/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Camera Look Right"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel15/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel15/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "controller_rotate_right"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel15/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2

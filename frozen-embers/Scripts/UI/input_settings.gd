@@ -1,7 +1,7 @@
-extends Control
+extends MarginContainer
 
 @onready var input_button_scene = preload("res://Scenes/UI/Menus/input_button.tscn")
-@onready var action_list: VBoxContainer = $PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/ActionList
+@onready var action_list: VBoxContainer = $ActionList
 
 var is_remapping = false
 var action_to_remap = null

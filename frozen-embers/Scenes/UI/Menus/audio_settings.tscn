@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=3 uid="uid://cd3606qmnnqu5"]
+
+[ext_resource type="Script" uid="uid://cqluc7qyifgd4" path="res://Scripts/UI/audio_settings.gd" id="1_vrxil"]
+
+[node name="AudioSettings" type="VBoxContainer"]
+custom_minimum_size = Vector2(0.155, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -68.5
+offset_right = 125.0
+offset_bottom = 68.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("1_vrxil")
+
+[node name="MasterLabel" type="Label" parent="."]
+layout_mode = 2
+text = "Master Volume: 100%"
+horizontal_alignment = 1
+
+[node name="MasterSlider" type="HSlider" parent="."]
+custom_minimum_size = Vector2(250, 10)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="MusicLabel" type="Label" parent="."]
+layout_mode = 2
+text = "Music Volume: 100%"
+horizontal_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="."]
+custom_minimum_size = Vector2(250, 10)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="SFXLabel" type="Label" parent="."]
+layout_mode = 2
+text = "Sound Effect Volume: 100%"
+horizontal_alignment = 1
+
+[node name="SFXSlider" type="HSlider" parent="."]
+custom_minimum_size = Vector2(250, 10)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+ticks_position = 3
+
+[connection signal="value_changed" from="MasterSlider" to="." method="_on_master_slider_value_changed"]
+[connection signal="value_changed" from="MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="SFXSlider" to="." method="_on_sfx_slider_value_changed"]
