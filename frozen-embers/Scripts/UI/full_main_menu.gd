@@ -11,7 +11,7 @@ extends Control
 # Used for grab focus
 @onready var start_button: Button = $"Top Menu/VBox/Start"
 @onready var level_select_button: Button = $"Top Menu/VBox/LevelSelect"
-@onready var test_01_button: Button = $LevelSelectMenu/VBoxContainer/HBoxContainer/Test01
+@onready var test_01_button: Button = $"LevelSelectMenu/VBoxContainer/Test Areas/Test01"
 @onready var om_return_button: Button = $OptionsMenu/OMReturn
 
 func _ready() -> void:
@@ -26,7 +26,7 @@ func _ready() -> void:
 #TOP MENU
 func _on_start_pressed() -> void:
 	MusicController.play_hum_boop()
-	get_tree().change_scene_to_file("res://Scenes/Levels/Testing/testing_world_02.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Levels/WIP/Level_Tutorial_V_1.tscn")
 
 func _on_level_select_pressed() -> void:
 	MusicController.play_hum_boop()
@@ -63,6 +63,10 @@ func _on_test_02_pressed() -> void:
 func _on_test_03_pressed() -> void:
 	MusicController.play_hum_boop()
 	get_tree().change_scene_to_file("res://Scenes/Levels/Testing/testing_world_03.tscn")
+
+func _on_tutorial_pressed() -> void:
+	MusicController.play_hum_boop()
+	get_tree().change_scene_to_file("res://Scenes/Levels/WIP/Level_Tutorial_V_1.tscn")
 
 #OPTIONS MENU
 func _on_om_return_pressed() -> void:

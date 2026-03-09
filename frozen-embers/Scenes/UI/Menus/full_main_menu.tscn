@@ -50,9 +50,10 @@ grow_vertical = 2
 
 [node name="Label" type="Label" parent="Top Menu"]
 layout_mode = 0
-offset_left = 146.0
-offset_top = -22.0
-offset_right = 290.0
+offset_left = 155.0
+offset_top = -37.0
+offset_right = 299.0
+offset_bottom = -15.0
 theme = ExtResource("2_jb40b")
 text = " <<  Controls Here!"
 
@@ -74,7 +75,7 @@ focus_neighbor_top = NodePath("../Quit")
 focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath("../LevelSelect")
 theme = ExtResource("2_jb40b")
-text = "Begin"
+text = "Tutorial"
 
 [node name="LevelSelect" type="Button" parent="Top Menu/VBox"]
 layout_mode = 2
@@ -99,38 +100,17 @@ layout_mode = 2
 focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath("../Options")
 focus_neighbor_right = NodePath(".")
-focus_neighbor_bottom = NodePath("../Start")
+focus_neighbor_bottom = NodePath("../FeedbackLink")
 theme = ExtResource("2_jb40b")
 text = "Quit"
 
-[node name="LinkDisplay" type="HBoxContainer" parent="Top Menu"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1657.0
-offset_top = 470.0
-offset_right = 1871.0
-offset_bottom = 520.0
-grow_horizontal = 0
-grow_vertical = 0
-
-[node name="DiscordLink" type="TextureButton" parent="Top Menu/LinkDisplay"]
-custom_minimum_size = Vector2(50, 50)
+[node name="FeedbackLink" type="LinkButton" parent="Top Menu/VBox"]
 layout_mode = 2
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource("3_h36b7")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="ButtonSpacer" type="Control" parent="Top Menu/LinkDisplay"]
-custom_minimum_size = Vector2(15, 0)
-layout_mode = 2
-
-[node name="FeedbackLink" type="LinkButton" parent="Top Menu/LinkDisplay"]
-layout_mode = 2
+size_flags_horizontal = 0
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../Quit")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../../DiscordLink")
 theme = ExtResource("2_jb40b")
 theme_override_colors/font_color = Color(1, 0, 0.23529412, 1)
 theme_override_colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
@@ -139,7 +119,20 @@ theme_override_font_sizes/font_size = 32
 text = "Feedback"
 uri = "https://docs.google.com/forms/d/e/1FAIpQLSfFBa7EBQumdSmzZsCpcGKENfom5NT8yTftUE0ZePEshVlYeQ/viewform?usp=sharing&ouid=106926925777322296066"
 
+[node name="DiscordLink" type="TextureButton" parent="Top Menu"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 0
+offset_left = 9.0
+offset_top = 68.0
+offset_right = 59.0
+offset_bottom = 118.0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("3_h36b7")
+ignore_texture_size = true
+stretch_mode = 0
+
 [node name="LevelSelectMenu" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -164,53 +157,64 @@ grow_vertical = 2
 
 [node name="Label" type="Label" parent="LevelSelectMenu/VBoxContainer"]
 layout_mode = 2
-text = "Test Areas:"
+text = "Testing:"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="LevelSelectMenu/VBoxContainer"]
+[node name="Test Areas" type="HBoxContainer" parent="LevelSelectMenu/VBoxContainer"]
 layout_mode = 2
 
-[node name="Test01" type="Button" parent="LevelSelectMenu/VBoxContainer/HBoxContainer"]
+[node name="Test01" type="Button" parent="LevelSelectMenu/VBoxContainer/Test Areas"]
 custom_minimum_size = Vector2(135, 135)
 layout_mode = 2
-focus_neighbor_left = NodePath("../Test03")
+focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath("../../../LSMReturn")
-focus_neighbor_right = NodePath("../Test02")
-focus_neighbor_bottom = NodePath("../../../LSMReturn")
+focus_neighbor_right = NodePath("../Test03")
+focus_neighbor_bottom = NodePath("../../Levels/Tutorial")
 text = "Testing
 Arena"
 
-[node name="ButtonSpacer" type="Control" parent="LevelSelectMenu/VBoxContainer/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="LevelSelectMenu/VBoxContainer/Test Areas"]
 custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
 
-[node name="Test02" type="Button" parent="LevelSelectMenu/VBoxContainer/HBoxContainer"]
+[node name="Test03" type="Button" parent="LevelSelectMenu/VBoxContainer/Test Areas"]
 custom_minimum_size = Vector2(135, 135)
 layout_mode = 2
 focus_neighbor_left = NodePath("../Test01")
 focus_neighbor_top = NodePath("../../../LSMReturn")
-focus_neighbor_right = NodePath("../Test03")
-focus_neighbor_bottom = NodePath("../../../LSMReturn")
-text = "Safe
-Test Level"
-
-[node name="ButtonSpacer2" type="Control" parent="LevelSelectMenu/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(15, 0)
-layout_mode = 2
-
-[node name="Test03" type="Button" parent="LevelSelectMenu/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(135, 135)
-layout_mode = 2
-focus_neighbor_left = NodePath("../Test02")
-focus_neighbor_top = NodePath("../../../LSMReturn")
-focus_neighbor_right = NodePath("../Test01")
-focus_neighbor_bottom = NodePath("../../../LSMReturn")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../../Levels/Test02")
 text = "Monster
 Logic Test"
 
 [node name="Label2" type="Label" parent="LevelSelectMenu/VBoxContainer"]
-visible = false
 layout_mode = 2
-text = "Full Levels:"
+text = "Levels:"
+
+[node name="Levels" type="HBoxContainer" parent="LevelSelectMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="Tutorial" type="Button" parent="LevelSelectMenu/VBoxContainer/Levels"]
+custom_minimum_size = Vector2(135, 135)
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../../Test Areas/Test01")
+focus_neighbor_right = NodePath("../Test02")
+focus_neighbor_bottom = NodePath("../../../LSMReturn")
+text = "Tutorial"
+
+[node name="ButtonSpacer" type="Control" parent="LevelSelectMenu/VBoxContainer/Levels"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="Test02" type="Button" parent="LevelSelectMenu/VBoxContainer/Levels"]
+custom_minimum_size = Vector2(135, 135)
+layout_mode = 2
+focus_neighbor_left = NodePath("../Tutorial")
+focus_neighbor_top = NodePath("../../Test Areas/Test03")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../../../LSMReturn")
+text = "Safe
+Test Level"
 
 [node name="LSMReturn" type="Button" parent="LevelSelectMenu"]
 layout_mode = 1
@@ -226,7 +230,7 @@ offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 0
 focus_neighbor_left = NodePath(".")
-focus_neighbor_top = NodePath("../VBoxContainer/HBoxContainer/Test02")
+focus_neighbor_top = NodePath("../VBoxContainer/Levels/Test02")
 focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath(".")
 text = "Main Menu"
@@ -246,29 +250,27 @@ layout_mode = 1
 
 [node name="OMReturn" type="Button" parent="OptionsMenu"]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -48.0
-offset_top = -36.0
-offset_right = 48.0
-offset_bottom = -5.0
+offset_left = -97.0
+offset_top = 55.0
+offset_right = 98.0
+offset_bottom = 86.0
 grow_horizontal = 2
-grow_vertical = 0
 focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath(".")
 focus_neighbor_right = NodePath(".")
-focus_neighbor_bottom = NodePath(".")
-text = "Main Menu"
+text = "Return to Main Menu"
 
 [connection signal="pressed" from="Top Menu/VBox/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Top Menu/VBox/LevelSelect" to="." method="_on_level_select_pressed"]
 [connection signal="pressed" from="Top Menu/VBox/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Top Menu/VBox/Quit" to="." method="_on_quit_pressed"]
-[connection signal="pressed" from="Top Menu/LinkDisplay/DiscordLink" to="." method="_on_discord_link_pressed"]
-[connection signal="pressed" from="LevelSelectMenu/VBoxContainer/HBoxContainer/Test01" to="." method="_on_test_01_pressed"]
-[connection signal="pressed" from="LevelSelectMenu/VBoxContainer/HBoxContainer/Test02" to="." method="_on_test_02_pressed"]
-[connection signal="pressed" from="LevelSelectMenu/VBoxContainer/HBoxContainer/Test03" to="." method="_on_test_03_pressed"]
+[connection signal="pressed" from="Top Menu/DiscordLink" to="." method="_on_discord_link_pressed"]
+[connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Test Areas/Test01" to="." method="_on_test_01_pressed"]
+[connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Test Areas/Test03" to="." method="_on_test_03_pressed"]
+[connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Levels/Tutorial" to="." method="_on_tutorial_pressed"]
+[connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Levels/Test02" to="." method="_on_test_02_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/LSMReturn" to="." method="_on_lsm_return_pressed"]
 [connection signal="pressed" from="OptionsMenu/OMReturn" to="." method="_on_om_return_pressed"]

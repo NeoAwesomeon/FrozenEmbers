@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://by6sgvj6sjsvk"]
+[gd_scene load_steps=4 format=3 uid="uid://by6sgvj6sjsvk"]
 
 [ext_resource type="Theme" uid="uid://bp3rbmavjbrbx" path="res://Assets/Themes/PrimaryTheme.tres" id="1_igq5e"]
 [ext_resource type="Script" uid="uid://csnhkwqn6k4gk" path="res://Scripts/UI/pause_menu.gd" id="1_qqc6r"]
+[ext_resource type="PackedScene" uid="uid://cfmcdxjxx1joc" path="res://Scenes/UI/Menus/settings_menu.tscn" id="3_13aw7"]
 
 [node name="PauseMenu" type="Control"]
 process_mode = 3
@@ -24,7 +25,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0.07964412, 0.16510656, 0.29411766)
 
-[node name="Panel" type="Panel" parent="."]
+[node name="PauseMain" type="Panel" parent="."]
 clip_contents = true
 custom_minimum_size = Vector2(400, 400)
 layout_mode = 1
@@ -41,7 +42,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMain"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -55,54 +56,81 @@ offset_bottom = 50.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Resume" type="Button" parent="Panel/VBoxContainer"]
+[node name="Resume" type="Button" parent="PauseMain/VBoxContainer"]
 custom_minimum_size = Vector2(150, 30)
 layout_mode = 2
 size_flags_vertical = 3
 text = "Resume"
 
-[node name="Control" type="Control" parent="Panel/VBoxContainer"]
+[node name="Control" type="Control" parent="PauseMain/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="Restart" type="Button" parent="Panel/VBoxContainer"]
+[node name="Restart" type="Button" parent="PauseMain/VBoxContainer"]
 custom_minimum_size = Vector2(150, 30)
 layout_mode = 2
 size_flags_vertical = 3
 text = "Restart"
 
-[node name="Control2" type="Control" parent="Panel/VBoxContainer"]
+[node name="Control2" type="Control" parent="PauseMain/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="Options" type="Button" parent="Panel/VBoxContainer"]
+[node name="Options" type="Button" parent="PauseMain/VBoxContainer"]
 custom_minimum_size = Vector2(150, 30)
 layout_mode = 2
 size_flags_vertical = 3
 text = "Options"
 
-[node name="Control4" type="Control" parent="Panel/VBoxContainer"]
+[node name="Control4" type="Control" parent="PauseMain/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="MainMenu" type="Button" parent="Panel/VBoxContainer"]
+[node name="MainMenu" type="Button" parent="PauseMain/VBoxContainer"]
 custom_minimum_size = Vector2(150, 30)
 layout_mode = 2
 size_flags_vertical = 3
 text = "Main Menu"
 
-[node name="Control3" type="Control" parent="Panel/VBoxContainer"]
+[node name="Control3" type="Control" parent="PauseMain/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="CloseGame" type="Button" parent="Panel/VBoxContainer"]
+[node name="CloseGame" type="Button" parent="PauseMain/VBoxContainer"]
 custom_minimum_size = Vector2(150, 30)
 layout_mode = 2
 size_flags_vertical = 3
 text = "Close Game"
 
-[connection signal="pressed" from="Panel/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/CloseGame" to="." method="_on_close_game_pressed"]
+[node name="OptionsMenu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsMenu" parent="OptionsMenu" instance=ExtResource("3_13aw7")]
+layout_mode = 1
+
+[node name="OMReturn" type="Button" parent="OptionsMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -103.5
+offset_top = 55.0
+offset_right = 104.5
+offset_bottom = 86.0
+grow_horizontal = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
+text = "Return to Pause Menu"
+
+[connection signal="pressed" from="PauseMain/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PauseMain/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="PauseMain/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="PauseMain/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="PauseMain/VBoxContainer/CloseGame" to="." method="_on_close_game_pressed"]
+[connection signal="pressed" from="OptionsMenu/OMReturn" to="." method="_on_om_return_pressed"]

@@ -6,27 +6,28 @@ var PLAYER_BOOST_COUNT : int
 var PLAYER_GRAVITY : int
 var PLAYER_CURRENT_STATE : String
 var PLAYER_HEAT_SHIELD : float
+var PLAYER_NOISE_SIZE : float
 
 # Tells other scripts where the player currently is
 var Player_Position : Vector3
 
 # THESE are the real stats. Try to only mess with them in other scripts.
-var Heat = 600.0
-var Heat_Max_Start_Value = 600.0
-var Heat_Max = Heat_Max_Start_Value
-var Heat_Goal = 600.0
+var Heat : float = 600.0
+var Heat_Max_Start_Value : float = 600.0
+var Heat_Max : float = Heat_Max_Start_Value
+var Heat_Goal : float = 600.0
 
-var Light = -50.0
-var Light_Max = 50.0
-var Light_Min = -50.0
-var Light_Goal = 0.0
+var Light : float = -50.0
+var Light_Max : float = 50.0
+var Light_Min : float = -50.0
+var Light_Goal : float = 0.0
 
-var Freeze = 0.0
-var Freeze_Goal = 0.0
-var Freeze_Max = Heat_Max_Start_Value
+var Freeze : float = 0.0
+var Freeze_Goal : float = 0.0
+var Freeze_Max : float = Heat_Max_Start_Value
 
-var Dive_Count = 0
-var Pillar_Active = false
+var Dive_Count : float = 0
+var Pillar_Active : bool = false
 
 func _ready() -> void:
 	Heat = Heat_Goal

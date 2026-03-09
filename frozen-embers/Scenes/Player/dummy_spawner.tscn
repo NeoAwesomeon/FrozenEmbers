@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b1ps3v47kk8xf"]
+[gd_scene load_steps=8 format=3 uid="uid://b1ps3v47kk8xf"]
 
 [ext_resource type="Script" uid="uid://ba5ytm1xnqxgn" path="res://Scripts/Player/dummy_spawner.gd" id="1_kvasb"]
 [ext_resource type="PackedScene" uid="uid://bthgaqwyhqgt5" path="res://Scenes/Player/dummy_player.tscn" id="2_c7u07"]
@@ -6,6 +6,7 @@
 [ext_resource type="Theme" uid="uid://bp3rbmavjbrbx" path="res://Assets/Themes/PrimaryTheme.tres" id="4_lfcyg"]
 [ext_resource type="PackedScene" uid="uid://yvju4qkwisk6" path="res://Scenes/Interactables/noise_maker_major.tscn" id="4_s2lq5"]
 [ext_resource type="PackedScene" uid="uid://juy8aluoxd1w" path="res://Scenes/Interactables/noise_maker_minor.tscn" id="5_4q5mt"]
+[ext_resource type="PackedScene" uid="uid://fnhprroyunl4" path="res://Scenes/UI/timed_message.tscn" id="6_4q5mt"]
 
 [node name="DummySpawner" type="Camera3D"]
 script = ExtResource("1_kvasb")
@@ -13,6 +14,7 @@ pause_menu = ExtResource("3_c7u07")
 dummy = ExtResource("2_c7u07")
 major = ExtResource("4_s2lq5")
 minor = ExtResource("5_4q5mt")
+message = ExtResource("6_4q5mt")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_right = 40.0

@@ -2,16 +2,25 @@ extends Node3D
 
 @onready var animation: AnimationPlayer = $Model/AnimationPlayer
 
+#Particles
+@onready var boost_start_particles: GPUParticles3D = $Particles/BoostStartParticles
+@onready var boost_active_particles: GPUParticles3D = $Particles/BoostActiveParticles
+
 #0-GROUNDED,1-AIRBORNE,2-CROUCHED,3-SLIDING,4-HIGH_JUMP,5-LONG_JUMP,6-WALL_CLING,7-AIR_DIVE,8-ATTACK,9-AIR_ATTACK, 
 #10-LEDGE_GRAB,11-REIGNITE,12-EXTINGUISH,13-SWIMMING,14-FREEZE_DEATH
-var current_state = 0
+var current_state : int = 0
+
+var dash_toggle : bool = false
 
 var loop = false
 var hold_on = false
 
 func _process(_delta: float) -> void:
+	handle_particles()
 	current_state = get_parent().current_state
+	dash_toggle = get_parent().dash_toggle
 	handle_state_transitions()
+
 
 func start_loop():
 	loop = true
@@ -54,10 +63,12 @@ func handle_state_transitions():
 		#SLIDING
 		3:
 			animation.play("Slide",0.2)
+			boost_active_particles.emitting = true
 		
 		#HIGH_JUMP
 		4:
 			animation.play("High Jump",0.2)
+			boost_active_particles.emitting = true
 		
 		#LONG_JUMP
 		5:
@@ -65,6 +76,7 @@ func handle_state_transitions():
 				animation.play("Long Jump Loop",0.0)
 			else:
 				animation.play("Long Jump Start",0.2)
+			boost_active_particles.emitting = true
 		
 		#WALL_CLING
 		6:
@@ -80,6 +92,8 @@ func handle_state_transitions():
 				animation.play("Air Dive Loop",0.0)
 			else:
 				animation.play("Air Dive Landing",0.0)
+			
+			boost_active_particles.emitting = true
 		
 		#ATTACK
 		8:
@@ -117,3 +131,13 @@ func handle_state_transitions():
 		#FREEZE_DEATH
 		14:
 			animation.play("Death Freeze")
+
+func handle_particles():
+	if Input.is_action_just_pressed("dash"):
+		if GlobalPlayerStats.Heat > 0 or GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1:
+			boost_start_particles.emitting = true
+	
+	if Input.is_action_pressed("dash") and (GlobalPlayerStats.Heat > 0 or GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1):
+			boost_active_particles.emitting = true
+	else:
+			boost_active_particles.emitting = false

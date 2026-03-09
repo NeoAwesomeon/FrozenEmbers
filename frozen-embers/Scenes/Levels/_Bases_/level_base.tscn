@@ -13,11 +13,11 @@
 
 [node name="Player" type="Node" parent="."]
 
-[node name="PlayerCharacterEmber" parent="Player" instance=ExtResource("2_t8ai0")]
-
 [node name="PlayerHud" parent="Player" instance=ExtResource("3_ej2hx")]
 
 [node name="PlayerPOV" parent="Player" instance=ExtResource("4_614yd")]
+
+[node name="PlayerCharacterEmber" parent="Player" instance=ExtResource("2_t8ai0")]
 
 [node name="Gameplay" type="Node" parent="."]
 
@@ -25,6 +25,10 @@
 
 [node name="Beacons" type="Node" parent="Gameplay"]
 
-[node name="GoalBeacon" parent="Gameplay" instance=ExtResource("6_t8ai0")]
+[node name="GoalBeacon" parent="Gameplay/Beacons" instance=ExtResource("6_t8ai0")]
+
+[node name="Messages" type="Node" parent="Gameplay"]
+
+[node name="Pickups" type="Node" parent="Gameplay"]
 
 [node name="Environment" type="Node" parent="."]

@@ -282,6 +282,9 @@ func handle_state_actions():
 	if GlobalLevelStats.DESPERATION_MODE:
 		current_state = States.DESPERATION
 	
+	elif GlobalLevelStats.EXIT_OPEN and stun_duration.is_stopped() and spawn_timer.is_stopped():
+		current_state = States.ENDGAME
+	
 	match current_state:
 		States.SPAWN:
 			true_speed = 0

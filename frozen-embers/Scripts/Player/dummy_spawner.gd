@@ -19,6 +19,11 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		add_sibling(pause_menu.instantiate())
 	
+	if event.is_action_pressed("debug_5"):
+		TimedMessage.text = "Global Message Spawned!"
+		TimedMessage.visible = true
+		TimedMessage.timer.start()
+	
 	if event.is_action_pressed("debug_1"):
 		shoot_dummy_ray()
 	if event.is_action_pressed("debug_2"):

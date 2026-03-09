@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://fnhprroyunl4"]
+
+[ext_resource type="Theme" uid="uid://bp3rbmavjbrbx" path="res://Assets/Themes/PrimaryTheme.tres" id="1_7m2sd"]
+[ext_resource type="Script" uid="uid://gyrs2kthme3o" path="res://Scripts/_Global_/timed_message.gd" id="2_5jgay"]
+
+[node name="TimedMessage" type="Label"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -184.5
+offset_top = 150.0
+offset_right = 184.5
+offset_bottom = 177.0
+grow_horizontal = 2
+theme = ExtResource("1_7m2sd")
+theme_override_font_sizes/font_size = 20
+text = "This is where the message will appear!"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_5jgay")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 6.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

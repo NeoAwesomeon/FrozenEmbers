@@ -2,11 +2,11 @@ extends Control
 
 @onready var state_label: Label = $VBoxContainer/StateLabel
 
-@onready var boost_label: Label = $VBoxContainer/HBoxContainer/Panel/BoostLabel
-@onready var speed_meter: ProgressBar = $VBoxContainer/HBoxContainer/SpeedMeter
-@onready var speed_label: Label = $VBoxContainer/HBoxContainer/SpeedMeter/SpeedLabel
+@onready var boost_label: Label = $VBoxContainer/SpeedDisplays/Panel/BoostLabel
+@onready var speed_meter: ProgressBar = $VBoxContainer/SpeedDisplays/SpeedMeter
+@onready var speed_label: Label = $VBoxContainer/SpeedDisplays/SpeedMeter/SpeedLabel
 
-@onready var gravity_label: Label = $VBoxContainer/HBoxContainer/Panel2/GravityLabel
+@onready var gravity_label: Label = $VBoxContainer/SpeedDisplays/Panel2/GravityLabel
 
 @onready var light_meter: ProgressBar = $VBoxContainer/LightMeter
 @onready var light_label: Label = $VBoxContainer/LightMeter/LightLabel
@@ -19,16 +19,52 @@ extends Control
 
 @onready var freeze_meter: ProgressBar = $VBoxContainer/HeatMeter/FreezeMeter
 
+@onready var noise_meter: ProgressBar = $VBoxContainer/NoiseMeter
+@onready var noise_label: Label = $VBoxContainer/NoiseMeter/NoiseLabel
+
 @onready var progres_counter: Label = $ProgresCounter
-var xxx = 0
-var yyy = 0
-var zzz = 0
-var distance = 1
+
+@onready var speed_displays: HBoxContainer = $VBoxContainer/SpeedDisplays
+
+var xxx : int = 0
+var yyy : int = 0
+var zzz : int = 0
+var distance : int = 1
+
+var stat_toggle : bool = false
+
+func _ready() -> void:
+	debug_show_stats()
+
+func debug_show_stats():
+	if !stat_toggle:
+		state_label.visible = false
+		boost_label.visible = false
+		light_label.visible = false
+		heat_label.visible = false
+		heat_shield_label.visible = false
+		speed_displays.visible = false
+		noise_label.visible = false
+	else:
+		state_label.visible = true
+		boost_label.visible = true
+		light_label.visible = true
+		heat_label.visible = true
+		heat_shield_label.visible = true
+		speed_displays.visible = true
+		noise_label.visible = true
 
 func _process(_delta: float) -> void:
 	
+	if Input.is_action_just_pressed("debug_1"):
+		if !stat_toggle:
+			stat_toggle = true
+		else:
+			stat_toggle = false
+		debug_show_stats()
+	
 	state_label.text = GlobalPlayerStats.PLAYER_CURRENT_STATE
-	boost_label.text = str(GlobalPlayerStats.PLAYER_BOOST_COUNT)
+	boost_label.text = "x" + str(GlobalPlayerStats.PLAYER_BOOST_COUNT)
 	speed_meter.value = GlobalPlayerStats.PLAYER_CURRENT_SPEED
 	speed_label.text = "Speed: " + str(snapped(GlobalPlayerStats.PLAYER_CURRENT_SPEED, 1))
 	gravity_label.text = str(GlobalPlayerStats.PLAYER_GRAVITY)
@@ -49,6 +85,12 @@ func _process(_delta: float) -> void:
 	
 	freeze_meter.value = GlobalPlayerStats.Freeze
 	freeze_meter.max_value = GlobalPlayerStats.Freeze_Max
+	
+	if GlobalPlayerStats.PLAYER_NOISE_SIZE < 1.0:
+		noise_meter.value = 0.0
+	else:
+		noise_meter.value = GlobalPlayerStats.PLAYER_NOISE_SIZE
+	noise_label.text = "Noise: " + str(snapped(GlobalPlayerStats.PLAYER_NOISE_SIZE, 0.1))
 	
 	# Compares player's location with that of the exit's to find the distance
 	if !GlobalLevelStats.EXIT_OPEN:

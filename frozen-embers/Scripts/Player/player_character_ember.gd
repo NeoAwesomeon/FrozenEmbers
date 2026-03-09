@@ -28,6 +28,7 @@ extends CharacterBody3D
 @onready var swim_hurtbox: Area3D = $Hurtboxes/SwimHurtbox
 @onready var swim_marker: Marker3D = $Hurtboxes/SwimHurtbox/SwimMarker
 @onready var torch_omni_light: OmniLight3D = $Visuals/TorchOmniLight
+@onready var visibility_spot_light: SpotLight3D = $Visuals/VisibilitySpotLight
 @onready var light_hitbox: CollisionShape3D = $Hitboxes/LightHitbox/CollisionShape3D
 @onready var noise_hitbox: CollisionShape3D = $Hitboxes/NoiseHitbox/CollisionShape3D
 @onready var main_hurtbox: Area3D = $Hurtboxes/MainHurtbox
@@ -47,46 +48,46 @@ var rotation_direction: float
 var wall_normal
 
 # These variables will constantly change based on how the player acts
-var gravity = 0.0
-var ignore_gravity = false
-var current_slide = 0.0
-var current_boost = 0.0
-var boost_count = 0.0
-var boost_decay_rate = 0.0
-var true_speed_goal = 0.0
-var true_speed = 0.0
-var is_moving = false
-var jump_ground = true
-var jump_midair = true
-var jump_cancel = true
-var slide_ready = true
-var ignore_walls = false
-var is_wall_jumping = false
-var wall_jump_count = 0
-var air_dive_hesitate = false
-var combo_counter = 0
-var air_attack_ready = true
-var ledge_available = false
-var in_water = false
-var water_surface = 0.0
+var gravity : float = 0.0
+var ignore_gravity : bool = false
+var current_slide : float = 0.0
+var current_boost : float = 0.0
+var boost_count : int = 0
+var boost_decay_rate : float = 0.0
+var true_speed_goal : float = 0.0
+var true_speed : float = 0.0
+var is_moving : bool = false
+var jump_ground : bool = true
+var jump_midair : bool = true
+var jump_cancel : bool = true
+var slide_ready : bool = true
+var ignore_walls : bool = false
+var is_wall_jumping : bool = false
+var wall_jump_count : int = 0
+var air_dive_hesitate : bool = false
+var combo_counter : int = 0
+var air_attack_ready : bool = true
+var ledge_available : bool = false
+var in_water : bool = false
+var water_surface : float = 0.0
+var dash_toggle : bool = false
 
 # These variables act as absolute stops in order to lock the player into actions
-var move_lock = false
-var rotate_lock = false
-var action_lock = false
+var move_lock : bool = false
+var rotate_lock : bool = false
+var action_lock : bool = false
 # This is excluded from clear locks as it is there to ensure the player does not repeat actions when holding buttons
-var repeat_cause
-var repeat_lock = false
+var repeat_lock : bool = false
 
 # These variables will remain static and be used throughout the script
 @export_subgroup("Player Stats")
-@export var walk_base_speed = 400.0
-@export var boost_base_speed = 200.0
-@export var slide_base_speed = 350.0
-@export var acceleration = 300.0
-@export var deceleration = 150.0
-@export var jump_strength = 11.0
-@export var high_jump_multiplier = 1.75
+@export var walk_base_speed : float = 400.0
+@export var boost_base_speed : float = 200.0
+@export var slide_base_speed : float = 350.0
+@export var acceleration : float = 300.0
+@export var deceleration : float = 150.0
+@export var jump_strength : float = 11.0
+@export var high_jump_multiplier : float = 2.0
 
 # This is a state machine
 enum States {GROUNDED, AIRBORNE, CROUCHED, SLIDING, HIGH_JUMP, LONG_JUMP, WALL_CLING, AIR_DIVE, ATTACK, AIR_ATTACK, 
@@ -97,7 +98,7 @@ func _ready() -> void:
 	print("-PLAYER START-")
 	current_boost = 0
 	point_of_view = get_tree().get_first_node_in_group("player_pov")
-	GlobalLevelStats.RESPAWN_LOCATION = self.global_position
+	GlobalLevelStats.RESPAWN_LOCATION = global_position
 
 
 func _physics_process(delta: float) -> void:
@@ -114,6 +115,7 @@ func _physics_process(delta: float) -> void:
 	handle_global_stats()
 	if global_position.y < GlobalLevelStats.FALL_OFF_DISTANCE:
 		handle_fall_off()
+	handle_noise(delta)
 	
 	# Variable that allows movement to be tracked by script
 	var applied_velocity: Vector3
@@ -150,7 +152,8 @@ func handle_state_transitions():
 		clear_locks()
 		GlobalPlayerStats.Light_Goal =  GlobalPlayerStats.Light_Min
 		GlobalPlayerStats.Light = GlobalPlayerStats.Light_Min
-		sfx_controller.play_freezing()
+		if heat_shield_duration.is_stopped():
+			sfx_controller.play_freezing()
 		current_state = States.SWIMMING
 	
 	elif !action_lock:
@@ -199,7 +202,7 @@ func handle_state_transitions():
 				action_lock = true
 				move_lock = true
 				slide_duration.start()
-				light_drain_low()
+				#light_drain_low()
 				current_state = States.SLIDING
 				sfx_controller.play_slide()
 			
@@ -213,7 +216,7 @@ func handle_state_transitions():
 			
 		elif !is_on_floor() and coyote_time.is_stopped() and jump_ground:
 				coyote_time.start()
-	
+
 
 
 # Used to handle perpetual actions that either can't be inturupted or shouldn't run at all times
@@ -225,6 +228,10 @@ func handle_state_actions(delta):
 			air_attack_ready = true
 			high_ledge.enabled = false
 			low_ledge.enabled = false
+			if !is_on_floor():
+				ignore_walls = false
+				low_ledge.enabled = true
+				high_ledge.enabled = true
 		
 		States.AIRBORNE:
 			if ignore_walls:
@@ -243,6 +250,8 @@ func handle_state_actions(delta):
 		
 		States.LONG_JUMP:
 			slide(delta)
+			low_ledge.enabled = true
+			high_ledge.enabled = true
 			
 			if !is_on_floor() and Input.is_action_just_pressed("attack") and air_attack_ready:
 				move_lock = false
@@ -433,19 +442,25 @@ func _on_heat_timer_timeout() -> void:
 			GlobalPlayerStats.Heat_Goal += ( GlobalPlayerStats.Light_Goal / 5.0 )
 			
 	# If the player is out of heat or enters the water, begin adding freeze
-	if GlobalPlayerStats.Heat < 0.1 or current_state == States.SWIMMING:
+	if GlobalPlayerStats.Heat < 0.1 or (current_state == States.SWIMMING and heat_shield_duration.is_stopped()):
 		GlobalPlayerStats.Freeze_Goal += 15
 	
 
 func handle_boost(delta):
-	# If dash button is held and a reasource is available
 	
+	# Accessability: Toggle Run
+	if GlobalOptionSettings.accessability_toggle_run and Input.is_action_just_pressed("dash") and !dash_toggle:
+		dash_toggle = true
+	elif GlobalOptionSettings.accessability_toggle_run and Input.is_action_just_pressed("dash") and dash_toggle:
+		dash_toggle = false
+	
+	# If you are out of resources, end boosting effects instantly
 	if GlobalPlayerStats.Heat < 1 and GlobalPlayerStats.Light_Goal < GlobalPlayerStats.Light_Min + 0.1:
 		boost_count_rate.stop()
 		handle_boost_decay(delta)
 		sfx_controller.stop_boost_loop()
 	
-	elif Input.is_action_pressed("dash"):
+	elif Input.is_action_pressed("dash") or dash_toggle:
 		# This is here to punish mashing
 		if Input.is_action_just_pressed("dash"):
 				if boost_count < 3:
@@ -453,8 +468,9 @@ func handle_boost(delta):
 				elif boost_count < 8:
 					GlobalPlayerStats.Light_Goal -= 1 
 				else:
-					GlobalPlayerStats.Light_Goal -= 2 
-			
+					GlobalPlayerStats.Light_Goal -= 1.5 
+		
+		#If the player has a resource to spend, boosting is enabled
 		if GlobalPlayerStats.Heat > 0 or GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1:
 			if boost_count_rate.is_stopped():
 				boost_count_rate.start()
@@ -688,6 +704,8 @@ func handle_air_dive(delta):
 		clear_locks()
 	
 	if is_on_floor():
+		noise_hitbox.shape.radius = 20.0
+		
 		#Allows you to cancel your recovery with a jump, which also grants you a high jump
 		if Input.is_action_just_pressed("jump"):
 			clear_locks()
@@ -701,13 +719,13 @@ func handle_air_dive(delta):
 			if !GlobalPlayerStats.Pillar_Active:
 				var instance = firewall_scene.instantiate()
 				
-				instance.position = self.global_position
-				instance.rotation = self.rotation
+				instance.position = global_position
+				instance.rotation = rotation
 				add_sibling(instance)
 		else:
 			movement_velocity = Vector3.ZERO
 	else: 
-		GlobalPlayerStats.Dive_Count += 6 * delta
+		GlobalPlayerStats.Dive_Count += 9.5 * delta
 	
 	#This fucker right here is an asshole. Make it identify what state it is in or else.
 	if !air_dive_hesitate and current_state == States.AIR_DIVE:
@@ -765,17 +783,18 @@ func _on_reignite_duration_timeout() -> void:
 	clear_locks()
 	repeat_lock = true
 	GlobalLevelStats.MAX_NOISE_ACTIVE = true
-	GlobalLevelStats.MAX_NOISE_LOCATION = self.global_position
+	GlobalLevelStats.MAX_NOISE_LOCATION = global_position
+	noise_hitbox.shape.radius = 20.0
 
 func _on_extinguish_duration_timeout() -> void:
 	#Grants a burst of heat based on how much light was extinguished
 	GlobalPlayerStats.Heat_Goal += (GlobalPlayerStats.Light_Goal + 50.0) * 5.0
 	
-	#Then grants immunity to losing heat, ensuring the player always gets at least 4 seconds or more based on light
-	if 10.0 * ((GlobalPlayerStats.Light + 50.0) / 100.0) < 4.0:
-		heat_shield_duration.wait_time = 4.0
+	#Then grants immunity to losing heat, ensuring the player always gets at least 5 seconds or more based on light
+	if 20.0 * ((GlobalPlayerStats.Light + 50.0) / 100.0) < 5.0:
+		heat_shield_duration.wait_time = 5.0
 	else:
-		heat_shield_duration.wait_time = 10.0 * ((GlobalPlayerStats.Light + 50.0) / 100.0)
+		heat_shield_duration.wait_time = 20.0 * ((GlobalPlayerStats.Light + 50.0) / 100.0)
 	heat_shield_duration.start()
 	
 	#Then instantly reduces player light to its minimum value and clears all locks other than repeat lock
@@ -845,11 +864,31 @@ func handle_light(delta):
 		torch_omni_light.omni_range = 0.0
 		light_hitbox.shape.radius = 0.5
 	
+	visibility_spot_light.spot_angle = 10.0 + ((GlobalPlayerStats.Light + 50) / 2)
 
 func handle_fall_off():
 	# Respawns the player if they fall into a pit by placing them at the last triggered respawn location
 	GlobalPlayerStats.Freeze_Goal += GlobalPlayerStats.Heat_Max_Start_Value * 0.1
 	global_position = GlobalLevelStats.RESPAWN_LOCATION
+
+func handle_noise(delta):
+	if noise_hitbox.shape.radius > 1.0:
+		noise_hitbox.disabled = false
+		noise_hitbox.shape.radius -= 2.0 * delta
+	else:
+		noise_hitbox.disabled = true
+	
+	if is_moving and current_state != States.CROUCHED:
+		if Input.is_action_pressed("dash") and noise_hitbox.shape.radius < 15.0:
+			noise_hitbox.shape.radius += 4.0 * delta
+		elif noise_hitbox.shape.radius < 5.0:
+			noise_hitbox.shape.radius += 3.0 * delta
+		
+	elif is_moving and current_state == States.CROUCHED:
+		if noise_hitbox.shape.radius < 1.5:
+			noise_hitbox.shape.radius += 3.0 * delta
+	elif !is_moving and current_state == States.CROUCHED:
+		noise_hitbox.shape.radius -= 2.0 * delta
 
 # Used for UI and SFX
 func handle_global_stats():
@@ -862,8 +901,9 @@ func handle_global_stats():
 	
 	GlobalPlayerStats.PLAYER_BOOST_COUNT = boost_count
 	GlobalPlayerStats.PLAYER_CURRENT_SPEED = true_speed
-	GlobalPlayerStats.PLAYER_GRAVITY = gravity
+	GlobalPlayerStats.PLAYER_GRAVITY = int(gravity)
 	GlobalPlayerStats.PLAYER_HEAT_SHIELD = heat_shield_duration.time_left
+	GlobalPlayerStats.PLAYER_NOISE_SIZE = noise_hitbox.shape.radius
 	
 	if current_state == States.GROUNDED:
 		GlobalPlayerStats.PLAYER_CURRENT_STATE = "Grounded"

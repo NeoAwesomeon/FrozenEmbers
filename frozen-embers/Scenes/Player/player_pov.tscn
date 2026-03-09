@@ -1,6 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://cntk6hyobvon5"]
+[gd_scene load_steps=5 format=3 uid="uid://cntk6hyobvon5"]
 
 [ext_resource type="Script" uid="uid://bigrvj2bdbuxw" path="res://Scripts/Player/player_pov.gd" id="1_7yl6q"]
+[ext_resource type="Shader" uid="uid://bcbfsnrrb4rl1" path="res://Assets/Shaders/overlay.gdshader" id="2_xphul"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jhh05"]
+render_priority = 0
+shader = ExtResource("2_xphul")
+shader_parameter/pixel_size = 1.0
+shader_parameter/levels = 40.0
+shader_parameter/gamma = Vector2(1, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_wmdnt"]
+material = SubResource("ShaderMaterial_jhh05")
+flip_faces = true
+size = Vector2(2, 2)
 
 [node name="PlayerPOV" type="Node3D" groups=["player_pov"]]
 script = ExtResource("1_7yl6q")
@@ -12,3 +25,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 5)
 spring_length = 2.0
 
 [node name="Camera3D" type="Camera3D" parent="CameraMount/SpringArm3D"]
+
+[node name="ShaderFilter" type="MeshInstance3D" parent="CameraMount/SpringArm3D/Camera3D"]
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_wmdnt")

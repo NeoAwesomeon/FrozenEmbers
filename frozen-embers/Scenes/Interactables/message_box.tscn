@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfujhkffk6yxk"]
+
+[ext_resource type="Script" uid="uid://dki0mxfr55317" path="res://Scripts/Interactables/message_box.gd" id="1_efupn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nsca5"]
+
+[node name="MessageBox" type="Area3D"]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("1_efupn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_nsca5")
+debug_color = Color(0, 0.6, 0.2627451, 1)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://wvgr4jakaipg"]
+
+[ext_resource type="Shader" uid="uid://bcbfsnrrb4rl1" path="res://Assets/Shaders/overlay.gdshader" id="1_5epvm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wmdnt"]
+render_priority = 0
+shader = ExtResource("1_5epvm")
+shader_parameter/pixel_size = 1.0
+shader_parameter/levels = 20.0
+shader_parameter/gamma = Vector2(0.125, 10)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_5epvm"]
+material = SubResource("ShaderMaterial_wmdnt")
+flip_faces = true
+orientation = 2
+
+[node name="Overlay" type="MeshInstance3D"]
+extra_cull_margin = 16384.0
+mesh = SubResource("PlaneMesh_5epvm")
+skeleton = NodePath("../../../..")

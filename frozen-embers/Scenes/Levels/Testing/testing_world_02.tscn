@@ -17,8 +17,8 @@
 
 [sub_resource type="Environment" id="Environment_j51j4"]
 background_mode = 1
-background_color = Color(0.110484, 0.20345, 0.22937, 1)
-fog_enabled = true
+background_color = Color(0.021434639, 0.021434631, 0.021434652, 1)
+background_energy_multiplier = 1.5
 fog_light_energy = 0.1
 fog_sun_scatter = 1.0
 

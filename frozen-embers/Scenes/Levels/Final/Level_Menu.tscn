@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://buddqeg181ay5"]
+[gd_scene load_steps=18 format=3 uid="uid://buddqeg181ay5"]
 
 [ext_resource type="PackedScene" uid="uid://dl827b1tvpsvc" path="res://Scenes/UI/Menus/full_main_menu.tscn" id="1_56m4n"]
 [ext_resource type="Theme" uid="uid://bp3rbmavjbrbx" path="res://Assets/Themes/PrimaryTheme.tres" id="2_djivf"]
+[ext_resource type="Shader" uid="uid://bcbfsnrrb4rl1" path="res://Assets/Shaders/overlay.gdshader" id="3_myppa"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_1dekw"]
 top_radius = 0.0
@@ -62,6 +63,17 @@ material = SubResource("StandardMaterial3D_mgu11")
 radial_segments = 6
 rings = 3
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rthl2"]
+render_priority = 0
+shader = ExtResource("3_myppa")
+shader_parameter/pixel_size = 1.0
+shader_parameter/levels = 40.0
+shader_parameter/gamma = Vector2(1, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_0tg1s"]
+material = SubResource("ShaderMaterial_rthl2")
+flip_faces = true
+
 [node name="MenuLevel" type="Node3D"]
 
 [node name="FullMainMenu" parent="." instance=ExtResource("1_56m4n")]
@@ -87,7 +99,14 @@ Attack While Long Jumping = Attack Cancel
 Crouch while Airborne = Air Dive
 Jump just before Air Dive = Jump Cancel
 
-Boost increases all horizontal speed"
+Boost increases all horizontal speed
+
+
+
+Debug:
+
+Press 1 to enable full HUD
+Press 2 to disable all shaders"
 horizontal_alignment = 1
 
 [node name="Visuals" type="Node3D" parent="."]
@@ -156,3 +175,7 @@ lifetime = 2.0
 preprocess = 2.0
 process_material = SubResource("ParticleProcessMaterial_hhxnm")
 draw_pass_1 = SubResource("SphereMesh_ixktf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+mesh = SubResource("QuadMesh_0tg1s")

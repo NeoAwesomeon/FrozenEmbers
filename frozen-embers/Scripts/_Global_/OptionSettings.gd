@@ -7,7 +7,9 @@ var SFX_AUDIO : float = 1.0
 enum INPUT_SCHEMES {KEYBOARD, CONTROLLER}
 static var CURRENT_SCHEME: INPUT_SCHEMES = INPUT_SCHEMES.KEYBOARD
 
-var settings_steal_focus = false
+var camera_sensitivity = 0.15
+var accessability_toggle_run = false
+var accessability_auto_parry = false
 
 func _input(event: InputEvent) -> void:
 	if CURRENT_SCHEME == INPUT_SCHEMES.CONTROLLER and (event is InputEventKey or event is InputEventMouse):

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://tfcyeacky4uo"]
+[gd_scene load_steps=4 format=3 uid="uid://tfcyeacky4uo"]
 
 [ext_resource type="Theme" uid="uid://bp3rbmavjbrbx" path="res://Assets/Themes/PrimaryTheme.tres" id="1_cafqa"]
 [ext_resource type="Script" uid="uid://3kssiiytrhoy" path="res://Scripts/UI/input_remap_button.gd" id="2_ygma5"]
+[ext_resource type="Script" uid="uid://dwdpggh8u42io" path="res://Scripts/UI/camera_settings.gd" id="3_ygma5"]
 
 [node name="InputSettingsV2" type="MarginContainer"]
 anchors_preset = 15
@@ -18,9 +19,10 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 tab_alignment = 1
-current_tab = 0
+current_tab = 1
 
 [node name="Menus" type="VBoxContainer" parent="TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -360,8 +362,8 @@ custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
 [node name="Gameplay" type="VBoxContainer" parent="TabContainer"]
-visible = false
 layout_mode = 2
+script = ExtResource("3_ygma5")
 metadata/_tab_index = 1
 
 [node name="Titles" type="HBoxContainer" parent="TabContainer/Gameplay"]
@@ -940,6 +942,49 @@ metadata/_custom_type_script = "uid://3kssiiytrhoy"
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
+[node name="Sensitivity" type="Panel" parent="TabContainer/Gameplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Sensitivity"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Sensitivity/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Camera Sensitivity"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Sensitivity/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CameraLabel" type="Label" parent="TabContainer/Gameplay/Sensitivity/HBoxContainer"]
+layout_mode = 2
+text = "0.15"
+
+[node name="CameraSlider" type="HSlider" parent="TabContainer/Gameplay/Sensitivity/HBoxContainer"]
+custom_minimum_size = Vector2(425, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+min_value = 0.01
+max_value = 1.0
+step = 0.01
+value = 0.15000000000000002
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Sensitivity/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
 [node name="Panel12" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
@@ -1083,3 +1128,5 @@ metadata/_custom_type_script = "uid://3kssiiytrhoy"
 [node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel15/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
+
+[connection signal="value_changed" from="TabContainer/Gameplay/Sensitivity/HBoxContainer/CameraSlider" to="TabContainer/Gameplay" method="_on_camera_slider_value_changed"]

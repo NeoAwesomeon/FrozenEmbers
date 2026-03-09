@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dqcfqm4fk2wp0"]
+[gd_scene load_steps=9 format=3 uid="uid://dqcfqm4fk2wp0"]
 
 [ext_resource type="Script" uid="uid://bre5n5mlxbk53" path="res://Scripts/UI/player_ui.gd" id="1_s36ss"]
 [ext_resource type="Theme" uid="uid://bp3rbmavjbrbx" path="res://Assets/Themes/PrimaryTheme.tres" id="1_y31ga"]
@@ -51,6 +51,13 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y31ga"]
+bg_color = Color(1, 0, 1, 0.4117647)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v8xh3"]
 content_margin_left = 2.0
 content_margin_top = 2.0
@@ -89,7 +96,7 @@ layout_mode = 2
 text = "Player State"
 
 [node name="LightMeter" type="ProgressBar" parent="VBoxContainer"]
-custom_minimum_size = Vector2(200, 25)
+custom_minimum_size = Vector2(200, 35)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_s36ss")
 min_value = -50.0
@@ -107,12 +114,13 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "YOUR TOO BRIGHT"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HeatShieldMeter" type="ProgressBar" parent="VBoxContainer"]
-custom_minimum_size = Vector2(200, 5)
+custom_minimum_size = Vector2(400, 10)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_nqcsj")
-max_value = 10.0
+max_value = 20.0
 show_percentage = false
 
 [node name="HeatShieldLabel" type="Label" parent="VBoxContainer/HeatShieldMeter"]
@@ -127,7 +135,7 @@ text = "SHIELD"
 horizontal_alignment = 1
 
 [node name="HeatMeter" type="ProgressBar" parent="VBoxContainer"]
-custom_minimum_size = Vector2(200, 25)
+custom_minimum_size = Vector2(400, 35)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_nqcsj")
 max_value = 600.0
@@ -144,16 +152,17 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "VERY HOT"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="FreezeMeter" type="ProgressBar" parent="VBoxContainer/HeatMeter"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 258.0
-offset_top = 25.0
-offset_right = 258.0
-offset_bottom = 25.0
+offset_left = 400.00003
+offset_top = 34.0
+offset_right = 400.0
+offset_bottom = 34.0
 grow_horizontal = 2
 grow_vertical = 2
 rotation = 3.14159
@@ -162,31 +171,51 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_pocnh")
 max_value = 600.0
 show_percentage = false
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="NoiseMeter" type="ProgressBar" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 35)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_y31ga")
+max_value = 20.0
+value = 20.0
+show_percentage = false
+
+[node name="NoiseLabel" type="Label" parent="VBoxContainer/NoiseMeter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "SHUT UP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpeedDisplays" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer"]
+[node name="Panel" type="Panel" parent="VBoxContainer/SpeedDisplays"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 
-[node name="BoostLabel" type="Label" parent="VBoxContainer/HBoxContainer/Panel"]
+[node name="BoostLabel" type="Label" parent="VBoxContainer/SpeedDisplays/Panel"]
 layout_mode = 0
 offset_right = 25.0
 offset_bottom = 25.0
 text = "BC"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="SpeedMeter" type="ProgressBar" parent="VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(200, 25)
+[node name="SpeedMeter" type="ProgressBar" parent="VBoxContainer/SpeedDisplays"]
+custom_minimum_size = Vector2(340, 25)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_v8xh3")
 min_value = 400.0
-max_value = 1500.0
+max_value = 1000.0
 step = 0.1
 value = 400.0
 show_percentage = false
 
-[node name="SpeedLabel" type="Label" parent="VBoxContainer/HBoxContainer/SpeedMeter"]
+[node name="SpeedLabel" type="Label" parent="VBoxContainer/SpeedDisplays/SpeedMeter"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -195,17 +224,19 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "VROOM VROOM"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Panel2" type="Panel" parent="VBoxContainer/HBoxContainer"]
+[node name="Panel2" type="Panel" parent="VBoxContainer/SpeedDisplays"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 
-[node name="GravityLabel" type="Label" parent="VBoxContainer/HBoxContainer/Panel2"]
+[node name="GravityLabel" type="Label" parent="VBoxContainer/SpeedDisplays/Panel2"]
 layout_mode = 0
 offset_right = 25.0
 offset_bottom = 25.0
 text = "G"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ProgresCounter" type="Label" parent="."]
 layout_mode = 1
