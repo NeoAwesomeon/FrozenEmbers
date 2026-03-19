@@ -19,10 +19,10 @@ size = Vector3(1, 2, 2)
 size = Vector3(2, 2, 2)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_irfuy"]
-radius = 20.0
+radius = 60.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0smr1"]
-size = Vector3(40, 40, 20)
+size = Vector3(120, 40, 80)
 
 [node name="MonsterWolfTogether" type="CharacterBody3D"]
 collision_layer = 3
@@ -76,7 +76,7 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/VisionArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 40)
 shape = SubResource("BoxShape3D_0smr1")
 debug_color = Color(1, 1, 1, 0.41960785)
 
@@ -85,7 +85,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="LightRay" type="RayCast3D" parent="Rays"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
-target_position = Vector3(0, 0, -18.5)
+target_position = Vector3(0, 0, -60.5)
 collision_mask = 9
 collide_with_areas = true
 debug_shape_custom_color = Color(1, 1, 1, 1)
@@ -93,7 +93,7 @@ debug_shape_thickness = 4
 
 [node name="PlayerRay" type="RayCast3D" parent="Rays"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
-target_position = Vector3(0, 0, -20.5)
+target_position = Vector3(0, 0, -90)
 collision_mask = 17
 collide_with_areas = true
 debug_shape_custom_color = Color(0, 1, 1, 1)
@@ -110,7 +110,6 @@ wait_time = 60.0
 one_shot = true
 
 [node name="StareDuration" type="Timer" parent="Timers"]
-wait_time = 3.0
 one_shot = true
 
 [node name="ChaseDuration" type="Timer" parent="Timers"]
@@ -126,10 +125,15 @@ one_shot = true
 [node name="DetectiveAntiSpam" type="Timer" parent="Timers"]
 one_shot = true
 
+[node name="HurtDuration" type="Timer" parent="Timers"]
+wait_time = 2.5
+one_shot = true
+
 [node name="TESTINGDESPERATIONTIMER" type="Timer" parent="Timers"]
 wait_time = 5.0
 one_shot = true
 
+[connection signal="link_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_link_reached"]
 [connection signal="area_entered" from="Hitboxes/AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]
 [connection signal="area_entered" from="Hurtbox/MainHurtbox" to="." method="_on_main_hurtbox_area_entered"]
 [connection signal="area_entered" from="Hurtbox/HearingArea" to="." method="_on_hearing_area_area_entered"]
@@ -142,4 +146,5 @@ one_shot = true
 [connection signal="timeout" from="Timers/ChaseDuration" to="." method="_on_chase_duration_timeout"]
 [connection signal="timeout" from="Timers/BoostCountRate" to="." method="_on_boost_count_rate_timeout"]
 [connection signal="timeout" from="Timers/StunDuration" to="." method="_on_stun_duration_timeout"]
+[connection signal="timeout" from="Timers/HurtDuration" to="." method="_on_hurt_duration_timeout"]
 [connection signal="timeout" from="Timers/TESTINGDESPERATIONTIMER" to="." method="_on_testingdesperationtimer_timeout"]

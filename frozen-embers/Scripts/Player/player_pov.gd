@@ -1,3 +1,4 @@
+@tool
 extends Node3D
 
 # Variables taken from children
@@ -12,28 +13,34 @@ var clear_filter : bool = false
 
 # Locks Mouse to window
 func _ready():
-	target = get_tree().get_first_node_in_group("player")
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	if not Engine.is_editor_hint():
+		target = get_tree().get_first_node_in_group("player")
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
  #Tracks position of "View" in space
 func _physics_process(delta):
-	self.position = self.position.lerp(target.position, delta * 5.5)
-	spring_arm_3d.spring_length = 2.0 + ((GlobalPlayerStats.Light + 50)/10)
+	if Engine.is_editor_hint():
+		shader_filter.visible = false
 	
-	controller_rotation()
+	if not Engine.is_editor_hint():
+		self.position = self.position.lerp(target.position, delta * 5.5)
+		spring_arm_3d.spring_length = 2.0 + ((GlobalPlayerStats.Light + 50)/10)
+		
+		controller_rotation()
 
 # Moves camera view
 func _input(event):
-	if event is InputEventMouseMotion:
-		rotate_y(deg_to_rad(-event.relative.x * GlobalOptionSettings.camera_sensitivity))
-		camera_mount.rotate_x(deg_to_rad(-event.relative.y*GlobalOptionSettings.camera_sensitivity))
-		camera_mount.rotation.x = clamp(camera_mount.rotation.x, -(PI/2 - 0.5), (PI/4 - 0.65))
-	
-	if event.is_action_pressed("debug_2"):
-		if shader_filter.visible:
-			shader_filter.visible = false
-		else:
-			shader_filter.visible = true
+	if not Engine.is_editor_hint():
+		if event is InputEventMouseMotion:
+			rotate_y(deg_to_rad(-event.relative.x * GlobalOptionSettings.camera_sensitivity))
+			camera_mount.rotate_x(deg_to_rad(-event.relative.y*GlobalOptionSettings.camera_sensitivity))
+			camera_mount.rotation.x = clamp(camera_mount.rotation.x, -(PI/2 - 0.5), (PI/4 - 0.65))
+		
+		if event.is_action_pressed("debug_2"):
+			if shader_filter.visible:
+				shader_filter.visible = false
+			else:
+				shader_filter.visible = true
 
 func controller_rotation():
 	if Input.is_action_pressed("controller_rotate_left"):

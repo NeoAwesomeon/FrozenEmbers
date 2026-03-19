@@ -41,5 +41,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Magnet Hitbox"]
 shape = SubResource("SphereShape3D_kgwyn")
 
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+light_color = Color(0, 1, 1, 1)
+light_energy = 0.75
+omni_range = 2.5
+omni_attenuation = 0.1
+
 [connection signal="area_entered" from="Collect Hitbox" to="." method="_on_collect_hitbox_area_entered"]
 [connection signal="area_entered" from="Magnet Hitbox" to="." method="_on_magnet_hitbox_area_entered"]

@@ -31,7 +31,7 @@ extends CharacterBody3D
 @onready var visibility_spot_light: SpotLight3D = $Visuals/VisibilitySpotLight
 @onready var light_hitbox: CollisionShape3D = $Hitboxes/LightHitbox/CollisionShape3D
 @onready var noise_hitbox: CollisionShape3D = $Hitboxes/NoiseHitbox/CollisionShape3D
-@onready var main_hurtbox: Area3D = $Hurtboxes/MainHurtbox
+@onready var main_hurtbox: CollisionShape3D = $Hurtboxes/MainHurtbox/CollisionShape3D
 
 # Used for ledge grabbing
 @onready var high_ledge: RayCast3D = $Hitboxes/HighLedge
@@ -42,10 +42,10 @@ extends CharacterBody3D
 @export var firewall_scene : PackedScene
 
 # These variables keep track of the CharacterBody3D's mobility
-var point_of_view
+var point_of_view : Node3D
 var movement_velocity: Vector3
 var rotation_direction: float
-var wall_normal
+var wall_normal: Vector3 = Vector3.ZERO
 
 # These variables will constantly change based on how the player acts
 var gravity : float = 0.0
@@ -91,7 +91,7 @@ var repeat_lock : bool = false
 
 # This is a state machine
 enum States {GROUNDED, AIRBORNE, CROUCHED, SLIDING, HIGH_JUMP, LONG_JUMP, WALL_CLING, AIR_DIVE, ATTACK, AIR_ATTACK, 
-LEDGE_GRAB, REIGNITE, EXTINGUISH, SWIMMING, FREEZE_DEATH}
+LEDGE_GRAB, REIGNITE, EXTINGUISH, SWIMMING, FREEZE_DEATH, DESPIRATION}
 var current_state = States.GROUNDED
 
 func _ready() -> void:
@@ -106,6 +106,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
 		add_sibling(pause_menu.instantiate())
 	
+	handle_debug()
 	handle_state_transitions()
 	handle_state_actions(delta)
 	handle_boost(delta)
@@ -140,12 +141,11 @@ func _physics_process(delta: float) -> void:
 		rotation.y = rotation_direction
 	
 	
-	
 
 # Allows states to be entered at any time should qualifications match, does not include states with specific triggers
 func handle_state_transitions():
 	# Treat this section similar to using "_ready" as these trigger only once
-	if GlobalPlayerStats.Freeze > GlobalPlayerStats.Freeze_Max - 1:
+	if GlobalPlayerStats.Freeze > GlobalPlayerStats.Freeze_Max - 1 and !GlobalLevelStats.DESPERATION_MODE:
 		current_state = States.FREEZE_DEATH
 	
 	elif in_water:
@@ -427,7 +427,15 @@ func handle_gravity(delta):
 	
 	# Resets gravity while on the floor and gives a small bit of time for a jump
 	if gravity > 0 and is_on_floor():
-		gravity = 0
+		if current_state == States.GROUNDED and Input.is_action_pressed("dash"):
+			gravity = 3
+		elif current_state == States.GROUNDED:
+			gravity = 2
+		elif current_state == States.SLIDING:
+			gravity = 7
+		elif current_state == States.REIGNITE:
+			gravity = 0
+		
 		if current_state != States.AIRBORNE:
 			jump_ground = true
 			jump_cancel = true
@@ -443,7 +451,8 @@ func _on_heat_timer_timeout() -> void:
 			
 	# If the player is out of heat or enters the water, begin adding freeze
 	if GlobalPlayerStats.Heat < 0.1 or (current_state == States.SWIMMING and heat_shield_duration.is_stopped()):
-		GlobalPlayerStats.Freeze_Goal += 15
+		if !GlobalLevelStats.DESPERATION_MODE:
+			GlobalPlayerStats.Freeze_Goal += 15
 	
 
 func handle_boost(delta):
@@ -782,9 +791,11 @@ func _on_reignite_duration_timeout() -> void:
 	sfx_controller.play_boost_fire()
 	clear_locks()
 	repeat_lock = true
-	GlobalLevelStats.MAX_NOISE_ACTIVE = true
-	GlobalLevelStats.MAX_NOISE_LOCATION = global_position
-	noise_hitbox.shape.radius = 20.0
+	#This is here for debug reasons (Disable Player Awareness)
+	if !noise_hitbox.disabled:
+		GlobalLevelStats.MAX_NOISE_ACTIVE = true
+		GlobalLevelStats.MAX_NOISE_LOCATION = global_position
+		noise_hitbox.shape.radius = 20.0
 
 func _on_extinguish_duration_timeout() -> void:
 	#Grants a burst of heat based on how much light was extinguished
@@ -933,3 +944,31 @@ func handle_global_stats():
 		GlobalPlayerStats.PLAYER_CURRENT_STATE = "Extinguish"
 	elif current_state == States.SWIMMING:
 		GlobalPlayerStats.PLAYER_CURRENT_STATE = "Swimming"
+
+func handle_debug():
+	#DEBUG REFILL
+	if Input.is_action_just_pressed("debug_3"):
+		GlobalPlayerStats.Heat_Goal = GlobalPlayerStats.Heat_Max
+		GlobalPlayerStats.Light_Goal = GlobalPlayerStats.Light_Max
+		noise_hitbox.shape.radius = 0.0
+		print("PLAYER: DEBUG REFILL")
+	
+	#DEBUG TOGGLE INVINCIBILITY
+	if Input.is_action_just_pressed("debug_4"):
+		if !main_hurtbox.disabled:
+			main_hurtbox.disabled = true
+			print("PLAYER: INVINCIBILITY ON")
+		else:
+			main_hurtbox.disabled = false
+			print("PLAYER: INVINCIBILITY OFF")
+	
+	#DEBUG TOGGLE PLAYER AWARENESS
+	if Input.is_action_just_pressed("debug_5"):
+		if !noise_hitbox.disabled:
+			noise_hitbox.disabled = true
+			light_hitbox.disabled = true
+			print("PLAYER: OBLIVIOUS ON")
+		else:
+			noise_hitbox.disabled = false
+			light_hitbox.disabled = false
+			print("PLAYER: OBLIVIOUS OFF")

@@ -68,6 +68,9 @@ func _on_tutorial_pressed() -> void:
 	MusicController.play_hum_boop()
 	get_tree().change_scene_to_file("res://Scenes/Levels/WIP/Level_Tutorial_V_1.tscn")
 
+func _on_test_04_pressed() -> void:
+	get_tree().change_scene_to_file("res://Scenes/Levels/Testing/testing_world_04.tscn")
+
 #OPTIONS MENU
 func _on_om_return_pressed() -> void:
 	MusicController.play_hum_boop()

@@ -298,6 +298,54 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9, -216)
 [node name="LightPickup3" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9, -212)
 
+[node name="LightPickup10" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9, -247)
+
+[node name="LightPickup11" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -277)
+
+[node name="LightPickup15" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -314)
+
+[node name="LightPickup16" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.5, 1, -316)
+
+[node name="LightPickup17" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5, 12, -326.5)
+
+[node name="LightPickup18" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5, 12, -305.5)
+
+[node name="LightPickup19" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -45.5, -9, -319)
+
+[node name="LightPickup20" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -47.5, -8, -313)
+
+[node name="LightPickup21" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -69, -6, -321)
+
+[node name="LightPickup22" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -64, -4, -324)
+
+[node name="LightPickup23" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -68, -1, -327)
+
+[node name="LightPickup24" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -66, 2, -332)
+
+[node name="LightPickup25" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -43.5, 3, -330.4)
+
+[node name="LightPickup12" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.5, -262)
+
+[node name="LightPickup13" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.5, -254.5)
+
+[node name="LightPickup14" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.5, -269.5)
+
 [node name="LightPickup4" parent="Gameplay/Pickups" instance=ExtResource("8_tn3fh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -9, -212)
 

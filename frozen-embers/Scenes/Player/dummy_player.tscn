@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://eue8lg0kpmi8" path="res://Scripts/Player/dummy_player.gd" id="1_sk6i7"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6crq6"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oke3n"]
 render_priority = 1
 transparency = 1
@@ -33,17 +35,19 @@ height = 0.5
 radial_segments = 8
 rings = 6
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6crq6"]
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_oke3n"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_sk6i7"]
 radius = 10.0
 
 [node name="DummyPlayer" type="CharacterBody3D" groups=["player"]]
-collision_layer = 0
-collision_mask = 0
+collision_layer = 21
+collision_mask = 21
 script = ExtResource("1_sk6i7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_6crq6")
 
 [node name="Visuals" type="Node3D" parent="."]
 
@@ -55,10 +59,6 @@ mesh = SubResource("PrismMesh_m66tt")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
 mesh = SubResource("SphereMesh_xyjq8")
 skeleton = NodePath("../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_6crq6")
 
 [node name="Hurtbox" type="Area3D" parent="." groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

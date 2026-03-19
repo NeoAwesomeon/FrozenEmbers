@@ -26,6 +26,10 @@ extends Control
 
 @onready var speed_displays: HBoxContainer = $VBoxContainer/SpeedDisplays
 
+@onready var debug_invin: Label = $DebugVBoxContainer/DebugInvin
+@onready var debug_obliv: Label = $DebugVBoxContainer/DebugObliv
+
+
 var xxx : int = 0
 var yyy : int = 0
 var zzz : int = 0
@@ -34,6 +38,8 @@ var distance : int = 1
 var stat_toggle : bool = false
 
 func _ready() -> void:
+	debug_invin.visible = false
+	debug_obliv.visible = false
 	debug_show_stats()
 
 func debug_show_stats():
@@ -56,12 +62,7 @@ func debug_show_stats():
 
 func _process(_delta: float) -> void:
 	
-	if Input.is_action_just_pressed("debug_1"):
-		if !stat_toggle:
-			stat_toggle = true
-		else:
-			stat_toggle = false
-		debug_show_stats()
+	handle_debug()
 	
 	state_label.text = GlobalPlayerStats.PLAYER_CURRENT_STATE
 	boost_label.text = "x" + str(GlobalPlayerStats.PLAYER_BOOST_COUNT)
@@ -101,3 +102,23 @@ func _process(_delta: float) -> void:
 		zzz = abs(GlobalPlayerStats.Player_Position.z - GlobalLevelStats.EXIT_LOCATION.z)
 		distance = snapped(xxx + yyy + zzz, 1)
 		progres_counter.text = str(distance - 2)
+
+func handle_debug():
+	if Input.is_action_just_pressed("debug_1"):
+		if !stat_toggle:
+			stat_toggle = true
+		else:
+			stat_toggle = false
+		debug_show_stats()
+	
+	if Input.is_action_just_pressed("debug_4"):
+		if !debug_invin.visible:
+			debug_invin.visible = true
+		else:
+			debug_invin.visible = false
+	
+	if Input.is_action_just_pressed("debug_5"):
+		if !debug_obliv.visible:
+			debug_obliv.visible = true
+		else:
+			debug_obliv.visible = false

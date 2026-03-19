@@ -4,6 +4,7 @@ extends CharacterBody3D
 @onready var visuals: Node3D = $Visuals
 
 #Areas & CollisionShapes
+@onready var main_collision: CollisionShape3D = $CollisionShape3D
 @onready var main_hurtbox: CollisionShape3D = $Hurtbox/MainHurtbox/CollisionShape3D
 @onready var hearing_area: CollisionShape3D = $Hurtbox/HearingArea/CollisionShape3D
 @onready var vision_area: CollisionShape3D = $Hurtbox/VisionArea/CollisionShape3D
@@ -23,6 +24,7 @@ extends CharacterBody3D
 @onready var boost_count_rate: Timer = $Timers/BoostCountRate
 @onready var stun_duration: Timer = $Timers/StunDuration
 @onready var detective_anti_spam: Timer = $Timers/DetectiveAntiSpam
+@onready var hurt_duration: Timer = $Timers/HurtDuration
 
 #HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
 @onready var testingdesperationtimer: Timer = $Timers/TESTINGDESPERATIONTIMER
@@ -30,22 +32,23 @@ extends CharacterBody3D
 #Determines where the monster will move to, if at all
 var target_pos: Vector3
 var previous_target_pos: Vector3
-var has_target = false
-var boost_active = false
-var vision_active = false
-var chase_prep = false
-var chase_active = false
-var desp_safe = false
+var has_target : bool = false
+var boost_active : bool = false
+var vision_active : bool = false
+var chase_prep : bool = false
+var chase_active : bool = false
+var desp_safe : bool = false
 
 #Movement Requirements
 var movement_velocity: Vector3
 var rotation_direction: float
-var gravity = 0
-var true_speed = 0
-var boost_count = 0.0
-var detective_points = 0.0
+var gravity : float = 0.0
+var true_speed : float = 0.0
+var boost_count : float = 0.0
+var detective_points : float = 0.0
 var spawn_location : Vector3
-var rotate_lock = false
+var rotate_lock : bool = false
+var remaining_knockback : float = 0.0
 
 #Used to measure distance from objectives in prefered units
 var xxx = 0
@@ -60,22 +63,23 @@ var use_vision = false
 @export_category("Monster Stats")
 @export_range(-1, 20) var difficulty = 0
 @export var base_move_speed : float = 350.0
+@export var hurt_knockback : float = 2000.0
 @export var adaptation_1 : bool = false
 @export var adaptation_2 : bool = false
 @export var adaptation_3 : bool = false
 @export var adaptation_4 : bool = false
 
-enum States {SPAWN, WANDER, HUH, STARE, CURIOUS, PURSUIT, CHASE, ENDGAME, DESPERATION, STUNNED}
+enum States {SPAWN, WANDER, HUH, STARE, CURIOUS, PURSUIT, CHASE, ENDGAME, DESPERATION, STUNNED, HURT}
 var current_state = States.SPAWN
-#Priority Guide: 0=POI, 1=MINOR, 2=MAJOR, 3=MAX, 4=PLAYER, 5=ENDGAME
+#Priority Guide: 0=PLACE_OF_INTEREST, 1=MINOR, 2=MAJOR, 3=MAX, 4=PLAYER, 5=ENDGAME
 var priority = 0
 
 
 func _ready() -> void:
 	difficulty = GlobalLevelStats.Wolf_Difficulty
 	GlobalLevelStats.NUMBER_OF_MONSTERS += 2
-	spawn_location = self.global_position
-	previous_target_pos = self.global_position
+	spawn_location = global_position
+	previous_target_pos = global_position
 	
 	# Instantly destroys this monster if the difficulty is set to a negative value
 	if difficulty == -1:
@@ -85,14 +89,12 @@ func _ready() -> void:
 	
 	# Initial difficulty modifiers here
 	spawn_timer.wait_time = 23.0 - difficulty
-	if difficulty < 20:
-		huh_duration.wait_time = (2.0 - (difficulty)/10.0) + 1.0
-		hearing_area.shape.radius = 5.0 + ((difficulty)/4.0)
-		stun_duration.wait_time = 30.0 - difficulty
-	else:
-		huh_duration.wait_time = 1.0
-		hearing_area.shape.radius = 10.0
-		stun_duration.wait_time = 10.0
+	print(spawn_timer.wait_time)
+	
+	huh_duration.wait_time = (2.0 - (difficulty)/10.0) + 1.0
+	hearing_area.shape.radius = 40.0 + difficulty
+	light_ray.target_position.z = -(hearing_area.shape.radius) - 0.5
+	stun_duration.wait_time = 30.0 - difficulty
 	
 	if difficulty > 5:
 		chase_duration.wait_time = 45.0 + (difficulty - 5.0)
@@ -114,9 +116,10 @@ func _physics_process(delta: float) -> void:
 	if !stun_duration.is_stopped():
 		current_state = States.STUNNED
 	
+	handle_gravity(delta)
 	handle_line_of_sight()
 	handle_distance_and_noise()
-	handle_state_actions()
+	handle_state_actions(delta)
 	handle_chase_logic()
 	
 	visuals.scale = visuals.scale.lerp(Vector3(1, 1, 1), delta * 10)
@@ -128,11 +131,24 @@ func _physics_process(delta: float) -> void:
 		
 		var applied_velocity : Vector3
 		
-		movement_velocity = direction * true_speed * delta
+		#This is messy and stupid, but it works!
+		#If not getting attacked, move normaly
+		if hurt_duration.is_stopped():
+			movement_velocity = direction * true_speed * delta
+		#If getting attacked, be pushed back
+		else:
+			if remaining_knockback > 0:
+				movement_velocity = transform.basis.z * -remaining_knockback * delta
+				remaining_knockback -= remaining_knockback * 2 * delta
+			else:
+				movement_velocity = Vector3.ZERO
+				remaining_knockback = 0
+		#Turns values into movement
 		applied_velocity = velocity.lerp(movement_velocity, delta * 10)
-		applied_velocity.y = -gravity
+		applied_velocity.y = -gravity 
 		velocity = applied_velocity
 		
+		#Failsafe in case no target is possible
 		if nav_agent.is_navigation_finished():
 			velocity = Vector3.ZERO
 			has_target = false
@@ -146,7 +162,7 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 	
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("debug_0"):
 		print(" --- TWINS CHECKUP --- ")
 		print("Difficulty = " + str(difficulty))
 		print("Current State = " + str(current_state))
@@ -162,6 +178,14 @@ func _physics_process(delta: float) -> void:
 		print("Chase Active? " + str(chase_active))
 		print("Desp Safe? " + str(desp_safe))
 		print(" ------------------------- ")
+
+func handle_gravity(delta):
+	if desp_safe or stun_duration.time_left != 0:
+		gravity = 0
+	elif !is_on_floor():
+		gravity = 500 * delta
+	else:
+		gravity = 0
 
 func handle_distance_and_noise():
 	# Finds distance from target
@@ -268,7 +292,8 @@ func reset_wander():
 			if detective_anti_spam.is_stopped():
 				detective_anti_spam.start()
 				detective_points += 1
-				hearing_area.shape.radius = (5.0 + ((difficulty)/4.0)) + ((difficulty/4.0) * detective_points)
+				hearing_area.shape.radius = (40.0 + difficulty) + ((difficulty/2.0) * detective_points)
+				light_ray.target_position.z = -(hearing_area.shape.radius) - 0.5
 		change_speed()
 
 # Resets target if monster gets stuck on one for too long
@@ -278,9 +303,14 @@ func _on_boredom_timer_timeout() -> void:
 		reset_wander()
 
 # Used to handle perpetual actions
-func handle_state_actions():
+func handle_state_actions(_delta):
+	#Section for forcing states to change
 	if GlobalLevelStats.DESPERATION_MODE:
 		current_state = States.DESPERATION
+	
+	elif !hurt_duration.is_stopped():
+		current_state = States.HURT
+	
 	
 	elif GlobalLevelStats.EXIT_OPEN and stun_duration.is_stopped() and spawn_timer.is_stopped():
 		current_state = States.ENDGAME
@@ -292,9 +322,14 @@ func handle_state_actions():
 		States.HUH:
 			true_speed = 0
 		
+		States.HURT:
+			rotate_lock = true
+			
+			
+		
 		States.STARE:
 			true_speed = 0
-			if distance_from_target > 28 or distance_from_target < 12:
+			if distance_from_target > player_ray.target_position.z  or distance_from_target < 40:
 				chase_active = true
 				if chase_duration.is_stopped():
 					chase_duration.start()
@@ -306,6 +341,9 @@ func handle_state_actions():
 			
 			# If this was the monster that triggered desperation, start QTE.
 			if desp_safe:
+				main_collision.disabled = true
+				global_position = target_pos
+				
 				if Input.is_action_just_pressed("attack"):
 					if GlobalLevelStats.DESPERATION_SAVE_ACTIVE:
 						GlobalLevelStats.DESPERATION_MODE = false
@@ -357,6 +395,7 @@ func handle_state_actions():
 				true_speed = (base_move_speed + (difficulty * 2.5)) * 1.5 + (difficulty/1.5 * boost_count)
 		
 		States.CHASE:
+			chase_active = true
 			true_speed = (base_move_speed + (difficulty * 2.5)) * 1.5 + (difficulty * (boost_count * 2))
 		
 		States.ENDGAME:
@@ -389,6 +428,7 @@ func handle_line_of_sight():
 					print("Twins: PLAYER SEEN!")
 				priority = 4
 				target_pos = GlobalPlayerStats.Player_Position
+				chase_active = true
 				chase_prep = true
 
 func handle_chase_logic():
@@ -415,6 +455,7 @@ func _on_chase_duration_timeout() -> void:
 
 #Used to teleport the monster away when the player is caught by a different monster
 func reset_respawn():
+	main_collision.disabled = false
 	rotate_lock = false
 	self.global_position = spawn_location
 	current_state = States.SPAWN
@@ -428,13 +469,22 @@ func reset_respawn():
 
 #If the player is still in range when the stun wares off, monster will begin wandering again
 func _on_stun_duration_timeout() -> void:
+	main_collision.disabled = false
 	print("Twins: Stun Complete.")
 	reset_wander()
 
 #AREA REACTIONS HERE
-func _on_main_hurtbox_area_entered(_area: Area3D) -> void:
-	# Use this for taking damage
-	pass
+func _on_main_hurtbox_area_entered(area: Area3D) -> void:
+	if area.is_in_group("player_attack"):
+		remaining_knockback = hurt_knockback
+		hurt_duration.start()
+
+func _on_hurt_duration_timeout() -> void:
+	if priority < 4:
+		current_state = States.WANDER
+	else:
+		current_state = States.CHASE
+		chase_active = true
 
 func _on_hearing_area_area_entered(area: Area3D) -> void:
 	if area.is_in_group("major_noise") and priority < 3:
@@ -476,3 +526,8 @@ func _on_testingdesperationtimer_timeout() -> void:
 	current_state = States.SPAWN
 	reset_respawn()
 	GlobalLevelStats.game_over()
+
+
+func _on_navigation_agent_3d_link_reached(details: Dictionary) -> void:
+	global_position = details.link_exit_position
+	global_position.y = details.link_exit_position.y + 5.0

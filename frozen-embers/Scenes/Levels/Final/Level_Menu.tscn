@@ -73,6 +73,7 @@ shader_parameter/gamma = Vector2(1, 1)
 [sub_resource type="QuadMesh" id="QuadMesh_0tg1s"]
 material = SubResource("ShaderMaterial_rthl2")
 flip_faces = true
+size = Vector2(500, 500)
 
 [node name="MenuLevel" type="Node3D"]
 

@@ -1,0 +1,74 @@
+[gd_scene load_steps=10 format=3 uid="uid://b10pdvp7owdsh"]
+
+[ext_resource type="PackedScene" uid="uid://bsr73xwil1ngl" path="res://Scenes/Levels/_Bases_/level_starter.tscn" id="1_esynx"]
+[ext_resource type="PackedScene" uid="uid://dqcfqm4fk2wp0" path="res://Scenes/UI/player_hud.tscn" id="2_6hi5y"]
+[ext_resource type="PackedScene" uid="uid://cntk6hyobvon5" path="res://Scenes/Player/player_pov.tscn" id="3_cww1r"]
+[ext_resource type="PackedScene" uid="uid://dqayd4wqfa7ps" path="res://Scenes/Player/player_character_ember.tscn" id="4_cumhv"]
+[ext_resource type="PackedScene" uid="uid://btlti1inruyru" path="res://Scenes/Interactables/level_exit.tscn" id="5_bwsxy"]
+[ext_resource type="PackedScene" uid="uid://bf0tai1fquw38" path="res://Scenes/Interactables/goal_beacon.tscn" id="6_8t2kw"]
+[ext_resource type="Material" uid="uid://7gyyy28j40ns" path="res://Assets/Materials/Testing/Testing_Grey.tres" id="7_fuacy"]
+[ext_resource type="PackedScene" uid="uid://owaa1ynbn566" path="res://Scenes/Monsters/monster_wolf_together.tscn" id="8_qhe8v"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_fuacy"]
+vertices = PackedVector3Array(-19.5, 0.5, 74, 19.5, 0.5, 74, 19.5, 0.5, -8.5, -19.5, 0.5, -8.5, 19.75, 0.5, 76.25, -19.75, 0.5, 76.25, -174.5, 0.5, 425.5, 174.5, 0.5, 425.5, -174.5, 0.5, 76.25, 174.5, 0.5, 76.25)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(1, 4, 0), PackedInt32Array(0, 4, 5), PackedInt32Array(4, 7, 5), PackedInt32Array(5, 7, 6), PackedInt32Array(6, 8, 5), PackedInt32Array(4, 9, 7)]
+
+[node name="Player&Monster" type="Node3D"]
+
+[node name="LevelStarter" parent="." instance=ExtResource("1_esynx")]
+Wolf_Difficulty = 20
+
+[node name="Player" type="Node" parent="."]
+
+[node name="PlayerHud" parent="Player" instance=ExtResource("2_6hi5y")]
+
+[node name="PlayerPOV" parent="Player" instance=ExtResource("3_cww1r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="PlayerCharacterEmber" parent="Player" instance=ExtResource("4_cumhv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="Gameplay" type="Node" parent="."]
+
+[node name="LevelExit" parent="Gameplay" instance=ExtResource("5_bwsxy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
+
+[node name="Beacons" type="Node" parent="Gameplay"]
+
+[node name="GoalBeacon" parent="Gameplay/Beacons" instance=ExtResource("6_8t2kw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -150, 0, 100)
+
+[node name="GoalBeacon2" parent="Gameplay/Beacons" instance=ExtResource("6_8t2kw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150, 0, 100)
+
+[node name="GoalBeacon3" parent="Gameplay/Beacons" instance=ExtResource("6_8t2kw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150, 0, 400)
+
+[node name="GoalBeacon4" parent="Gameplay/Beacons" instance=ExtResource("6_8t2kw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -150, 0, 400)
+
+[node name="Messages" type="Node" parent="Gameplay"]
+
+[node name="Pickups" type="Node" parent="Gameplay"]
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_fuacy")
+
+[node name="Environment" type="Node" parent="NavigationRegion3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 33.5)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(40, 2, 85)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 250.8917)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(350, 2, 350)
+
+[node name="Monsters" type="Node" parent="."]
+
+[node name="MonsterWolfTogether" parent="Monsters" instance=ExtResource("8_qhe8v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 257)

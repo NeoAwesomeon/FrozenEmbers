@@ -63,12 +63,12 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="TabContainer/Menus"]
+[node name="Accept" type="Panel" parent="TabContainer/Menus"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Panel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Accept"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -76,18 +76,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Menus/Panel/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Menus/Accept/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Accept"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Menus/Panel/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Menus/Accept/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Panel/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Accept/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -95,11 +95,11 @@ script = ExtResource("2_ygma5")
 action = "ui_accept"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Panel/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Accept/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Panel/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Accept/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -108,16 +108,16 @@ action = "ui_accept"
 action_event_index = 3
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Panel/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Accept/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel2" type="Panel" parent="TabContainer/Menus"]
+[node name="Cancel" type="Panel" parent="TabContainer/Menus"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Panel2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Cancel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -125,18 +125,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Menus/Panel2/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Menus/Cancel/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Cancel"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Menus/Panel2/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Menus/Cancel/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Panel2/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Cancel/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -144,11 +144,11 @@ script = ExtResource("2_ygma5")
 action = "ui_cancel"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Panel2/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Cancel/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Panel2/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Cancel/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -157,16 +157,16 @@ action = "ui_cancel"
 action_event_index = 1
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Panel2/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Cancel/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel3" type="Panel" parent="TabContainer/Menus"]
+[node name="Up" type="Panel" parent="TabContainer/Menus"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Panel3"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Up"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -174,18 +174,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Menus/Panel3/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Menus/Up/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Up"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Menus/Panel3/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Menus/Up/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Panel3/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Up/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -194,11 +194,11 @@ action = "ui_up"
 action_event_index = 3
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Panel3/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Up/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Panel3/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Up/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -207,16 +207,16 @@ action = "ui_up"
 action_event_index = 2
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Panel3/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Up/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel4" type="Panel" parent="TabContainer/Menus"]
+[node name="Left" type="Panel" parent="TabContainer/Menus"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Panel4"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Left"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -224,18 +224,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Menus/Panel4/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Menus/Left/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Left"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Menus/Panel4/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Menus/Left/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Panel4/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Left/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -244,11 +244,11 @@ action = "ui_left"
 action_event_index = 3
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Panel4/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Left/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Panel4/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Left/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -257,16 +257,16 @@ action = "ui_left"
 action_event_index = 2
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Panel4/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Left/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel5" type="Panel" parent="TabContainer/Menus"]
+[node name="Down" type="Panel" parent="TabContainer/Menus"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Panel5"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Down"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -274,18 +274,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Menus/Panel5/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Menus/Down/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Down"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Menus/Panel5/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Menus/Down/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Panel5/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Down/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -294,11 +294,11 @@ action = "ui_down"
 action_event_index = 3
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Panel5/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Down/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Panel5/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Down/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -307,16 +307,16 @@ action = "ui_down"
 action_event_index = 2
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Panel5/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Down/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel6" type="Panel" parent="TabContainer/Menus"]
+[node name="Right" type="Panel" parent="TabContainer/Menus"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Panel6"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Menus/Right"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -324,18 +324,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Menus/Panel6/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Menus/Right/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Right"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Menus/Panel6/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Menus/Right/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Panel6/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Menus/Right/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -344,11 +344,11 @@ action = "ui_right"
 action_event_index = 3
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Panel6/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Menus/Right/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Panel6/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Menus/Right/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -357,7 +357,7 @@ action = "ui_right"
 action_event_index = 2
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Panel6/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Menus/Right/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
@@ -403,12 +403,12 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Move Forward" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Move Forward"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -416,18 +416,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Move Forward/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Move Forward"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Move Forward/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Move Forward/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -435,11 +435,11 @@ script = ExtResource("2_ygma5")
 action = "move_forward"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Move Forward/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Move Forward/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -448,16 +448,16 @@ action = "move_forward"
 action_event_index = 1
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Move Forward/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel2" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Move Left" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Move Left"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -465,18 +465,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel2/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Move Left/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Move Left"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel2/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Move Left/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel2/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Move Left/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -484,11 +484,11 @@ script = ExtResource("2_ygma5")
 action = "move_left"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel2/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Move Left/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel2/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Move Left/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -497,16 +497,16 @@ action = "move_left"
 action_event_index = 1
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel2/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Move Left/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel3" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Move Back" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel3"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Move Back"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -514,18 +514,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel3/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Move Back/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Move Back"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel3/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Move Back/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel3/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Move Back/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -533,11 +533,11 @@ script = ExtResource("2_ygma5")
 action = "move_back"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel3/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Move Back/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel3/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Move Back/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -546,16 +546,16 @@ action = "move_back"
 action_event_index = 1
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel3/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Move Back/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel4" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Move Right" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel4"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Move Right"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -563,18 +563,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel4/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Move Right/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Move Right"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel4/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Move Right/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel4/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Move Right/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -582,11 +582,11 @@ script = ExtResource("2_ygma5")
 action = "move_right"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel4/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Move Right/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel4/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Move Right/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -595,16 +595,16 @@ action = "move_right"
 action_event_index = 1
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel4/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Move Right/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel5" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Jump" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel5"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Jump"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -612,18 +612,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel5/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Jump/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Jump"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel5/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Jump/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel5/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Jump/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -631,11 +631,11 @@ script = ExtResource("2_ygma5")
 action = "jump"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel5/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Jump/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel5/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Jump/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -644,16 +644,16 @@ action = "jump"
 action_event_index = 1
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel5/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Jump/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel6" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Dash" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel6"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Dash"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -661,18 +661,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel6/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Dash/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Dash"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel6/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Dash/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel6/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Dash/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -680,11 +680,11 @@ script = ExtResource("2_ygma5")
 action = "dash"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel6/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Dash/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel6/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Dash/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -693,16 +693,16 @@ action = "dash"
 action_event_index = 1
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel6/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Dash/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel7" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Crouch_Slide" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel7"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Crouch_Slide"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -710,18 +710,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel7/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Crouch_Slide/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Crouch/Slide"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel7/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Crouch_Slide/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel7/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Crouch_Slide/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -729,11 +729,11 @@ script = ExtResource("2_ygma5")
 action = "crouch"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel7/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Crouch_Slide/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel7/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Crouch_Slide/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -742,16 +742,16 @@ action = "crouch"
 action_event_index = 1
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel7/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Crouch_Slide/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel8" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Attack" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel8"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Attack"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -759,18 +759,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel8/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Attack/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Attack"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel8/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Attack/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel8/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Attack/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -778,11 +778,11 @@ script = ExtResource("2_ygma5")
 action = "attack"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel8/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Attack/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel8/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Attack/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -791,16 +791,16 @@ action = "attack"
 action_event_index = 1
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel8/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Attack/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel9" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Reignite" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel9"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Reignite"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -808,18 +808,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel9/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Reignite/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Reignite"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel9/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Reignite/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel9/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Reignite/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -827,11 +827,11 @@ script = ExtResource("2_ygma5")
 action = "reignite"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel9/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Reignite/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel9/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Reignite/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -840,16 +840,16 @@ action = "reignite"
 action_event_index = 1
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel9/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Reignite/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel10" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Extinguish" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel10"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Extinguish"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -857,18 +857,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel10/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Extinguish/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Extinguish"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel10/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Extinguish/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel10/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Extinguish/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -876,11 +876,11 @@ script = ExtResource("2_ygma5")
 action = "extinguish"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel10/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Extinguish/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel10/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Extinguish/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -889,16 +889,16 @@ action = "extinguish"
 action_event_index = 1
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel10/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Extinguish/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel11" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Pause Game" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel11"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Pause Game"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -906,18 +906,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel11/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Pause Game/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Pause Game"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel11/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Pause Game/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Panel11/HBoxContainer"]
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Gameplay/Pause Game/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -925,11 +925,11 @@ script = ExtResource("2_ygma5")
 action = "pause"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Panel11/HBoxContainer"]
+[node name="ButtonSpacer" type="Control" parent="TabContainer/Gameplay/Pause Game/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel11/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Pause Game/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -938,16 +938,16 @@ action = "pause"
 action_event_index = 1
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel11/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Pause Game/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Sensitivity" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Camera Sensitivity" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Sensitivity"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Camera Sensitivity"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -955,7 +955,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Sensitivity/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Camera Sensitivity/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -963,15 +963,15 @@ text = "Camera Sensitivity"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Sensitivity/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Camera Sensitivity/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CameraLabel" type="Label" parent="TabContainer/Gameplay/Sensitivity/HBoxContainer"]
+[node name="CameraLabel" type="Label" parent="TabContainer/Gameplay/Camera Sensitivity/HBoxContainer"]
 layout_mode = 2
 text = "0.15"
 
-[node name="CameraSlider" type="HSlider" parent="TabContainer/Gameplay/Sensitivity/HBoxContainer"]
+[node name="CameraSlider" type="HSlider" parent="TabContainer/Gameplay/Camera Sensitivity/HBoxContainer"]
 custom_minimum_size = Vector2(425, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -981,16 +981,16 @@ max_value = 1.0
 step = 0.01
 value = 0.15000000000000002
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Sensitivity/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Camera Sensitivity/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel12" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Camera Look Up" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel12"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Camera Look Up"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -998,18 +998,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel12/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Camera Look Up/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Camera Look Up"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel12/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Camera Look Up/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel12/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Camera Look Up/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -1017,16 +1017,16 @@ script = ExtResource("2_ygma5")
 action = "controller_rotate_up"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel12/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Camera Look Up/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel13" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Camera Look Down" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel13"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Camera Look Down"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1034,18 +1034,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel13/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Camera Look Down/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Camera Look Down"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel13/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Camera Look Down/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel13/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Camera Look Down/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -1053,16 +1053,16 @@ script = ExtResource("2_ygma5")
 action = "controller_rotate_down"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel13/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Camera Look Down/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel14" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Camera Look Left" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel14"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Camera Look Left"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1070,18 +1070,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel14/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Camera Look Left/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Camera Look Left"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel14/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Camera Look Left/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel14/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Camera Look Left/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -1089,16 +1089,16 @@ script = ExtResource("2_ygma5")
 action = "controller_rotate_left"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel14/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Camera Look Left/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Panel15" type="Panel" parent="TabContainer/Gameplay"]
+[node name="Camera Look Right" type="Panel" parent="TabContainer/Gameplay"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_cafqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Panel15"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Gameplay/Camera Look Right"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1106,18 +1106,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="TabContainer/Gameplay/Panel15/HBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Gameplay/Camera Look Right/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Camera Look Right"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Panel15/HBoxContainer"]
+[node name="Spacer" type="Control" parent="TabContainer/Gameplay/Camera Look Right/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Panel15/HBoxContainer"]
+[node name="InputReMapButtonG" type="Button" parent="TabContainer/Gameplay/Camera Look Right/HBoxContainer"]
 custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 text = "Example"
@@ -1125,8 +1125,219 @@ script = ExtResource("2_ygma5")
 action = "controller_rotate_right"
 metadata/_custom_type_script = "uid://3kssiiytrhoy"
 
-[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Panel15/HBoxContainer"]
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Gameplay/Camera Look Right/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[connection signal="value_changed" from="TabContainer/Gameplay/Sensitivity/HBoxContainer/CameraSlider" to="TabContainer/Gameplay" method="_on_camera_slider_value_changed"]
+[node name="Debug" type="VBoxContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Titles" type="HBoxContainer" parent="TabContainer/Debug"]
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="Label" type="Label" parent="TabContainer/Debug/Titles"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Action"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Debug/Titles"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="TabContainer/Debug/Titles"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Keyboard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Debug/Titles"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Show Stats" type="Panel" parent="TabContainer/Debug"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Debug/Show Stats"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Debug/Show Stats/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Show Stats"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Debug/Show Stats/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Debug/Show Stats/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "debug_1"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Debug/Show Stats/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Disable Shaders" type="Panel" parent="TabContainer/Debug"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Debug/Disable Shaders"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Debug/Disable Shaders/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Disable Shaders"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Debug/Disable Shaders/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Debug/Disable Shaders/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "debug_2"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Debug/Disable Shaders/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Refill Stats" type="Panel" parent="TabContainer/Debug"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Debug/Refill Stats"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Debug/Refill Stats/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Refill Light & Heat"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Debug/Refill Stats/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Debug/Refill Stats/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "debug_3"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Debug/Refill Stats/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Invincibility" type="Panel" parent="TabContainer/Debug"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Debug/Invincibility"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Debug/Invincibility/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Invincibility"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Debug/Invincibility/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Debug/Invincibility/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "debug_4"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Debug/Invincibility/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Oblivious" type="Panel" parent="TabContainer/Debug"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_cafqa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Debug/Oblivious"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Debug/Oblivious/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Oblivious Monsters"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="TabContainer/Debug/Oblivious/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InputReMapButtonK" type="Button" parent="TabContainer/Debug/Oblivious/HBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+text = "Example"
+script = ExtResource("2_ygma5")
+action = "debug_5"
+metadata/_custom_type_script = "uid://3kssiiytrhoy"
+
+[node name="ButtonSpacer2" type="Control" parent="TabContainer/Debug/Oblivious/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[connection signal="value_changed" from="TabContainer/Gameplay/Camera Sensitivity/HBoxContainer/CameraSlider" to="TabContainer/Gameplay" method="_on_camera_slider_value_changed"]

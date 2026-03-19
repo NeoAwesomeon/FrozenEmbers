@@ -32,3 +32,5 @@
 [node name="Pickups" type="Node" parent="Gameplay"]
 
 [node name="Environment" type="Node" parent="."]
+
+[node name="Monsters" type="Node" parent="."]

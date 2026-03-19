@@ -175,6 +175,7 @@ show_percentage = false
 custom_minimum_size = Vector2(200, 35)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_y31ga")
+min_value = 1.0
 max_value = 20.0
 value = 20.0
 show_percentage = false
@@ -253,3 +254,31 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 50
 text = "Beacons: 0"
 horizontal_alignment = 2
+
+[node name="DebugVBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -102.5
+offset_top = -53.0
+offset_right = 102.5
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="DebugInvin" type="Label" parent="DebugVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Invincibility - Active"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DebugObliv" type="Label" parent="DebugVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Oblivious Monsters - Active"
+horizontal_alignment = 1
+vertical_alignment = 1

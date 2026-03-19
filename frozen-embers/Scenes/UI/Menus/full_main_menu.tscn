@@ -132,7 +132,6 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="LevelSelectMenu" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -185,6 +184,20 @@ focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath("../../Levels/Test02")
 text = "Monster
 Logic Test"
+
+[node name="ButtonSpacer2" type="Control" parent="LevelSelectMenu/VBoxContainer/Test Areas"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="Test04" type="Button" parent="LevelSelectMenu/VBoxContainer/Test Areas"]
+custom_minimum_size = Vector2(135, 135)
+layout_mode = 2
+focus_neighbor_left = NodePath("../Test01")
+focus_neighbor_top = NodePath("../../../LSMReturn")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../../Levels/Test02")
+text = "Player VS 
+Wolves"
 
 [node name="Label2" type="Label" parent="LevelSelectMenu/VBoxContainer"]
 layout_mode = 2
@@ -270,6 +283,7 @@ text = "Return to Main Menu"
 [connection signal="pressed" from="Top Menu/DiscordLink" to="." method="_on_discord_link_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Test Areas/Test01" to="." method="_on_test_01_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Test Areas/Test03" to="." method="_on_test_03_pressed"]
+[connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Test Areas/Test04" to="." method="_on_test_04_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Levels/Tutorial" to="." method="_on_tutorial_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Levels/Test02" to="." method="_on_test_02_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/LSMReturn" to="." method="_on_lsm_return_pressed"]
