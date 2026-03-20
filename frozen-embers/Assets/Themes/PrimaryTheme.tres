@@ -101,7 +101,7 @@ grow_end = -10.0
 thickness = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q2tjt"]
-bg_color = Color(0.078431375, 0.1764706, 0.27058825, 0.5882353)
+bg_color = Color(0.078431375, 0.1764706, 0.27058825, 0.7058824)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10

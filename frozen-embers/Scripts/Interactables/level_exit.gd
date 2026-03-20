@@ -10,6 +10,8 @@ func _ready() -> void:
 	gpu_particles_3d.emitting = false
 	GlobalLevelStats.EXIT_LOCATION = self.global_position
 	GlobalLevelStats.EXIT_OPEN = false
+	
+	GlobalLevelStats.Points_of_Interest_Wolf.append(global_position)
 
 func _process(_delta: float) -> void:
 	# Exit is only visible if all beacons are complete

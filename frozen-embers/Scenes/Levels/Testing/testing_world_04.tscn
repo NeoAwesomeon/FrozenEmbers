@@ -10,8 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://owaa1ynbn566" path="res://Scenes/Monsters/monster_wolf_together.tscn" id="8_qhe8v"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_fuacy"]
-vertices = PackedVector3Array(-19.5, 0.5, 74, 19.5, 0.5, 74, 19.5, 0.5, -8.5, -19.5, 0.5, -8.5, 19.75, 0.5, 76.25, -19.75, 0.5, 76.25, -174.5, 0.5, 425.5, 174.5, 0.5, 425.5, -174.5, 0.5, 76.25, 174.5, 0.5, 76.25)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(1, 4, 0), PackedInt32Array(0, 4, 5), PackedInt32Array(4, 7, 5), PackedInt32Array(5, 7, 6), PackedInt32Array(6, 8, 5), PackedInt32Array(4, 9, 7)]
+vertices = PackedVector3Array(19.5, 0.5, -8.5, 1.25, 0.5, -8.5, 1.25, 0.5, -7.25, 19.5, 0.5, 74, -1.25, 0.5, -7.25, -1.25, 0.5, -8.5, -19.5, 0.5, -8.5, -19.5, 0.5, 74, -124.5, 0.5, 307.75, -114.75, 0.5, 307.75, -114.5, 0.5, 306.5, -112, 0.5, 101.25, -112.25, 0.5, 100, -124.5, 0.5, 100, 104.5, 0.5, 325.5, 104.5, 0.5, 314, 103.25, 0.5, 313.75, -112, 0.5, 308.75, -113.25, 0.5, 309, -113.25, 0.5, 325.5, 103.25, 0.5, 311.75, 124.5, 0.5, 100, 112.25, 0.5, 100, 112, 0.5, 101.25, 105.5, 0.5, 311.5, 105.75, 0.5, 312.75, 124.5, 0.5, 312.75, 110, 0.5, 101.25, -112.25, 0.5, 306.5, -110.25, 0.5, 76.25, -110.25, 0.5, 98.75, -109.75, 0.5, 99, -19.75, 0.5, 76.25, 109.75, 0.5, 99, 110.25, 0.5, 98.75, 110.25, 0.5, 76.25, 19.75, 0.5, 76.25, -110, 0.5, 101.25, -112, 0.5, 98.75, -124.5, 0.5, 76.25, 112, 0.5, 98.75, 124.5, 0.5, 76.25, -111.25, 2.5, 99.75, -111.25, 2.5, 100.25, -110.75, 2.5, 100.25, -110.75, 2.5, 99.75, 110.75, 2.5, 99.75, 110.75, 2.5, 100.25, 111.25, 2.5, 100.25, 111.25, 2.5, 99.75, -113.75, 2.5, 307.5, -113.75, 2.5, 308, -113, 2.5, 308, -113, 2.5, 307.5, -114.5, 0.5, 309, -124.5, 0.5, 325.5, 104.25, 2.5, 312.5, 104.25, 2.5, 313, 104.75, 2.5, 313, 104.75, 2.5, 312.5, 105.5, 0.5, 314, 124.5, 0.5, 325.5)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(4, 2, 7), PackedInt32Array(7, 2, 3), PackedInt32Array(9, 8, 10), PackedInt32Array(10, 8, 11), PackedInt32Array(11, 8, 12), PackedInt32Array(12, 8, 13), PackedInt32Array(15, 14, 16), PackedInt32Array(16, 14, 17), PackedInt32Array(17, 14, 18), PackedInt32Array(18, 14, 19), PackedInt32Array(20, 16, 17), PackedInt32Array(22, 21, 23), PackedInt32Array(23, 21, 24), PackedInt32Array(24, 21, 25), PackedInt32Array(25, 21, 26), PackedInt32Array(27, 23, 24), PackedInt32Array(28, 10, 11), PackedInt32Array(30, 29, 31), PackedInt32Array(31, 29, 32), PackedInt32Array(34, 33, 35), PackedInt32Array(35, 33, 36), PackedInt32Array(7, 3, 36), PackedInt32Array(7, 36, 32), PackedInt32Array(32, 36, 33), PackedInt32Array(32, 33, 27), PackedInt32Array(11, 37, 28), PackedInt32Array(28, 37, 17), PackedInt32Array(24, 20, 27), PackedInt32Array(27, 20, 32), PackedInt32Array(32, 20, 37), PackedInt32Array(37, 20, 17), PackedInt32Array(32, 37, 31), PackedInt32Array(12, 13, 38), PackedInt32Array(38, 13, 39), PackedInt32Array(38, 39, 29), PackedInt32Array(29, 30, 38), PackedInt32Array(22, 40, 21), PackedInt32Array(21, 40, 41), PackedInt32Array(41, 40, 35), PackedInt32Array(40, 34, 35), PackedInt32Array(45, 44, 42), PackedInt32Array(42, 44, 43), PackedInt32Array(49, 48, 46), PackedInt32Array(46, 48, 47), PackedInt32Array(53, 52, 50), PackedInt32Array(50, 52, 51), PackedInt32Array(9, 54, 8), PackedInt32Array(8, 54, 55), PackedInt32Array(55, 54, 19), PackedInt32Array(54, 18, 19), PackedInt32Array(59, 58, 56), PackedInt32Array(56, 58, 57), PackedInt32Array(14, 15, 60), PackedInt32Array(60, 25, 14), PackedInt32Array(14, 25, 26), PackedInt32Array(14, 26, 61)]
 
 [node name="Player&Monster" type="Node3D"]
 
@@ -28,31 +28,31 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 [node name="PlayerCharacterEmber" parent="Player" instance=ExtResource("4_cumhv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 
-[node name="Gameplay" type="Node" parent="."]
-
-[node name="LevelExit" parent="Gameplay" instance=ExtResource("5_bwsxy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
-
-[node name="Beacons" type="Node" parent="Gameplay"]
-
-[node name="GoalBeacon" parent="Gameplay/Beacons" instance=ExtResource("6_8t2kw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -150, 0, 100)
-
-[node name="GoalBeacon2" parent="Gameplay/Beacons" instance=ExtResource("6_8t2kw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150, 0, 100)
-
-[node name="GoalBeacon3" parent="Gameplay/Beacons" instance=ExtResource("6_8t2kw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150, 0, 400)
-
-[node name="GoalBeacon4" parent="Gameplay/Beacons" instance=ExtResource("6_8t2kw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -150, 0, 400)
-
-[node name="Messages" type="Node" parent="Gameplay"]
-
-[node name="Pickups" type="Node" parent="Gameplay"]
-
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_fuacy")
+
+[node name="Gameplay" type="Node" parent="NavigationRegion3D"]
+
+[node name="LevelExit" parent="NavigationRegion3D/Gameplay" instance=ExtResource("5_bwsxy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
+
+[node name="Beacons" type="Node" parent="NavigationRegion3D/Gameplay"]
+
+[node name="GoalBeacon" parent="NavigationRegion3D/Gameplay/Beacons" instance=ExtResource("6_8t2kw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -111, 0, 100)
+
+[node name="GoalBeacon2" parent="NavigationRegion3D/Gameplay/Beacons" instance=ExtResource("6_8t2kw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111, 0, 100)
+
+[node name="GoalBeacon3" parent="NavigationRegion3D/Gameplay/Beacons" instance=ExtResource("6_8t2kw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 104.45387, 0, 312.678)
+
+[node name="GoalBeacon4" parent="NavigationRegion3D/Gameplay/Beacons" instance=ExtResource("6_8t2kw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -113.39502, 1.5258789e-05, 307.6723)
+
+[node name="Messages" type="Node" parent="NavigationRegion3D/Gameplay"]
+
+[node name="Pickups" type="Node" parent="NavigationRegion3D/Gameplay"]
 
 [node name="Environment" type="Node" parent="NavigationRegion3D"]
 
@@ -63,10 +63,10 @@ use_collision = true
 size = Vector3(40, 2, 85)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 250.8917)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 200.8917)
 material_override = ExtResource("7_fuacy")
 use_collision = true
-size = Vector3(350, 2, 350)
+size = Vector3(250, 2, 250)
 
 [node name="Monsters" type="Node" parent="."]
 

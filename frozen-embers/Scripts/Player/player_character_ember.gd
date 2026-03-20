@@ -89,13 +89,15 @@ var repeat_lock : bool = false
 @export var jump_strength : float = 11.0
 @export var high_jump_multiplier : float = 2.0
 
+var debug_aware : bool = false
+
 # This is a state machine
 enum States {GROUNDED, AIRBORNE, CROUCHED, SLIDING, HIGH_JUMP, LONG_JUMP, WALL_CLING, AIR_DIVE, ATTACK, AIR_ATTACK, 
 LEDGE_GRAB, REIGNITE, EXTINGUISH, SWIMMING, FREEZE_DEATH, DESPIRATION}
 var current_state = States.GROUNDED
 
 func _ready() -> void:
-	print("-PLAYER START-")
+	print_rich("[color=cyan]-PLAYER START-")
 	current_boost = 0
 	point_of_view = get_tree().get_first_node_in_group("player_pov")
 	GlobalLevelStats.RESPAWN_LOCATION = global_position
@@ -792,14 +794,16 @@ func _on_reignite_duration_timeout() -> void:
 	clear_locks()
 	repeat_lock = true
 	#This is here for debug reasons (Disable Player Awareness)
-	if !noise_hitbox.disabled:
+	if !debug_aware:
 		GlobalLevelStats.MAX_NOISE_ACTIVE = true
 		GlobalLevelStats.MAX_NOISE_LOCATION = global_position
 		noise_hitbox.shape.radius = 20.0
+	print_rich("[color=cyan]PLAYER: Light Reignited")
 
 func _on_extinguish_duration_timeout() -> void:
 	#Grants a burst of heat based on how much light was extinguished
 	GlobalPlayerStats.Heat_Goal += (GlobalPlayerStats.Light_Goal + 50.0) * 5.0
+	print_rich("[color=cyan]PLAYER: Light Extinguished")
 	
 	#Then grants immunity to losing heat, ensuring the player always gets at least 5 seconds or more based on light
 	if 20.0 * ((GlobalPlayerStats.Light + 50.0) / 100.0) < 5.0:
@@ -883,7 +887,7 @@ func handle_fall_off():
 	global_position = GlobalLevelStats.RESPAWN_LOCATION
 
 func handle_noise(delta):
-	if noise_hitbox.shape.radius > 1.0:
+	if noise_hitbox.shape.radius > 1.0 and !debug_aware:
 		noise_hitbox.disabled = false
 		noise_hitbox.shape.radius -= 2.0 * delta
 	else:
@@ -951,24 +955,26 @@ func handle_debug():
 		GlobalPlayerStats.Heat_Goal = GlobalPlayerStats.Heat_Max
 		GlobalPlayerStats.Light_Goal = GlobalPlayerStats.Light_Max
 		noise_hitbox.shape.radius = 0.0
-		print("PLAYER: DEBUG REFILL")
+		print_rich("[color=cyan]PLAYER: DEBUG REFILL")
 	
 	#DEBUG TOGGLE INVINCIBILITY
 	if Input.is_action_just_pressed("debug_4"):
 		if !main_hurtbox.disabled:
 			main_hurtbox.disabled = true
-			print("PLAYER: INVINCIBILITY ON")
+			print_rich("[color=cyan]PLAYER: INVINCIBILITY ON")
 		else:
 			main_hurtbox.disabled = false
-			print("PLAYER: INVINCIBILITY OFF")
+			print_rich("[color=cyan]PLAYER: INVINCIBILITY OFF")
 	
 	#DEBUG TOGGLE PLAYER AWARENESS
 	if Input.is_action_just_pressed("debug_5"):
-		if !noise_hitbox.disabled:
+		if !debug_aware:
+			debug_aware = true
 			noise_hitbox.disabled = true
 			light_hitbox.disabled = true
-			print("PLAYER: OBLIVIOUS ON")
+			print_rich("[color=cyan]PLAYER: OBLIVIOUS ON")
 		else:
+			debug_aware = false
 			noise_hitbox.disabled = false
 			light_hitbox.disabled = false
-			print("PLAYER: OBLIVIOUS OFF")
+			print_rich("[color=cyan]PLAYER: OBLIVIOUS OFF")

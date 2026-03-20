@@ -38,6 +38,7 @@ var vision_active : bool = false
 var chase_prep : bool = false
 var chase_active : bool = false
 var desp_safe : bool = false
+var endgame_trigger : bool = false
 
 #Movement Requirements
 var movement_velocity: Vector3
@@ -85,11 +86,10 @@ func _ready() -> void:
 	if difficulty == -1:
 		queue_free()
 	else:
-		print("Twins: Spawning...")
+		print_rich("[color=magenta]Twins: Spawning in " + str(spawn_timer.wait_time) + "[color=magenta] seconds...")
 	
 	# Initial difficulty modifiers here
 	spawn_timer.wait_time = 23.0 - difficulty
-	print(spawn_timer.wait_time)
 	
 	huh_duration.wait_time = (2.0 - (difficulty)/10.0) + 1.0
 	hearing_area.shape.radius = 40.0 + difficulty
@@ -99,13 +99,15 @@ func _ready() -> void:
 	if difficulty > 5:
 		chase_duration.wait_time = 45.0 + (difficulty - 5.0)
 	
+	GlobalLevelStats.Points_of_Interest_Wolf.append(global_position)
+	
 	vision_area.disabled = true
 	hearing_area.disabled = true
 	attack_hitbox.disabled = true
 	spawn_timer.start()
 
 func _on_spawn_timer_timeout() -> void:
-	print("Twins: Spawn Complete.")
+	print_rich("[color=magenta]Twins: Spawn Complete.")
 	reset_wander()
 	has_target = true
 	vision_area.disabled = false
@@ -158,26 +160,31 @@ func _physics_process(delta: float) -> void:
 			var target_rotation := direction.signed_angle_to(Vector3.MODEL_FRONT, Vector3.DOWN)
 			if abs(target_rotation - rotation.y) > deg_to_rad(60):
 					rotation_speed = 20
-			rotation.y = move_toward(rotation.y, target_rotation, delta * rotation_speed)
+			if current_state == States.STARE:
+				self.look_at(GlobalPlayerStats.Player_Position)
+				rotation.x = 0
+				rotation.z = 0
+			else:
+				rotation.y = move_toward(rotation.y, target_rotation, delta * rotation_speed)
 	
 	move_and_slide()
 	
 	if Input.is_action_just_pressed("debug_0"):
-		print(" --- TWINS CHECKUP --- ")
-		print("Difficulty = " + str(difficulty))
-		print("Current State = " + str(current_state))
-		print("Priority = " + str(priority))
-		print("Target Distance: " + str(distance_from_target))
-		print("Speed:" + str(true_speed))
-		print("Boost:" + str(boost_count))
-		print("Detective Points:" + str(detective_points))
-		print("Has Target? " + str(has_target))
-		print("Boosting? "  + str(boost_active))
-		print("Vision? "  + str(vision_active))
-		print("Chase Prep? " + str(chase_prep))
-		print("Chase Active? " + str(chase_active))
-		print("Desp Safe? " + str(desp_safe))
-		print(" ------------------------- ")
+		print_rich("[color=magenta] --- TWINS CHECKUP --- ")
+		print_rich("[color=magenta]Difficulty = " + str(difficulty))
+		print_rich("[color=magenta]Current State = " + str(current_state))
+		print_rich("[color=magenta]Priority = " + str(priority))
+		print_rich("[color=magenta]Target Distance: " + str(distance_from_target))
+		print_rich("[color=magenta]Speed:" + str(true_speed))
+		print_rich("[color=magenta]Boost:" + str(boost_count))
+		print_rich("[color=magenta]Detective Points:" + str(detective_points))
+		print_rich("[color=magenta]Has Target? " + str(has_target))
+		print_rich("[color=magenta]Boosting? "  + str(boost_active))
+		print_rich("[color=magenta]Vision? "  + str(vision_active))
+		print_rich("[color=magenta]Chase Prep? " + str(chase_prep))
+		print_rich("[color=magenta]Chase Active? " + str(chase_active))
+		print_rich("[color=magenta]Desp Safe? " + str(desp_safe))
+		print_rich("[color=magenta] ------------------------- ")
 
 func handle_gravity(delta):
 	if desp_safe or stun_duration.time_left != 0:
@@ -201,7 +208,7 @@ func handle_distance_and_noise():
 			priority = 3
 			target_pos = GlobalLevelStats.MAX_NOISE_LOCATION
 			GlobalLevelStats.max_response_count += 2
-			print("Twins: Max Noise Heard")
+			print_rich("[color=magenta]Twins: Max Noise Heard")
 		
 		# If monster reaches desired destination, change targets to a random point of interest
 		if current_state != States.SPAWN and current_state != States.STUNNED:
@@ -218,53 +225,50 @@ func trigger_huh():
 
 # Automatic target changing from huh state
 func _on_huh_duration_timeout() -> void:
-	print("Twins: Huh Complete.")
+	print_rich("[color=magenta]Twins: Huh Complete.")
 	rotate_lock = false
 	boredom_timer.start()
 	boost_count_rate.start()
 	change_speed()
 
 func trigger_stare():
-	print("Twins: Stare Complete!")
-	current_state = States.STARE
-	rotate_lock = true
-	stare_duration.start()
-	boost_count = 0
-	boost_count_rate.stop()
+	if priority < 5:
+		print_rich("[color=magenta]Twins: Stare Complete!")
+		current_state = States.STARE
+		stare_duration.start()
+		boost_count = 0
+		boost_count_rate.stop()
+	
 
-# If player has not run from the monster, this will trigger a chase
+# Upon time out, chase will begin
 func _on_stare_duration_timeout() -> void:
 	rotate_lock = false
-	if current_state == States.STARE:
-		chase_active = true
-		if chase_duration.is_stopped():
-			chase_duration.start()
-		boost_count_rate.start()
-		change_speed()
+	chase_active = true
+	if chase_duration.is_stopped():
+		chase_duration.start()
+	boost_count_rate.start()
+	current_state = States.CHASE
+	change_speed()
 
 func change_speed():
-	if GlobalLevelStats.EXIT_OPEN:
-		print("Twins: Speed - Endgame")
+	if GlobalLevelStats.EXIT_OPEN or priority == 5:
+		print_rich("[color=magenta]Twins: Speed - Endgame")
 		current_state = States.ENDGAME
 	
-	elif chase_active and !GlobalLevelStats.EXIT_OPEN:
-		print("Twins: Speed - Chase")
+	elif chase_active:
+		print_rich("[color=magenta]Twins: Speed - Chase")
 		current_state = States.CHASE
 	
-	elif priority == 4 and !chase_active:
-		print("Twins: Speed - Pursuit")
-		current_state = States.PURSUIT
-	
-	elif priority == 3:
-		print("Twins: Speed - Pursuit")
+	elif priority == 3 or priority == 4:
+		print_rich("[color=magenta]Twins: Speed - Pursuit")
 		current_state = States.PURSUIT
 	
 	elif priority < 3 and priority != 0:
-		print("Twins: Speed - Curious")
+		print_rich("[color=magenta]Twins: Speed - Curious")
 		current_state = States.CURIOUS
 	
 	elif priority == 0:
-		print("Twins: Speed - Wander")
+		print_rich("[color=magenta]Twins: Speed - Wander")
 		current_state = States.WANDER
 		boost_count = 0
 		boost_count_rate.stop()
@@ -287,7 +291,7 @@ func reset_wander():
 	else:
 		# If a new target is selected, updates the speed and possibly the hearing radius of the monster
 		boredom_timer.start()
-		print("Twins: Wandering to " + str(target_pos))
+		print_rich("[color=magenta]Twins: Wandering to " + str(target_pos))
 		if priority == 3 or priority == 0:
 			if detective_anti_spam.is_stopped():
 				detective_anti_spam.start()
@@ -299,10 +303,10 @@ func reset_wander():
 # Resets target if monster gets stuck on one for too long
 func _on_boredom_timer_timeout() -> void:
 	if !chase_active:
-		print("Twins: Bored with Target. Switching Targets...")
+		print_rich("[color=magenta]Twins: Bored with Target. Switching Targets...")
 		reset_wander()
 
-# Used to handle perpetual actions
+# Used to handle perpetual actions that don't change the method of locomotion
 func handle_state_actions(_delta):
 	#Section for forcing states to change
 	if GlobalLevelStats.DESPERATION_MODE:
@@ -311,9 +315,14 @@ func handle_state_actions(_delta):
 	elif !hurt_duration.is_stopped():
 		current_state = States.HURT
 	
+	elif !endgame_trigger and GlobalLevelStats.EXIT_OPEN:
+		priority = 5
+		trigger_huh()
+		endgame_trigger = true
 	
-	elif GlobalLevelStats.EXIT_OPEN and stun_duration.is_stopped() and spawn_timer.is_stopped():
+	elif GlobalLevelStats.EXIT_OPEN and stun_duration.is_stopped() and spawn_timer.is_stopped() and huh_duration.is_stopped():
 		current_state = States.ENDGAME
+		target_pos = GlobalPlayerStats.Player_Position
 	
 	match current_state:
 		States.SPAWN:
@@ -324,16 +333,9 @@ func handle_state_actions(_delta):
 		
 		States.HURT:
 			rotate_lock = true
-			
-			
 		
 		States.STARE:
 			true_speed = 0
-			if distance_from_target > player_ray.target_position.z  or distance_from_target < 40:
-				chase_active = true
-				if chase_duration.is_stopped():
-					chase_duration.start()
-				change_speed()
 		
 		States.DESPERATION:
 			true_speed = 0
@@ -359,9 +361,9 @@ func handle_state_actions(_delta):
 						#HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
 						testingdesperationtimer.stop()
 						stun_duration.start()
-						print("Twins: Stunned!")
+						print_rich("[color=magenta]Twins: Stunned!")
 					else:
-						print("TWINS: PLAYER KILL")
+						print_rich("[color=magenta]TWINS: PLAYER KILL")
 						GlobalLevelStats.game_over()
 			#If this monster did not land the attack but another did, respawn.
 			else:
@@ -371,7 +373,7 @@ func handle_state_actions(_delta):
 			true_speed = 0
 			rotate_lock = true
 			
-			#print("Twins: Stun Duration = " + str(stun_duration.time_left))
+			#print_rich("[color=magenta]Twins: Stun Duration = " + str(stun_duration.time_left))
 			target_pos = GlobalPlayerStats.Player_Position
 			
 			# Forces Monster to respawn if the player survives and is out of range
@@ -396,10 +398,10 @@ func handle_state_actions(_delta):
 		
 		States.CHASE:
 			chase_active = true
-			true_speed = (base_move_speed + (difficulty * 2.5)) * 1.5 + (difficulty * (boost_count * 2))
+			true_speed = (base_move_speed + (difficulty * 2.5)) * 1.5 + (difficulty * (boost_count * 2.5))
 		
 		States.ENDGAME:
-			true_speed = (base_move_speed + (difficulty * 2.5)) * 1.5 + (difficulty * (boost_count * 2))
+			true_speed = (base_move_speed + (difficulty * 2.5)) * 1.5 + (difficulty * (boost_count * 2.5))
 
 
 func handle_line_of_sight():
@@ -413,22 +415,22 @@ func handle_line_of_sight():
 			if ray_target.is_in_group("player_light") and !chase_active:
 				if priority < 4:
 					trigger_huh()
-					print("Twins: Light Spotted!")
+					print_rich("[color=magenta]Twins: Light Spotted!")
 				priority = 4
 				target_pos = GlobalPlayerStats.Player_Position
 				
 		
 		#This one checks to see if the player is visible
+		#THIS TRIGGERS CHASING!!!
 		if player_ray.is_colliding():
 			var ray_target = player_ray.get_collider()
 			
 			if ray_target.is_in_group("player") and !chase_active:
 				if !chase_prep:
 					trigger_stare()
-					print("Twins: PLAYER SEEN!")
+					print_rich("[color=magenta]Twins: PLAYER SEEN!")
 				priority = 4
 				target_pos = GlobalPlayerStats.Player_Position
-				chase_active = true
 				chase_prep = true
 
 func handle_chase_logic():
@@ -442,13 +444,13 @@ func handle_chase_logic():
 
 func _on_boost_count_rate_timeout() -> void:
 	#Maxes out at the fastest speed it should have, difficulty effects scaling
-	if true_speed < 1000:
+	if true_speed < 1200:
 		boost_count += 1
 
 #When chase goes on for too long, this resets everything back to the wander state
 func _on_chase_duration_timeout() -> void:
 	if current_state == States.CHASE:
-		print("Twins: Chase Over - Out of Time")
+		print_rich("[color=magenta]Twins: Chase Over - Out of Time")
 		chase_prep = false
 		chase_active = false
 		reset_wander()
@@ -465,18 +467,18 @@ func reset_respawn():
 	desp_safe = false
 	spawn_timer.wait_time = 30.0 - difficulty
 	spawn_timer.start()
-	print("Twins: Respawning...")
+	print_rich("[color=magenta]Twins: Respawning...")
 
 #If the player is still in range when the stun wares off, monster will begin wandering again
 func _on_stun_duration_timeout() -> void:
 	main_collision.disabled = false
-	print("Twins: Stun Complete.")
+	print_rich("[color=magenta]Twins: Stun Complete.")
 	reset_wander()
 
 #AREA REACTIONS HERE
 func _on_main_hurtbox_area_entered(area: Area3D) -> void:
 	if area.is_in_group("player_attack"):
-		remaining_knockback = hurt_knockback
+		remaining_knockback += hurt_knockback
 		hurt_duration.start()
 
 func _on_hurt_duration_timeout() -> void:
@@ -485,28 +487,29 @@ func _on_hurt_duration_timeout() -> void:
 	else:
 		current_state = States.CHASE
 		chase_active = true
+	rotate_lock = false
 
 func _on_hearing_area_area_entered(area: Area3D) -> void:
 	if area.is_in_group("major_noise") and priority < 3:
 		trigger_huh()
 		priority = 2
 		target_pos = area.global_position
-		print("Twins: Major Noise Heard")
+		print_rich("[color=magenta]Twins: Major Noise Heard")
 		
 	elif area.is_in_group("minor_noise") and priority < 2:
 		trigger_huh()
 		priority = 1
 		target_pos = area.global_position
-		print("Twins: Minor Noise Heard")
+		print_rich("[color=magenta]Twins: Minor Noise Heard")
 
 func _on_vision_area_area_entered(area: Area3D) -> void:
 	if area.is_in_group("player_light"):
 		vision_active = true
-		print("Twins: Vision Active")
+		print_rich("[color=magenta]Twins: Vision Active")
 func _on_vision_area_area_exited(area: Area3D) -> void:
 	if area.is_in_group("player_light"):
 		vision_active = false
-		print("Twins: No Vision")
+		print_rich("[color=magenta]Twins: No Vision")
 
 func _on_attack_hitbox_area_entered(area: Area3D) -> void:
 	if area.is_in_group("player"):
@@ -515,7 +518,7 @@ func _on_attack_hitbox_area_entered(area: Area3D) -> void:
 		chase_active = false
 		current_state = States.DESPERATION
 		GlobalLevelStats.DESPERATION_MODE = true
-		print("Twins: ATTACKING")
+		print_rich("[color=magenta]Twins: ATTACKING")
 		#HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
 		GlobalLevelStats.DESPERATION_SAVE_ACTIVE = true
 		testingdesperationtimer.start()
@@ -526,7 +529,6 @@ func _on_testingdesperationtimer_timeout() -> void:
 	current_state = States.SPAWN
 	reset_respawn()
 	GlobalLevelStats.game_over()
-
 
 func _on_navigation_agent_3d_link_reached(details: Dictionary) -> void:
 	global_position = details.link_exit_position

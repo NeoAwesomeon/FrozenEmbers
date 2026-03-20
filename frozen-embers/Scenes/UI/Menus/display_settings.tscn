@@ -19,6 +19,22 @@ script = ExtResource("1_m4v24")
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 
+[node name="WindowLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Window Mode:"
+horizontal_alignment = 1
+
+[node name="WindowOptionButton" type="OptionButton" parent="VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../ResolutionOptionButton")
+alignment = 1
+selected = 0
+item_count = 2
+popup/item_0/text = "Fullscreen"
+popup/item_0/id = 0
+popup/item_1/text = "Windowed"
+popup/item_1/id = 1
+
 [node name="ResolutionLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Resolution:"
@@ -58,21 +74,5 @@ popup/item_12/id = 12
 popup/item_13/text = "(21x9) 1834 x 786"
 popup/item_13/id = 13
 
-[node name="WindowLabel" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-text = "Window Mode:"
-horizontal_alignment = 1
-
-[node name="WindowOptionButton" type="OptionButton" parent="VBoxContainer"]
-layout_mode = 2
-focus_neighbor_top = NodePath("../ResolutionOptionButton")
-alignment = 1
-selected = 0
-item_count = 2
-popup/item_0/text = "Fullscreen"
-popup/item_0/id = 0
-popup/item_1/text = "Windowed"
-popup/item_1/id = 1
-
-[connection signal="item_selected" from="VBoxContainer/ResolutionOptionButton" to="." method="_on_resolution_option_button_item_selected"]
 [connection signal="item_selected" from="VBoxContainer/WindowOptionButton" to="." method="_on_window_option_button_item_selected"]
+[connection signal="item_selected" from="VBoxContainer/ResolutionOptionButton" to="." method="_on_resolution_option_button_item_selected"]
