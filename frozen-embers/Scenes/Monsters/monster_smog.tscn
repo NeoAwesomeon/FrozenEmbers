@@ -1,0 +1,171 @@
+[gd_scene load_steps=17 format=3 uid="uid://celnopt5u35ty"]
+
+[ext_resource type="Script" uid="uid://ba62raak6ee3k" path="res://Scripts/Monsters/monster_smog.gd" id="1_dshh4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ana6a"]
+render_priority = 1
+transparency = 1
+cull_mode = 2
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dshh4"]
+next_pass = SubResource("StandardMaterial3D_ana6a")
+cull_mode = 2
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+stencil_mode = 2
+stencil_flags = 2
+stencil_color = Color(1, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ana6a"]
+material = SubResource("StandardMaterial3D_dshh4")
+radius = 0.3
+height = 0.6
+radial_segments = 8
+rings = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hee63"]
+render_priority = 1
+cull_mode = 2
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+grow = true
+grow_amount = 0.1
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mdso"]
+next_pass = SubResource("StandardMaterial3D_hee63")
+shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
+disable_specular_occlusion = true
+albedo_color = Color(0.019607844, 0, 0, 1)
+stencil_mode = 1
+stencil_flags = 2
+stencil_color = Color(1, 0, 0, 1)
+stencil_outline_thickness = 0.1
+
+[sub_resource type="SphereMesh" id="SphereMesh_dtc68"]
+material = SubResource("StandardMaterial3D_7mdso")
+radius = 1.5
+height = 3.0
+
+[sub_resource type="Curve" id="Curve_lioww"]
+_data = [Vector2(0, 0.4886483), 0.0, 0.0, 0, 0, Vector2(0.1039823, 1), 0.0, 0.0, 0, 0, Vector2(0.6659292, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -6.7776103, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_3pjvo"]
+curve = SubResource("Curve_lioww")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qe1w1"]
+emission_shape_scale = Vector3(0.1, 0.1, 0.1)
+emission_shape = 1
+emission_sphere_radius = 1.0
+radial_velocity_min = 1.9999776
+radial_velocity_max = 1.9999776
+gravity = Vector3(0, 0.3, 0)
+scale_curve = SubResource("CurveTexture_3pjvo")
+
+[sub_resource type="SphereMesh" id="SphereMesh_fjhqo"]
+material = SubResource("StandardMaterial3D_7mdso")
+radius = 2.0
+height = 4.0
+radial_segments = 8
+rings = 5
+
+[sub_resource type="Curve" id="Curve_j8vf5"]
+_data = [Vector2(0, 0), 0.0, 7.2446814, 0, 0, Vector2(0.19690265, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.7330408, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_558dt"]
+curve = SubResource("Curve_j8vf5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_045v8"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector3(0, 0.2, 0)
+radial_accel_min = 0.49999776
+radial_accel_max = 0.49999776
+scale_curve = SubResource("CurveTexture_558dt")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dshh4"]
+size = Vector3(3, 4, 4)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_dshh4"]
+radius = 0.25
+
+[node name="MonsterSmog" type="Node3D"]
+script = ExtResource("1_dshh4")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="LeftEye" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, 0)
+mesh = SubResource("SphereMesh_ana6a")
+skeleton = NodePath("../..")
+
+[node name="RightEye" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 0)
+mesh = SubResource("SphereMesh_ana6a")
+skeleton = NodePath("../..")
+
+[node name="Core" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("SphereMesh_dtc68")
+skeleton = NodePath("../..")
+
+[node name="Body" type="GPUParticles3D" parent="Visuals"]
+amount = 64
+lifetime = 3.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_qe1w1")
+draw_pass_1 = SubResource("SphereMesh_fjhqo")
+
+[node name="Trail" type="GPUParticles3D" parent="Visuals"]
+amount = 32
+lifetime = 6.0
+process_material = SubResource("ParticleProcessMaterial_045v8")
+draw_pass_1 = SubResource("SphereMesh_fjhqo")
+
+[node name="Hitboxes" type="Node3D" parent="."]
+
+[node name="AttackHitbox" type="Area3D" parent="Hitboxes"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitboxes/AttackHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3000001, 0)
+shape = SubResource("BoxShape3D_dshh4")
+debug_color = Color(0.98039216, 0, 0, 0.41960785)
+
+[node name="Hurtbox" type="Node3D" parent="."]
+
+[node name="Area3D" type="Area3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/Area3D"]
+shape = SubResource("SphereShape3D_dshh4")
+debug_color = Color(1, 1, 1, 0.41960785)
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="WakeUpTimer" type="Timer" parent="Timers"]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="area_entered" from="Hitboxes/AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]
+[connection signal="area_exited" from="Hitboxes/AttackHitbox" to="." method="_on_attack_hitbox_area_exited"]
+[connection signal="body_entered" from="Hurtbox/Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Hurtbox/Area3D" to="." method="_on_area_3d_body_exited"]
+[connection signal="timeout" from="Timers/WakeUpTimer" to="." method="_on_wake_up_timer_timeout"]

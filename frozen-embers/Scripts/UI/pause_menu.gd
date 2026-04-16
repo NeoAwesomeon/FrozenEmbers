@@ -7,17 +7,23 @@ extends Control
 @onready var pause_main: Panel = $PauseMain
 @onready var options_menu: Control = $OptionsMenu
 
+@onready var unpause_delay: Timer = $UnpauseDelay
+
 func _ready() -> void:
 	get_tree().paused = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	options_menu.visible = false
 	resume.grab_focus()
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause"):
+		unpause_delay.start()
+		MusicController.play_hum_boop()
+
 func _on_resume_pressed() -> void:
 	get_tree().paused = false
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	unpause_delay.start()
 	MusicController.play_hum_boop()
-	queue_free()
 
 func _on_restart_pressed() -> void:
 	get_tree().paused = false
@@ -44,3 +50,9 @@ func _on_om_return_pressed() -> void:
 	options_menu.visible = false
 	resume.grab_focus()
 	MusicController.play_hum_boop()
+
+
+func _on_unpause_delay_timeout() -> void:
+	get_tree().paused = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	queue_free()

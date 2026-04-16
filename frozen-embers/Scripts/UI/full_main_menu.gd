@@ -15,7 +15,6 @@ extends Control
 @onready var om_return_button: Button = $OptionsMenu/OMReturn
 
 func _ready() -> void:
-	get_viewport().size = DisplayServer.screen_get_size()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	top_menu.visible = true
 	level_select_menu.visible = false

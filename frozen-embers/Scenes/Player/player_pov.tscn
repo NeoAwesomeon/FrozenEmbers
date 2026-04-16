@@ -27,5 +27,6 @@ spring_length = 2.0
 [node name="Camera3D" type="Camera3D" parent="CameraMount/SpringArm3D"]
 
 [node name="ShaderFilter" type="MeshInstance3D" parent="CameraMount/SpringArm3D/Camera3D"]
+visible = false
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_wmdnt")

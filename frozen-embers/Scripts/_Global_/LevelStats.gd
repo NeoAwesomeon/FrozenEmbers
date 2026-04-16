@@ -17,12 +17,14 @@ var max_response_count = 0
 
 var DESPERATION_MODE = false
 var DESPERATION_SAVE_ACTIVE = false
+var DESPERATION_VICTORY = false
 
 var frame_delay : float
 var frame_count = 0.0
 
 var Wolf_Difficulty = -1
 var Points_of_Interest_Wolf = []
+var Smog_Difficulty = -1
 
 func _ready() -> void:
 	RESPAWN_LOCATION = Vector3.ZERO

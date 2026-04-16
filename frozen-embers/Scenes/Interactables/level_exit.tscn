@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://btlti1inruyru"]
+[gd_scene load_steps=15 format=3 uid="uid://btlti1inruyru"]
 
 [ext_resource type="Script" uid="uid://bepy0a6a8l41f" path="res://Scripts/Interactables/level_exit.gd" id="1_h7ydf"]
+[ext_resource type="PackedScene" uid="uid://celnopt5u35ty" path="res://Scenes/Monsters/monster_smog.tscn" id="2_a5n3n"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mxhx6"]
 size = Vector3(2, 4, 2)
@@ -59,6 +60,22 @@ rings = 1
 
 [node name="LevelExit" type="Node3D" groups=["exit"]]
 script = ExtResource("1_h7ydf")
+smog_scene = ExtResource("2_a5n3n")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, -0.5)
+use_collision = true
+size = Vector3(5, 1, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2, -0.5)
+use_collision = true
+size = Vector3(1, 4, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 2, -0.5)
+use_collision = true
+size = Vector3(1, 4, 1)
 
 [node name="InteractionHitbox" type="Area3D" parent="."]
 

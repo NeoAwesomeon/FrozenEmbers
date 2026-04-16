@@ -1,0 +1,434 @@
+[gd_scene load_steps=30 format=3 uid="uid://b10pdvp7owdsh"]
+
+[ext_resource type="PackedScene" uid="uid://bsr73xwil1ngl" path="res://Scenes/Levels/_Bases_/level_starter.tscn" id="1_esynx"]
+[ext_resource type="PackedScene" uid="uid://dqcfqm4fk2wp0" path="res://Scenes/UI/player_hud.tscn" id="2_6hi5y"]
+[ext_resource type="PackedScene" uid="uid://cntk6hyobvon5" path="res://Scenes/Player/player_pov.tscn" id="3_cww1r"]
+[ext_resource type="PackedScene" uid="uid://dqayd4wqfa7ps" path="res://Scenes/Player/player_character_ember.tscn" id="4_cumhv"]
+[ext_resource type="PackedScene" uid="uid://btlti1inruyru" path="res://Scenes/Interactables/level_exit.tscn" id="5_bwsxy"]
+[ext_resource type="Script" uid="uid://bahn25apmbm5a" path="res://Scripts/Interactables/goal_beacon.gd" id="7_7flv2"]
+[ext_resource type="Material" uid="uid://7gyyy28j40ns" path="res://Assets/Materials/Testing/Testing_Grey.tres" id="7_fuacy"]
+[ext_resource type="PackedScene" uid="uid://bga4lo31kpgod" path="res://Scenes/Interactables/goal_ring.tscn" id="8_ypoea"]
+[ext_resource type="PackedScene" uid="uid://1f2jwhmig8w4" path="res://Assets/Models/Placeholders/VerticalSlice/GoalBeacon.glb" id="9_k1lfc"]
+[ext_resource type="PackedScene" uid="uid://bfujhkffk6yxk" path="res://Scenes/Interactables/message_box.tscn" id="9_s3f8s"]
+[ext_resource type="Script" uid="uid://uaes7abyt5y3" path="res://Scripts/Misc/particle_spinner.gd" id="10_ranah"]
+[ext_resource type="AudioStream" uid="uid://cm1hta05sdwea" path="res://Assets/Audio/Testing/V2_Placeholders/Wavy.wav" id="11_0f4gf"]
+[ext_resource type="AudioStream" uid="uid://dwdao6r4n7kuv" path="res://Assets/Audio/Testing/V2_Placeholders/Gong.mp3" id="12_ap8xj"]
+[ext_resource type="Script" uid="uid://b31fyitm1tv4s" path="res://Scripts/Interactables/ring_manager.gd" id="13_mn4gg"]
+[ext_resource type="Script" uid="uid://drqach30vcdbs" path="res://Scripts/Interactables/goal_ring.gd" id="14_i3br7"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_fuacy"]
+
+[sub_resource type="Curve" id="Curve_fl1i2"]
+_data = [Vector2(0, 0), 0.0, 20.0225, 0, 0, Vector2(0.168724, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.33708, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_bu1ld"]
+curve = SubResource("Curve_fl1i2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hynl3"]
+particle_flag_rotate_y = true
+emission_shape_scale = Vector3(0.3, 0.3, 0.1)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+gravity = Vector3(0, 3, 0)
+scale_curve = SubResource("CurveTexture_bu1ld")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pq487"]
+albedo_color = Color(0, 1, 1, 1)
+emission_enabled = true
+emission = Color(0, 1, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_fc1mo"]
+material = SubResource("StandardMaterial3D_pq487")
+radial_segments = 4
+rings = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fl1i2"]
+size = Vector3(1.3, 2, 1.3)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_o0vd6"]
+height = 3.5
+radius = 3.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1n40i"]
+height = 4.0
+radius = 5.0
+
+[sub_resource type="Curve" id="Curve_edlaa"]
+_data = [Vector2(0, 0), 0.0, 21.1884, 0, 0, Vector2(0.115523, 1), 0.0, 0.0, 0, 0, Vector2(0.494585, 0.54403), 0.0, 0.0, 0, 0, Vector2(0.841155, 0.864179), 0.0, 0.0, 0, 0, Vector2(1, 0), -13.4365, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_1mcjq"]
+curve = SubResource("Curve_edlaa")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_weblh"]
+emission_shape_scale = Vector3(5, 4, 5)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 90, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.95
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 0.1
+initial_velocity_max = 0.1
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_1mcjq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fl1i2"]
+shading_mode = 0
+albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_bu1ld"]
+material = SubResource("StandardMaterial3D_fl1i2")
+radius = 0.05
+height = 0.1
+radial_segments = 4
+rings = 1
+
+[node name="Player&Monster" type="Node3D"]
+
+[node name="LevelStarter" parent="." instance=ExtResource("1_esynx")]
+Wolf_Difficulty = 20
+
+[node name="Player" type="Node" parent="."]
+
+[node name="PlayerHud" parent="Player" instance=ExtResource("2_6hi5y")]
+
+[node name="PlayerPOV" parent="Player" instance=ExtResource("3_cww1r")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 4)
+
+[node name="PlayerCharacterEmber" parent="Player" instance=ExtResource("4_cumhv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_fuacy")
+
+[node name="Gameplay" type="Node" parent="NavigationRegion3D"]
+
+[node name="LevelExit" parent="NavigationRegion3D/Gameplay" instance=ExtResource("5_bwsxy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="Beacons" type="Node" parent="NavigationRegion3D/Gameplay"]
+
+[node name="Messages" type="Node" parent="NavigationRegion3D/Gameplay"]
+
+[node name="MessageBox" parent="NavigationRegion3D/Gameplay/Messages" instance=ExtResource("9_s3f8s")]
+transform = Transform3D(30, 0, 0, 0, 10, 0, 0, 0, 20, 37, 5, 38)
+message = "The Wolf will patrol the major points of interest of the map, becoming more and more alert with every spot they reach.
+
+If it can hear you, it will look for your light.
+If it sees your light, it will start to give chase.
+
+The wolf's maximum speed is faster than yours.
+You can slow it down by attacking it with your torch, but the timing is difficult.
+
+If you are caught, you can save yourself by attacking when you see a red flash.
+Failing this will result in your death."
+duration = 30.0
+one_shot = true
+
+[node name="Pickups" type="Node" parent="NavigationRegion3D/Gameplay"]
+
+[node name="GoalBeacon" type="Node3D" parent="NavigationRegion3D/Gameplay"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90, 8, 117)
+script = ExtResource("7_7flv2")
+number_of_rings = 4
+ring_scene = ExtResource("8_ypoea")
+
+[node name="Main" type="Node3D" parent="NavigationRegion3D/Gameplay/GoalBeacon"]
+
+[node name="Visuals" type="Node3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main"]
+
+[node name="Model" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main/Visuals" instance=ExtResource("9_k1lfc")]
+transform = Transform3D(0.665, 0, 0, 0, 0.665, 0, 0, 0, 0.665, 0, 0, 0)
+
+[node name="AlightParticles" type="GPUParticles3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2, 0)
+process_material = SubResource("ParticleProcessMaterial_hynl3")
+draw_pass_1 = SubResource("SphereMesh_fc1mo")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.556302, 0)
+light_color = Color(0.64705884, 1, 1, 1)
+light_energy = 3.0
+omni_range = 6.0
+omni_attenuation = -0.25
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_fl1i2")
+
+[node name="DelayTimer" type="Timer" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main"]
+wait_time = 0.1
+one_shot = true
+
+[node name="InteractionHitbox" type="Area3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main/InteractionHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+shape = SubResource("CylinderShape3D_o0vd6")
+
+[node name="WarmthHitbox" type="Area3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main/WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("CylinderShape3D_1n40i")
+debug_color = Color(0.996078, 0, 0, 0.419608)
+
+[node name="WarmVisual" type="GPUParticles3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main/WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+amount = 150
+lifetime = 3.0
+preprocess = 10.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_weblh")
+draw_pass_1 = SubResource("SphereMesh_bu1ld")
+script = ExtResource("10_ranah")
+
+[node name="WarmTimer" type="Timer" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main/WarmthHitbox"]
+wait_time = 0.125
+
+[node name="SFX" type="Node3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main"]
+
+[node name="Wavy" type="AudioStreamPlayer3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main/SFX"]
+stream = ExtResource("11_0f4gf")
+volume_db = -2.0
+bus = &"SFX"
+
+[node name="Gong" type="AudioStreamPlayer" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main/SFX"]
+stream = ExtResource("12_ap8xj")
+volume_db = -4.0
+
+[node name="RespawnPoint" type="Marker3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/Main"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
+
+[node name="RingManager" type="Node3D" parent="NavigationRegion3D/Gameplay/GoalBeacon"]
+script = ExtResource("13_mn4gg")
+
+[node name="GoalRing4" type="Node3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/RingManager" instance=ExtResource("8_ypoea")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -47, 0, 0)
+script = ExtResource("14_i3br7")
+
+[node name="GoalRing3" type="Node3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/RingManager" instance=ExtResource("8_ypoea")]
+script = ExtResource("14_i3br7")
+
+[node name="GoalRing2" type="Node3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/RingManager" instance=ExtResource("8_ypoea")]
+script = ExtResource("14_i3br7")
+
+[node name="GoalRing1" type="Node3D" parent="NavigationRegion3D/Gameplay/GoalBeacon/RingManager" instance=ExtResource("8_ypoea")]
+script = ExtResource("14_i3br7")
+
+[node name="Environment" type="Node" parent="NavigationRegion3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 34)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(24, 2, 74)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, 63.643433)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(10, 2, 15)
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 9.5, 67.14343)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(2, 15, 8)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 2.5, 67.14343)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(11, 5, 8)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 79)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(24, 10, 16)
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3, 95)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(100, 10, 16)
+
+[node name="CSGBox3D32" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53, 3, 117)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(14, 10, 16)
+
+[node name="CSGBox3D30" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90, 3, 117)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(60, 10, 60)
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 6.5, 95)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(15, 17, 16)
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -77.5, 6, 123)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(15, 4, 40)
+
+[node name="CSGBox3D26" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -77.5, 3, 203)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(15, 10, 40)
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 3, 163)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(60, 10, 40)
+
+[node name="CSGBox3D27" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -121, 9, 147)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(8, 2, 8)
+
+[node name="CSGBox3D28" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -116, 10, 152)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(8, 4, 8)
+
+[node name="CSGBox3D29" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46, -0.5, 122)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(12, 3, 12)
+
+[node name="CSGBox3D22" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -74.5, 23.5, 174)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(67, 3, 18)
+
+[node name="CSGBox3D23" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.5, 146)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(24, 27, 38)
+
+[node name="CSGBox3D31" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 38, 134)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(28, 80, 62)
+
+[node name="CSGBox3D25" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.5, 174)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(48, 27, 18)
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127.5, 23, 163)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(5, 30, 40)
+
+[node name="CSGBox3D24" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -103.5, 15, 174)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(25, 14, 18)
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -77.5, 6.5, 95)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(15, 17, 16)
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.5, 115)
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(24, 23, 24)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 23, -4)
+visible = false
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(30, 50, 2)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71, 23, 60)
+visible = false
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(108, 50, 2)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -71, 23, 60)
+visible = false
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(108, 50, 2)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 23, 312)
+visible = false
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(250, 50, 2)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 15.999999, 23, 31)
+visible = false
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(72, 50, 2)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 126, 23, 186)
+visible = false
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(254, 50, 2)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -126, 23, 186)
+visible = false
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(254, 50, 2)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="NavigationRegion3D/Environment"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -16, 23, 31)
+visible = false
+material_override = ExtResource("7_fuacy")
+use_collision = true
+size = Vector3(72, 50, 2)
+
+[node name="Monsters" type="Node" parent="."]
+
+[connection signal="activate_rings" from="NavigationRegion3D/Gameplay/GoalBeacon" to="NavigationRegion3D/Gameplay/GoalBeacon/RingManager" method="_on_goal_beacon_activate_rings"]
+[connection signal="timeout" from="NavigationRegion3D/Gameplay/GoalBeacon/Main/DelayTimer" to="NavigationRegion3D/Gameplay/GoalBeacon" method="_on_delay_timer_timeout"]
+[connection signal="area_entered" from="NavigationRegion3D/Gameplay/GoalBeacon/Main/InteractionHitbox" to="NavigationRegion3D/Gameplay/GoalBeacon" method="_on_interaction_hitbox_area_entered"]
+[connection signal="area_entered" from="NavigationRegion3D/Gameplay/GoalBeacon/Main/WarmthHitbox" to="NavigationRegion3D/Gameplay/GoalBeacon" method="_on_warmth_hitbox_area_entered"]
+[connection signal="area_exited" from="NavigationRegion3D/Gameplay/GoalBeacon/Main/WarmthHitbox" to="NavigationRegion3D/Gameplay/GoalBeacon" method="_on_warmth_hitbox_area_exited"]
+[connection signal="timeout" from="NavigationRegion3D/Gameplay/GoalBeacon/Main/WarmthHitbox/WarmTimer" to="NavigationRegion3D/Gameplay/GoalBeacon" method="_on_warm_timer_timeout"]
+[connection signal="completed" from="NavigationRegion3D/Gameplay/GoalBeacon/RingManager" to="NavigationRegion3D/Gameplay/GoalBeacon" method="_on_ring_manager_completed"]

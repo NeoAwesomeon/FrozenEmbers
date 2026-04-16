@@ -25,6 +25,7 @@ GlobalOptionSettings="*res://Scripts/_Global_/OptionSettings.gd"
 MusicController="*res://Scenes/Audio/music_controller.tscn"
 SpeedrunDisplay="*res://Scenes/UI/speedrun_display.tscn"
 TimedMessage="*res://Scenes/UI/timed_message.tscn"
+CustomNightSettings="*res://Scripts/_Global_/CustomNightSettings.gd"
 
 [display]
 

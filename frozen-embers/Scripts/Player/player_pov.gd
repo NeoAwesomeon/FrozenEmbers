@@ -9,19 +9,16 @@ extends Node3D
 # Variables that can be edited in engine
 var target: Node
 
-var clear_filter : bool = false
-
 # Locks Mouse to window
 func _ready():
+	shader_filter.visible = false
+	
 	if not Engine.is_editor_hint():
 		target = get_tree().get_first_node_in_group("player")
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
  #Tracks position of "View" in space
 func _physics_process(delta):
-	if Engine.is_editor_hint():
-		shader_filter.visible = false
-	
 	if not Engine.is_editor_hint():
 		self.position = self.position.lerp(target.position, delta * 5.5)
 		spring_arm_3d.spring_length = 2.0 + ((GlobalPlayerStats.Light + 50)/10)

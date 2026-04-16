@@ -107,7 +107,10 @@ Boost increases all horizontal speed
 Debug:
 
 Press 1 to enable full HUD
-Press 2 to disable all shaders"
+Press 2 to enable test shaders
+Press 3 to reset resources
+Press 4 for invincibility
+Press 5 to enable oblivious monsters "
 horizontal_alignment = 1
 
 [node name="Visuals" type="Node3D" parent="."]

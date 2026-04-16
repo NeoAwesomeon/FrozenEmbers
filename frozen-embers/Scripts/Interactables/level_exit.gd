@@ -3,7 +3,10 @@ extends Node3D
 @onready var visuals: Node3D = $Visuals
 @onready var gpu_particles_3d: GPUParticles3D = $Visuals/GPUParticles3D
 
+@export var smog_scene : PackedScene
+
 var hold_up = false
+var smog_check = false
 
 func _ready() -> void:
 	visuals.visible = false
@@ -12,12 +15,23 @@ func _ready() -> void:
 	GlobalLevelStats.EXIT_OPEN = false
 	
 	GlobalLevelStats.Points_of_Interest_Wolf.append(global_position)
+	
+	if GlobalLevelStats.TOTAL_BEACONS == 0:
+		GlobalLevelStats.EXIT_OPEN = true
 
 func _process(_delta: float) -> void:
 	# Exit is only visible if all beacons are complete
 	if GlobalLevelStats.EXIT_OPEN:
 		visuals.visible = true
 		gpu_particles_3d.emitting = true
+		
+		if GlobalLevelStats.Smog_Difficulty > -1 and !smog_check:
+			var instance = smog_scene.instantiate()
+				
+			instance.position = GlobalLevelStats.RESPAWN_LOCATION
+			add_sibling(instance)
+			smog_check = true
+		
 		# This is here as a small 1 frame buffer to ensure everything is cleared out before leaving the level
 		if hold_up:
 			exit_level()

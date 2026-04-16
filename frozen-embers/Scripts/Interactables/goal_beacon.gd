@@ -10,6 +10,7 @@ extends Node3D
 @onready var wavy: AudioStreamPlayer3D = $Main/SFX/Wavy
 @onready var gong: AudioStreamPlayer = $Main/SFX/Gong
 @onready var alight_particles: GPUParticles3D = $Main/Visuals/AlightParticles
+@onready var signal_particles: GPUParticles3D = $Main/Visuals/SignalParticles
 @onready var omni_light_3d: OmniLight3D = $Main/Visuals/OmniLight3D
 @onready var respawn_point: Marker3D = $Main/RespawnPoint
 
@@ -42,6 +43,7 @@ func _ready() -> void:
 		GlobalLevelStats.REMAINING_BEACONS += 1
 		warm_hitbox.disabled = true
 		warm_visual.emitting = false
+		signal_particles.emitting = true
 		alight_particles.emitting = false
 		omni_light_3d.light_energy = 0.3
 		
@@ -77,7 +79,7 @@ func _on_interaction_hitbox_area_entered(area: Area3D) -> void:
 		if !active:
 			wavy.playing = true
 		active = true
-		
+		signal_particles.emitting = false
 		# Lets the player respawn at a beacon if they fall off the map
 		if completed:
 			GlobalLevelStats.RESPAWN_LOCATION = respawn_point.global_position
@@ -118,4 +120,5 @@ func _on_ring_manager_completed() -> void:
 				
 				# If this is the last beacon of the level, open the exit and begin endgame mode!
 				if GlobalLevelStats.REMAINING_BEACONS < 1:
+					GlobalPlayerStats.Light_Goal = GlobalPlayerStats.Light_Max
 					GlobalLevelStats.EXIT_OPEN = true

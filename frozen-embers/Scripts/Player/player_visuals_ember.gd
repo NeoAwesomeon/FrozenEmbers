@@ -131,6 +131,13 @@ func handle_state_transitions():
 		#FREEZE_DEATH
 		14:
 			animation.play("Death Freeze")
+		
+		#DESPRIATION
+		15:
+			if GlobalLevelStats.DESPERATION_VICTORY:
+				animation.play("Desperation Win")
+			else:
+				animation.play("Desperation Idle")
 
 func handle_particles():
 	if Input.is_action_just_pressed("dash"):
@@ -141,3 +148,8 @@ func handle_particles():
 			boost_active_particles.emitting = true
 	else:
 			boost_active_particles.emitting = false
+
+func handle_death():
+	GlobalPlayerStats.Freeze = 0
+	GlobalPlayerStats.Freeze_Goal = 0
+	GlobalLevelStats.game_over()

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dld26fm3ga4uu"]
+
+[ext_resource type="Script" uid="uid://cdihnxp7g4l57" path="res://Scripts/Interactables/distructable.gd" id="1_qdn0s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ga4r1"]
+albedo_color = Color(0.20183039, 0.530417, 7.70092e-07, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qdn0s"]
+
+[node name="Distructable" type="CSGBox3D"]
+use_collision = true
+material = SubResource("StandardMaterial3D_ga4r1")
+script = ExtResource("1_qdn0s")
+
+[node name="Hurtbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+shape = SubResource("BoxShape3D_qdn0s")
+debug_color = Color(0, 1, 0, 0.41960785)
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

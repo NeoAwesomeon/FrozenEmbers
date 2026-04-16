@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://owaa1ynbn566"]
+[gd_scene load_steps=15 format=3 uid="uid://owaa1ynbn566"]
 
 [ext_resource type="Script" uid="uid://ddtku72fqxkk" path="res://Scripts/Monsters/monster_wolf_together.gd" id="1_irfuy"]
 
@@ -12,17 +12,50 @@ albedo_color = Color(1, 0.5336117, 0.4686132, 1)
 material = SubResource("StandardMaterial3D_km87v")
 size = Vector3(1.5, 2, 0.5)
 
+[sub_resource type="Curve" id="Curve_irfuy"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_0smr1"]
+curve = SubResource("Curve_irfuy")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_x1f1j"]
+particle_flag_align_y = true
+emission_shape_scale = Vector3(0.2, 0.2, 0.2)
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 18.819998
+radial_accel_max = 18.819998
+scale_curve = SubResource("CurveTexture_0smr1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_amno1"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_j6kdj"]
+material = SubResource("StandardMaterial3D_amno1")
+radius = 0.05
+height = 0.3
+radial_segments = 4
+rings = 0
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_irfuy"]
 size = Vector3(1, 2, 2)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_irfuy"]
+height = 0.5
+radius = 4.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_km87v"]
 size = Vector3(2, 2, 2)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_irfuy"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0smr1"]
+height = 10.0
 radius = 60.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0smr1"]
-size = Vector3(120, 40, 80)
+size = Vector3(80, 14, 80)
 
 [node name="MonsterWolfTogether" type="CharacterBody3D"]
 collision_layer = 3
@@ -35,8 +68,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_km87v")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-debug_enabled = true
-debug_path_custom_color = Color(1, 0, 0, 1)
+debug_use_custom = true
+debug_path_custom_color = Color(1, 0, 1, 1)
+debug_path_custom_point_size = 5.0
 
 [node name="Visuals" type="Node3D" parent="."]
 
@@ -44,13 +78,40 @@ debug_path_custom_color = Color(1, 0, 0, 1)
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.25, 0)
 mesh = SubResource("PrismMesh_irfuy")
 
+[node name="RedFlash" type="GPUParticles3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
+emitting = false
+amount = 32
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.9
+process_material = SubResource("ParticleProcessMaterial_x1f1j")
+draw_pass_1 = SubResource("CapsuleMesh_j6kdj")
+
+[node name="VisionSpotLight" type="SpotLight3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, -1, -8.940696e-08, 0, 8.940696e-08, -1, 0, 1, 0)
+light_color = Color(1, 0, 1, 1)
+spot_range = 94.0
+spot_attenuation = -1.25
+spot_angle = 32.000477
+
 [node name="Hitboxes" type="Node3D" parent="."]
 
 [node name="AttackHitbox" type="Area3D" parent="Hitboxes" groups=["monster_attack"]]
+collision_layer = 4
+collision_mask = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hitboxes/AttackHitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.5)
 shape = SubResource("BoxShape3D_irfuy")
+
+[node name="DiveHitbox" type="Area3D" parent="Hitboxes"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitboxes/DiveHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("CylinderShape3D_irfuy")
 
 [node name="Hurtbox" type="Node3D" parent="."]
 
@@ -64,36 +125,38 @@ shape = SubResource("BoxShape3D_km87v")
 debug_color = Color(1, 0, 0, 0.41960785)
 
 [node name="HearingArea" type="Area3D" parent="Hurtbox"]
+visible = false
 collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/HearingArea"]
-shape = SubResource("SphereShape3D_irfuy")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+shape = SubResource("CylinderShape3D_0smr1")
 debug_color = Color(1, 1, 0, 0.41960785)
 
 [node name="VisionArea" type="Area3D" parent="Hurtbox"]
+visible = false
 collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/VisionArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 40)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 40.0005)
 shape = SubResource("BoxShape3D_0smr1")
 debug_color = Color(1, 1, 1, 0.41960785)
 
 [node name="Rays" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1, 0)
 
 [node name="LightRay" type="RayCast3D" parent="Rays"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
-target_position = Vector3(0, 0, -60.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, -1.5)
+target_position = Vector3(0, 0, -78.5)
 collision_mask = 9
 collide_with_areas = true
 debug_shape_custom_color = Color(1, 1, 1, 1)
-debug_shape_thickness = 4
 
 [node name="PlayerRay" type="RayCast3D" parent="Rays"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
-target_position = Vector3(0, 0, -90)
+target_position = Vector3(0, 0, -80)
 collision_mask = 17
 collide_with_areas = true
 debug_shape_custom_color = Color(0, 1, 1, 1)
@@ -133,8 +196,17 @@ one_shot = true
 wait_time = 5.0
 one_shot = true
 
+[node name="DiveHesitate" type="Timer" parent="Timers"]
+wait_time = 1.5
+one_shot = true
+
+[node name="HardLanding" type="Timer" parent="Timers"]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="link_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_link_reached"]
 [connection signal="area_entered" from="Hitboxes/AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]
+[connection signal="area_entered" from="Hitboxes/DiveHitbox" to="." method="_on_dive_hitbox_area_entered"]
 [connection signal="area_entered" from="Hurtbox/MainHurtbox" to="." method="_on_main_hurtbox_area_entered"]
 [connection signal="area_entered" from="Hurtbox/HearingArea" to="." method="_on_hearing_area_area_entered"]
 [connection signal="area_entered" from="Hurtbox/VisionArea" to="." method="_on_vision_area_area_entered"]
@@ -148,3 +220,4 @@ one_shot = true
 [connection signal="timeout" from="Timers/StunDuration" to="." method="_on_stun_duration_timeout"]
 [connection signal="timeout" from="Timers/HurtDuration" to="." method="_on_hurt_duration_timeout"]
 [connection signal="timeout" from="Timers/TESTINGDESPERATIONTIMER" to="." method="_on_testingdesperationtimer_timeout"]
+[connection signal="timeout" from="Timers/HardLanding" to="." method="_on_hard_landing_timeout"]

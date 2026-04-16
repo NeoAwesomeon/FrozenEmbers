@@ -69,8 +69,10 @@ var combo_counter : int = 0
 var air_attack_ready : bool = true
 var ledge_available : bool = false
 var in_water : bool = false
+var on_ledge : bool = false
 var water_surface : float = 0.0
 var dash_toggle : bool = false
+var desperation_attempt = false
 
 # These variables act as absolute stops in order to lock the player into actions
 var move_lock : bool = false
@@ -100,11 +102,12 @@ func _ready() -> void:
 	print_rich("[color=cyan]-PLAYER START-")
 	current_boost = 0
 	point_of_view = get_tree().get_first_node_in_group("player_pov")
+	noise_hitbox.shape.radius = 0.1
 	GlobalLevelStats.RESPAWN_LOCATION = global_position
 
 
 func _physics_process(delta: float) -> void:
-	#Placed here that that pauses will happen as soon as possible:
+	#Placed here so that pauses will happen as soon as possible:
 	if Input.is_action_just_pressed("pause"):
 		add_sibling(pause_menu.instantiate())
 	
@@ -147,7 +150,10 @@ func _physics_process(delta: float) -> void:
 # Allows states to be entered at any time should qualifications match, does not include states with specific triggers
 func handle_state_transitions():
 	# Treat this section similar to using "_ready" as these trigger only once
-	if GlobalPlayerStats.Freeze > GlobalPlayerStats.Freeze_Max - 1 and !GlobalLevelStats.DESPERATION_MODE:
+	if GlobalLevelStats.DESPERATION_MODE:
+		current_state = States.DESPIRATION
+	
+	elif GlobalPlayerStats.Freeze > GlobalPlayerStats.Freeze_Max - 1 and !GlobalLevelStats.DESPERATION_MODE:
 		current_state = States.FREEZE_DEATH
 	
 	elif in_water:
@@ -317,10 +323,27 @@ func handle_state_actions(delta):
 				jump_midair = false
 		
 		States.FREEZE_DEATH:
+			true_speed = 0
+			move_lock = true
+			rotate_lock = true
+			action_lock = true
 			# Must reset at moment of death or freeze will trigger for one frame when reloading
-			GlobalPlayerStats.Freeze = 0
-			GlobalPlayerStats.Freeze_Goal = 0
-			get_tree().change_scene_to_file("res://Scenes/Levels/Final/Level_Menu.tscn")
+			# The death is handled by (player_visuals_ember) first
+		
+		States.DESPIRATION:
+			movement_velocity = Vector3.ZERO
+			move_lock = true
+			rotate_lock = true
+			action_lock = true
+			if !desperation_attempt:
+				if Input.is_action_just_pressed("attack"):
+					desperation_attempt = true
+					if GlobalLevelStats.DESPERATION_SAVE_ACTIVE:
+						print_rich("[color=cyan]PLAYER: DESPIRATION SUCCESS")
+						GlobalLevelStats.DESPERATION_VICTORY = true
+						# Returning to proper states is controlled by the animation player
+					else:
+						print_rich("[color=cyan]PLAYER: DESPIRATION FAILURE")
 
 func handle_movement(delta):
 	var input := Vector3.ZERO
@@ -400,15 +423,17 @@ func handle_movement(delta):
 			clear_locks()
 	if Input.is_action_just_released("reignite") or Input.is_action_just_released("extinguish"):
 		repeat_lock = false
+	
+	
 
 func handle_gravity(delta):
 	# Constantly applies gravity to the player that slowly ramps up over time based on state
 	if !ignore_gravity:
 		if in_water:
-			#If the player is no longer sinking and are underwater, rise to the surface
-			if !water_buffer.is_stopped() and swim_marker.global_position.y > water_surface:
-				gravity += 20 * delta
 			#If the player just entered the water, make them sink for a time
+			if !water_buffer.is_stopped() and swim_marker.global_position.y > water_surface and gravity > 10.0:
+				gravity = 10.0
+			#If the player is no longer sinking and are underwater, rise to the surface
 			elif (swim_marker.global_position.y < water_surface or !water_buffer.is_stopped()) and ignore_water_timer.is_stopped():
 				gravity -= 15 * delta
 			else:
@@ -424,14 +449,22 @@ func handle_gravity(delta):
 				gravity = 210 * delta
 			else:
 				gravity = 60 * delta
+		elif current_state == States.LONG_JUMP or current_state == States.HIGH_JUMP:
+			if Input.is_action_pressed("jump") and gravity < 1:
+				gravity += 20 * delta
+			else:
+				gravity += 25 * delta
 		else:
-			gravity += 25 * delta
+			if Input.is_action_pressed("jump") and gravity < 1:
+				gravity += 20 * delta
+			else:
+				gravity += 35 * delta
 	
 	# Resets gravity while on the floor and gives a small bit of time for a jump
 	if gravity > 0 and is_on_floor():
 		if current_state == States.GROUNDED and Input.is_action_pressed("dash"):
 			gravity = 3
-		elif current_state == States.GROUNDED:
+		elif current_state == States.GROUNDED or current_state == States.CROUCHED:
 			gravity = 2
 		elif current_state == States.SLIDING:
 			gravity = 7
@@ -558,7 +591,7 @@ func jump():
 			sfx_controller.play_jump()
 	
 	elif current_state == States.WALL_CLING:
-		gravity = -jump_strength * 1.5
+		gravity = -jump_strength * 1.3
 		sfx_controller.play_jump()
 	
 	elif jump_ground:
@@ -620,6 +653,11 @@ func clear_locks():
 	action_lock = false
 	repeat_lock = false
 	ignore_gravity = false
+
+func clear_desperation():
+	GlobalLevelStats.DESPERATION_MODE = false
+	GlobalLevelStats.DESPERATION_SAVE_ACTIVE = false
+	GlobalLevelStats.DESPERATION_VICTORY = false
 
 func slide(delta):
 	slide_ready = false
@@ -746,6 +784,7 @@ func handle_ledge_grab():
 	# HEY! FIND A WAY TO MAKE THE PLAYER SNAP TO THE LEDGE'S LOCATION AS WELL!
 	ignore_walls = true
 	ignore_gravity = true
+	on_ledge = true
 	gravity = 0
 	movement_velocity = Vector3.ZERO
 	
@@ -756,10 +795,12 @@ func handle_ledge_grab():
 		clear_locks()
 		current_state = States.AIRBORNE
 		sfx_controller.play_jump()
+		on_ledge = false
 	
 	if Input.is_action_just_pressed("crouch"):
 		ledge_cooldown.start()
 		ignore_walls = false
+		on_ledge = false
 		clear_locks()
 		current_state = States.WALL_CLING
 
@@ -848,7 +889,7 @@ func _on_swim_hurtbox_area_entered(area: Area3D) -> void:
 		in_water = true
 		sfx_controller.play_splash()
 		water_buffer.start()
-		water_surface = swim_hurtbox.global_position.y
+		water_surface = swim_hurtbox.global_position.y  + 0.5
 
 func _on_swim_hurtbox_area_exited(area: Area3D) -> void:
 	if area.is_in_group("water"):
@@ -857,7 +898,9 @@ func _on_swim_hurtbox_area_exited(area: Area3D) -> void:
 func _on_ignore_water_timeout() -> void:
 	if in_water:
 		current_state = States.SWIMMING
-	if !in_water:
+	elif on_ledge:
+		current_state = States.LEDGE_GRAB
+	elif !in_water:
 		current_state = States.AIRBORNE
 
 func handle_light(delta):
@@ -870,20 +913,26 @@ func handle_light(delta):
 	#Matches the visual size of the light and its hitbox to the light resource of the player
 	if GlobalPlayerStats.Light > GlobalPlayerStats.Light_Min:
 		if !current_state == States.CROUCHED:
-			torch_omni_light.omni_range = (GlobalPlayerStats.Light + 50) * 0.1 + 1.5
-			light_hitbox.shape.radius = (GlobalPlayerStats.Light + 50) * 0.1 + 2.0
+			torch_omni_light.omni_range = ((GlobalPlayerStats.Light + 50) * 0.1) + 1.5
+			light_hitbox.shape.radius = ((GlobalPlayerStats.Light + 50) * 0.1) + 1.0
+			light_hitbox.shape.height = ((GlobalPlayerStats.Light + 50) * 0.1) + 2.0
+			light_hitbox.position.y = ((GlobalPlayerStats.Light + 50) * 0.02) + 1.0
+			
 		else:
 			torch_omni_light.omni_range = ((GlobalPlayerStats.Light + 50) * 0.1 + 1.5) / 4
 			light_hitbox.shape.radius = ((GlobalPlayerStats.Light + 50) * 0.1 + 2.0) / 4
+			light_hitbox.shape.height = (GlobalPlayerStats.Light + 50) * 0.1 / 4
+			light_hitbox.position.y = (GlobalPlayerStats.Light + 50) * 0.02
 	else:
 		torch_omni_light.omni_range = 0.0
 		light_hitbox.shape.radius = 0.5
+		light_hitbox.position.y = 0.0
 	
 	visibility_spot_light.spot_angle = 10.0 + ((GlobalPlayerStats.Light + 50) / 2)
 
 func handle_fall_off():
 	# Respawns the player if they fall into a pit by placing them at the last triggered respawn location
-	GlobalPlayerStats.Freeze_Goal += GlobalPlayerStats.Heat_Max_Start_Value * 0.1
+	GlobalPlayerStats.Freeze_Goal += GlobalPlayerStats.Heat_Max_Start_Value * 0.10
 	global_position = GlobalLevelStats.RESPAWN_LOCATION
 
 func handle_noise(delta):
@@ -893,17 +942,19 @@ func handle_noise(delta):
 	else:
 		noise_hitbox.disabled = true
 	
-	if is_moving and current_state != States.CROUCHED:
-		if Input.is_action_pressed("dash") and noise_hitbox.shape.radius < 15.0:
-			noise_hitbox.shape.radius += 4.0 * delta
-		elif noise_hitbox.shape.radius < 5.0:
-			noise_hitbox.shape.radius += 3.0 * delta
-		
-	elif is_moving and current_state == States.CROUCHED:
-		if noise_hitbox.shape.radius < 1.5:
-			noise_hitbox.shape.radius += 3.0 * delta
-	elif !is_moving and current_state == States.CROUCHED:
-		noise_hitbox.shape.radius -= 2.0 * delta
+	if is_on_floor() or is_on_wall_only():
+		if is_moving and current_state != States.CROUCHED:
+			if Input.is_action_pressed("dash") and noise_hitbox.shape.radius < 15.0:
+				noise_hitbox.shape.radius += 4.0 * delta
+			elif noise_hitbox.shape.radius < 5.0:
+				noise_hitbox.shape.radius += 3.0 * delta
+			
+		elif is_moving and current_state == States.CROUCHED:
+			if noise_hitbox.shape.radius < 1.1:
+				noise_hitbox.shape.radius += 2.2 * delta
+		elif !is_moving and current_state == States.CROUCHED:
+			if noise_hitbox.shape.radius > 0.5:
+				noise_hitbox.shape.radius -= 4.0 * delta
 
 # Used for UI and SFX
 func handle_global_stats():

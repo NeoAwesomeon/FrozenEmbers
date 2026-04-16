@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dl827b1tvpsvc"]
+[gd_scene load_steps=6 format=3 uid="uid://dl827b1tvpsvc"]
 
 [ext_resource type="Script" uid="uid://ca88rxnkrb568" path="res://Scripts/UI/full_main_menu.gd" id="1_nabfd"]
 [ext_resource type="Theme" uid="uid://bp3rbmavjbrbx" path="res://Assets/Themes/PrimaryTheme.tres" id="2_jb40b"]
 [ext_resource type="Texture2D" uid="uid://dqpkikr735uro" path="res://Assets/Images/Discord-Logo-PNG-Image-3165834122.png" id="3_h36b7"]
 [ext_resource type="PackedScene" uid="uid://cfmcdxjxx1joc" path="res://Scenes/UI/Menus/settings_menu.tscn" id="3_jb40b"]
+[ext_resource type="PackedScene" uid="uid://c5xxsfsxs27df" path="res://Scenes/UI/Menus/custom_night_menu.tscn" id="4_j13b3"]
 
 [node name="FullMainMenu" type="Control"]
 layout_mode = 3
@@ -39,6 +40,7 @@ text = "v0.1.1.2"
 vertical_alignment = 2
 
 [node name="Top Menu" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -185,20 +187,6 @@ focus_neighbor_bottom = NodePath("../../Levels/Test02")
 text = "Monster
 Logic Test"
 
-[node name="ButtonSpacer2" type="Control" parent="LevelSelectMenu/VBoxContainer/Test Areas"]
-custom_minimum_size = Vector2(15, 0)
-layout_mode = 2
-
-[node name="Test04" type="Button" parent="LevelSelectMenu/VBoxContainer/Test Areas"]
-custom_minimum_size = Vector2(135, 135)
-layout_mode = 2
-focus_neighbor_left = NodePath("../Test01")
-focus_neighbor_top = NodePath("../../../LSMReturn")
-focus_neighbor_right = NodePath(".")
-focus_neighbor_bottom = NodePath("../../Levels/Test02")
-text = "Player VS 
-Wolves"
-
 [node name="Label2" type="Label" parent="LevelSelectMenu/VBoxContainer"]
 layout_mode = 2
 text = "Levels:"
@@ -227,7 +215,21 @@ focus_neighbor_top = NodePath("../../Test Areas/Test03")
 focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath("../../../LSMReturn")
 text = "Safe
-Test Level"
+Level"
+
+[node name="ButtonSpacer2" type="Control" parent="LevelSelectMenu/VBoxContainer/Levels"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="Test04" type="Button" parent="LevelSelectMenu/VBoxContainer/Levels"]
+custom_minimum_size = Vector2(135, 135)
+layout_mode = 2
+focus_neighbor_left = NodePath("../../Test Areas/Test01")
+focus_neighbor_top = NodePath("../../../LSMReturn")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../Test02")
+text = "Wolf & Smog
+Level"
 
 [node name="LSMReturn" type="Button" parent="LevelSelectMenu"]
 layout_mode = 1
@@ -247,6 +249,20 @@ focus_neighbor_top = NodePath("../VBoxContainer/Levels/Test02")
 focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath(".")
 text = "Main Menu"
+
+[node name="CustomNightMenu" parent="LevelSelectMenu" instance=ExtResource("4_j13b3")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -225.0
+offset_top = -220.0
+offset_right = -225.0
+offset_bottom = -220.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [node name="OptionsMenu" type="Control" parent="."]
 visible = false
@@ -283,8 +299,8 @@ text = "Return to Main Menu"
 [connection signal="pressed" from="Top Menu/DiscordLink" to="." method="_on_discord_link_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Test Areas/Test01" to="." method="_on_test_01_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Test Areas/Test03" to="." method="_on_test_03_pressed"]
-[connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Test Areas/Test04" to="." method="_on_test_04_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Levels/Tutorial" to="." method="_on_tutorial_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Levels/Test02" to="." method="_on_test_02_pressed"]
+[connection signal="pressed" from="LevelSelectMenu/VBoxContainer/Levels/Test04" to="." method="_on_test_04_pressed"]
 [connection signal="pressed" from="LevelSelectMenu/LSMReturn" to="." method="_on_lsm_return_pressed"]
 [connection signal="pressed" from="OptionsMenu/OMReturn" to="." method="_on_om_return_pressed"]

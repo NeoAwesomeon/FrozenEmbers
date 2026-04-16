@@ -5,8 +5,9 @@ extends Node
 @export_range(0, 600) var Heat = 600
 @export_range(0, 600) var Freeze = 0
 @export_range(-1000, -1) var Fall_Off = -20
-@export_group("Monster Levels")
+@export_group("Default Monster Levels")
 @export_range(-1, 20) var Wolf_Difficulty = 0
+@export_range(-1, 20) var Smog_Difficulty = 0
 
 var player
 var force_heat
@@ -19,7 +20,14 @@ func _ready() -> void:
 	GlobalPlayerStats.Freeze = Freeze
 	GlobalPlayerStats.Light_Goal = Light
 	GlobalPlayerStats.Light = Light
-	GlobalLevelStats.Wolf_Difficulty = Wolf_Difficulty
+	
+	# CUSTOM NIGHT ADAPTS HAPPEN WITHIN CODE FOR MONSTERS
+	if CustomNightSettings.CUSTOM_NIGHT_ENABLED:
+		GlobalLevelStats.Wolf_Difficulty = CustomNightSettings.CN_Wolf_Difficulty
+		GlobalLevelStats.Smog_Difficulty = CustomNightSettings.CN_Smog_Difficulty
+	else:
+		GlobalLevelStats.Wolf_Difficulty = Wolf_Difficulty
+		GlobalLevelStats.Smog_Difficulty = Smog_Difficulty
 	
 	GlobalPlayerStats.Dive_Count = 0
 	GlobalPlayerStats.Pillar_Active = false

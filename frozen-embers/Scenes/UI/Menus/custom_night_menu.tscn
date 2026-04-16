@@ -1,0 +1,210 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5xxsfsxs27df"]
+
+[ext_resource type="Theme" uid="uid://bp3rbmavjbrbx" path="res://Assets/Themes/PrimaryTheme.tres" id="1_wkm35"]
+[ext_resource type="Script" uid="uid://weeen41wr1om" path="res://Scripts/UI/custom_night_menu.gd" id="2_q1q4f"]
+
+[node name="CustomNightMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_wkm35")
+script = ExtResource("2_q1q4f")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(350, 350)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -150.0
+offset_right = 175.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="CustomOverride" type="CheckBox" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Custom Difficulty"
+alignment = 1
+icon_alignment = 1
+
+[node name="Spacer2" type="Control" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 3
+
+[node name="Wolf" type="VBoxContainer" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="MonsterName" type="Label" parent="PanelContainer/VBoxContainer/GridContainer/Wolf"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Wolf"
+horizontal_alignment = 1
+
+[node name="MonsterLevel" type="Label" parent="PanelContainer/VBoxContainer/GridContainer/Wolf"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "> 20 <"
+horizontal_alignment = 1
+
+[node name="Spacer3" type="Control" parent="PanelContainer/VBoxContainer/GridContainer/Wolf"]
+custom_minimum_size = Vector2(120, 10)
+layout_mode = 2
+
+[node name="LevelChange" type="HBoxContainer" parent="PanelContainer/VBoxContainer/GridContainer/Wolf"]
+layout_mode = 2
+alignment = 1
+
+[node name="wMinus" type="Button" parent="PanelContainer/VBoxContainer/GridContainer/Wolf/LevelChange"]
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+text = "-"
+
+[node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer/GridContainer/Wolf/LevelChange"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="wPlus" type="Button" parent="PanelContainer/VBoxContainer/GridContainer/Wolf/LevelChange"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "+"
+
+[node name="Spacer2" type="Control" parent="PanelContainer/VBoxContainer/GridContainer/Wolf"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="wAdept1" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Wolf"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 1"
+alignment = 1
+icon_alignment = 1
+
+[node name="wAdept2" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Wolf"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 2"
+alignment = 1
+icon_alignment = 1
+
+[node name="wAdept3" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Wolf"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 3"
+alignment = 1
+icon_alignment = 1
+
+[node name="wAdept4" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Wolf"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 4"
+alignment = 1
+icon_alignment = 1
+
+[node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Smog" type="VBoxContainer" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="MonsterName" type="Label" parent="PanelContainer/VBoxContainer/GridContainer/Smog"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Smog"
+horizontal_alignment = 1
+
+[node name="MonsterLevel" type="Label" parent="PanelContainer/VBoxContainer/GridContainer/Smog"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "> 20 <"
+horizontal_alignment = 1
+
+[node name="Spacer3" type="Control" parent="PanelContainer/VBoxContainer/GridContainer/Smog"]
+custom_minimum_size = Vector2(120, 10)
+layout_mode = 2
+
+[node name="LevelChange" type="HBoxContainer" parent="PanelContainer/VBoxContainer/GridContainer/Smog"]
+layout_mode = 2
+alignment = 1
+
+[node name="sMinus" type="Button" parent="PanelContainer/VBoxContainer/GridContainer/Smog/LevelChange"]
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+text = "-"
+
+[node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer/GridContainer/Smog/LevelChange"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="sPlus" type="Button" parent="PanelContainer/VBoxContainer/GridContainer/Smog/LevelChange"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "+"
+
+[node name="Spacer2" type="Control" parent="PanelContainer/VBoxContainer/GridContainer/Smog"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="sAdept1" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Smog"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 1"
+alignment = 1
+icon_alignment = 1
+
+[node name="sAdept2" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Smog"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 2"
+alignment = 1
+icon_alignment = 1
+
+[node name="sAdept3" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Smog"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 3"
+alignment = 1
+icon_alignment = 1
+
+[node name="sAdept4" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Smog"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 4"
+alignment = 1
+icon_alignment = 1
+
+[connection signal="toggled" from="PanelContainer/VBoxContainer/CustomOverride" to="." method="_on_custom_override_toggled"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/Wolf/LevelChange/wMinus" to="." method="_on_w_minus_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/Wolf/LevelChange/wPlus" to="." method="_on_w_plus_pressed"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Wolf/wAdept1" to="." method="_on_w_adept_1_toggled"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Wolf/wAdept2" to="." method="_on_w_adept_2_toggled"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Wolf/wAdept3" to="." method="_on_w_adept_3_toggled"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Wolf/wAdept4" to="." method="_on_w_adept_4_toggled"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/Smog/LevelChange/sMinus" to="." method="_on_s_minus_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/Smog/LevelChange/sPlus" to="." method="_on_s_plus_pressed"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Smog/sAdept1" to="." method="_on_s_adept_1_toggled"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Smog/sAdept2" to="." method="_on_s_adept_2_toggled"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Smog/sAdept3" to="." method="_on_s_adept_3_toggled"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Smog/sAdept4" to="." method="_on_s_adept_4_toggled"]

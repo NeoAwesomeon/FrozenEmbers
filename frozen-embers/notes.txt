@@ -1,36 +1,5 @@
 Platforming Sizes:
-	Safe Ground Jump Height - 2.0m
-	Safe Double Jump Height - 4.0m
-	Safe High Jump Height - 7.0m
-	Safe High + Double Jump Height - 9.0m
 	
-	Safe Ledge from Ground Jump Height - 4.0m
-	Safe Ledge from Double Jump Height - 6.0m
-	Safe Ledge from High Jump Height - 9.0m
-	Safe Ledge from High + Double Jump Height - 11.0m
-	
-	Safe Ground Jump Length - 5.0m
-	Risky Ground Jump Length - 6.0m
-	Rushed Double Jump Length - 8.0m
-	Height Efficient Double Jump Length - 10.0m
-	Length Efficient Double Jump Length - 11.0m
-	
-	Safe Unboosted Slide Jump - 9.0m
-	Risky Unboosted Slide Jump - 11.0m
-	Rushed Unboosted Slide Double Jump - 13.0m
-	Safe Patient Unboosted Slide Double Jump - 17.0m
-	Risky Unboosted Slide Double Jump - 20.0m
-	
-	Safe Boost 600 Slide Jump - 12.0m
-	Risky Boost 600 Slide Jump - 14.0m
-	
-	Safe Boost 800 Slide Jump - 18.0m
-	Risky Boost 800 Slide Jump - 20.0m
-	
-	Safe Boost 1000 Slide Jump - 21.0m
-	Risky Boost 1000 Slide Jump - 23.0m
-	
-	Consistent Max Distance Boost 1000 Slide Double Jump - 45.0m
 
 Collision Rules:
 	1 World
@@ -38,3 +7,5 @@ Collision Rules:
 	3 Hostile Output / Recieve from Hostile / Player Exclusive Surface
 	4 Hostile Vision (Light)
 	5 Hostile Vision (Player)
+
+Smog is added to levels via the exits.
