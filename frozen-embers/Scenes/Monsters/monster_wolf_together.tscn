@@ -1,6 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://owaa1ynbn566"]
+[gd_scene load_steps=18 format=3 uid="uid://owaa1ynbn566"]
 
 [ext_resource type="Script" uid="uid://ddtku72fqxkk" path="res://Scripts/Monsters/monster_wolf_together.gd" id="1_irfuy"]
+[ext_resource type="AudioStream" uid="uid://dp168ffctqb5u" path="res://Assets/Audio/Testing/V1_Placeholders/Wolf_Snarl_02.wav" id="2_0smr1"]
+[ext_resource type="Script" uid="uid://dc0oh243g5u1b" path="res://Scripts/Monsters/monster_sfx_wolf.gd" id="2_amno1"]
+[ext_resource type="AudioStream" uid="uid://b6kwfam03we2x" path="res://Assets/Audio/Testing/V1_Placeholders/Wolf_Snarl_01.wav" id="3_x1f1j"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_km87v"]
 radius = 1.0
@@ -92,8 +95,26 @@ draw_pass_1 = SubResource("CapsuleMesh_j6kdj")
 transform = Transform3D(1, 0, 0, 0, -1, -8.940696e-08, 0, 8.940696e-08, -1, 0, 1, 0)
 light_color = Color(1, 0, 1, 1)
 spot_range = 94.0
-spot_attenuation = -1.25
+spot_attenuation = -1.0
 spot_angle = 32.000477
+
+[node name="SFX" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, -8.940696e-08, 0, 8.940696e-08, -1, 0, 1, 0)
+script = ExtResource("2_amno1")
+
+[node name="WakeUp" type="AudioStreamPlayer3D" parent="SFX"]
+stream = ExtResource("2_0smr1")
+volume_db = 1.0
+unit_size = 200.0
+max_db = 1.5
+max_distance = 2500.0
+bus = &"SFX"
+
+[node name="Alert" type="AudioStreamPlayer3D" parent="SFX"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.940696e-08, 0, -8.940696e-08, -1, 0, 1, 8.940696e-08)
+stream = ExtResource("3_x1f1j")
+unit_size = 150.0
+max_distance = 300.0
 
 [node name="Hitboxes" type="Node3D" parent="."]
 
@@ -192,8 +213,12 @@ one_shot = true
 wait_time = 2.5
 one_shot = true
 
+[node name="TESTINGSAVETIMER" type="Timer" parent="Timers"]
+wait_time = 3.0
+one_shot = true
+
 [node name="TESTINGDESPERATIONTIMER" type="Timer" parent="Timers"]
-wait_time = 5.0
+wait_time = 4.0
 one_shot = true
 
 [node name="DiveHesitate" type="Timer" parent="Timers"]
@@ -212,12 +237,15 @@ one_shot = true
 [connection signal="area_entered" from="Hurtbox/VisionArea" to="." method="_on_vision_area_area_entered"]
 [connection signal="area_exited" from="Hurtbox/VisionArea" to="." method="_on_vision_area_area_exited"]
 [connection signal="timeout" from="Timers/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="Timers/SpawnTimer" to="SFX" method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="Timers/BoredomTimer" to="." method="_on_boredom_timer_timeout"]
 [connection signal="timeout" from="Timers/HuhDuration" to="." method="_on_huh_duration_timeout"]
 [connection signal="timeout" from="Timers/StareDuration" to="." method="_on_stare_duration_timeout"]
+[connection signal="timeout" from="Timers/StareDuration" to="SFX" method="_on_stare_duration_timeout"]
 [connection signal="timeout" from="Timers/ChaseDuration" to="." method="_on_chase_duration_timeout"]
 [connection signal="timeout" from="Timers/BoostCountRate" to="." method="_on_boost_count_rate_timeout"]
 [connection signal="timeout" from="Timers/StunDuration" to="." method="_on_stun_duration_timeout"]
 [connection signal="timeout" from="Timers/HurtDuration" to="." method="_on_hurt_duration_timeout"]
+[connection signal="timeout" from="Timers/TESTINGSAVETIMER" to="." method="_on_testingsavetimer_timeout"]
 [connection signal="timeout" from="Timers/TESTINGDESPERATIONTIMER" to="." method="_on_testingdesperationtimer_timeout"]
 [connection signal="timeout" from="Timers/HardLanding" to="." method="_on_hard_landing_timeout"]

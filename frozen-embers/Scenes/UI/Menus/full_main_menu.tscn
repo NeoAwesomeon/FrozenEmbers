@@ -36,11 +36,10 @@ offset_right = 503.0
 offset_bottom = -9.0
 grow_vertical = 0
 theme = ExtResource("2_jb40b")
-text = "v0.1.1.2"
+text = "v0.1.2.0"
 vertical_alignment = 2
 
 [node name="Top Menu" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -57,6 +56,7 @@ offset_top = -37.0
 offset_right = 299.0
 offset_bottom = -15.0
 theme = ExtResource("2_jb40b")
+theme_override_colors/font_color = Color(0.5396635, 0.5396635, 0.53966343, 1)
 text = " <<  Controls Here!"
 
 [node name="VBox" type="VBoxContainer" parent="Top Menu"]
@@ -114,12 +114,12 @@ focus_neighbor_top = NodePath("../Quit")
 focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath("../../DiscordLink")
 theme = ExtResource("2_jb40b")
-theme_override_colors/font_color = Color(1, 0, 0.23529412, 1)
-theme_override_colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
-theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_focus_color = Color(0.53333336, 0.9490196, 0.9490196, 1)
+theme_override_colors/font_pressed_color = Color(1, 0, 0.49019608, 1)
+theme_override_colors/font_hover_color = Color(0, 0.9490196, 0.9490196, 1)
 theme_override_font_sizes/font_size = 32
 text = "Feedback"
-uri = "https://docs.google.com/forms/d/e/1FAIpQLSfFBa7EBQumdSmzZsCpcGKENfom5NT8yTftUE0ZePEshVlYeQ/viewform?usp=sharing&ouid=106926925777322296066"
+uri = "https://docs.google.com/forms/d/e/1FAIpQLSf_WNECc4CQc0LeT5r_hxJQDEg4-vby3rGtGyhs8hFNopIP3A/viewform?usp=dialogKENfom5NT8yTftUE0ZePEshVlYeQ/viewform?usp=sharing&ouid=106926925777322296066"
 
 [node name="DiscordLink" type="TextureButton" parent="Top Menu"]
 custom_minimum_size = Vector2(50, 50)

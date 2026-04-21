@@ -144,7 +144,7 @@ func handle_particles():
 		if GlobalPlayerStats.Heat > 0 or GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1:
 			boost_start_particles.emitting = true
 	
-	if Input.is_action_pressed("dash") and (GlobalPlayerStats.Heat > 0 or GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1):
+	if (Input.is_action_pressed("dash") and (GlobalPlayerStats.Heat > 0 or GlobalPlayerStats.Light_Goal > GlobalPlayerStats.Light_Min + 0.1)) or get_parent().dash_toggle:
 			boost_active_particles.emitting = true
 	else:
 			boost_active_particles.emitting = false

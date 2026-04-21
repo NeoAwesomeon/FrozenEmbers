@@ -25,7 +25,7 @@ func _ready() -> void:
 #TOP MENU
 func _on_start_pressed() -> void:
 	MusicController.play_hum_boop()
-	get_tree().change_scene_to_file("res://Scenes/Levels/WIP/Level_Tutorial_V_1.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Levels/WIP/Level_Tutorial_V1.tscn")
 
 func _on_level_select_pressed() -> void:
 	MusicController.play_hum_boop()
@@ -65,10 +65,10 @@ func _on_test_03_pressed() -> void:
 
 func _on_tutorial_pressed() -> void:
 	MusicController.play_hum_boop()
-	get_tree().change_scene_to_file("res://Scenes/Levels/WIP/Level_Tutorial_V_1.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Levels/WIP/Level_Tutorial_V1.tscn")
 
 func _on_test_04_pressed() -> void:
-	get_tree().change_scene_to_file("res://Scenes/Levels/Testing/testing_world_04.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Levels/WIP/Level_Wolf&Smog_V1.tscn")
 
 #OPTIONS MENU
 func _on_om_return_pressed() -> void:

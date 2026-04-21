@@ -335,13 +335,20 @@ func handle_state_actions(delta):
 			move_lock = true
 			rotate_lock = true
 			action_lock = true
-			if !desperation_attempt:
+			
+			if GlobalLevelStats.DESPERATION_SAVE_ACTIVE and GlobalOptionSettings.accessability_auto_parry:
+				print_rich("[color=cyan]PLAYER: AUTO-PARRY")
+				GlobalLevelStats.DESPERATION_VICTORY = true
+				# Returning to proper states is controlled by the animation player
+				
+			elif !desperation_attempt and !GlobalOptionSettings.accessability_auto_parry:
 				if Input.is_action_just_pressed("attack"):
 					desperation_attempt = true
 					if GlobalLevelStats.DESPERATION_SAVE_ACTIVE:
 						print_rich("[color=cyan]PLAYER: DESPIRATION SUCCESS")
 						GlobalLevelStats.DESPERATION_VICTORY = true
 						# Returning to proper states is controlled by the animation player
+						
 					else:
 						print_rich("[color=cyan]PLAYER: DESPIRATION FAILURE")
 
@@ -462,7 +469,7 @@ func handle_gravity(delta):
 	
 	# Resets gravity while on the floor and gives a small bit of time for a jump
 	if gravity > 0 and is_on_floor():
-		if current_state == States.GROUNDED and Input.is_action_pressed("dash"):
+		if current_state == States.GROUNDED and (Input.is_action_pressed("dash") or dash_toggle):
 			gravity = 3
 		elif current_state == States.GROUNDED or current_state == States.CROUCHED:
 			gravity = 2
@@ -944,7 +951,7 @@ func handle_noise(delta):
 	
 	if is_on_floor() or is_on_wall_only():
 		if is_moving and current_state != States.CROUCHED:
-			if Input.is_action_pressed("dash") and noise_hitbox.shape.radius < 15.0:
+			if (Input.is_action_pressed("dash") or dash_toggle) and noise_hitbox.shape.radius < 15.0:
 				noise_hitbox.shape.radius += 4.0 * delta
 			elif noise_hitbox.shape.radius < 5.0:
 				noise_hitbox.shape.radius += 3.0 * delta

@@ -1,0 +1,1265 @@
+[gd_scene load_steps=58 format=3 uid="uid://b2fikx4umsyp8"]
+
+[ext_resource type="PackedScene" uid="uid://bsr73xwil1ngl" path="res://Scenes/Levels/_Bases_/level_starter.tscn" id="1_v2ac1"]
+[ext_resource type="PackedScene" uid="uid://dqcfqm4fk2wp0" path="res://Scenes/UI/player_hud.tscn" id="2_c8wk5"]
+[ext_resource type="PackedScene" uid="uid://cntk6hyobvon5" path="res://Scenes/Player/player_pov.tscn" id="3_nkpco"]
+[ext_resource type="PackedScene" uid="uid://dqayd4wqfa7ps" path="res://Scenes/Player/player_character_ember.tscn" id="4_d3w8a"]
+[ext_resource type="Script" uid="uid://bahn25apmbm5a" path="res://Scripts/Interactables/goal_beacon.gd" id="5_7nf21"]
+[ext_resource type="PackedScene" uid="uid://bga4lo31kpgod" path="res://Scenes/Interactables/goal_ring.tscn" id="6_lo48u"]
+[ext_resource type="PackedScene" uid="uid://1f2jwhmig8w4" path="res://Assets/Models/Placeholders/VerticalSlice/GoalBeacon.glb" id="7_q3h1o"]
+[ext_resource type="Script" uid="uid://uaes7abyt5y3" path="res://Scripts/Misc/particle_spinner.gd" id="8_idnuw"]
+[ext_resource type="AudioStream" uid="uid://cm1hta05sdwea" path="res://Assets/Audio/Testing/V2_Placeholders/Wavy.wav" id="9_pcrip"]
+[ext_resource type="AudioStream" uid="uid://dwdao6r4n7kuv" path="res://Assets/Audio/Testing/V2_Placeholders/Gong.mp3" id="10_jc0vd"]
+[ext_resource type="Script" uid="uid://b31fyitm1tv4s" path="res://Scripts/Interactables/ring_manager.gd" id="11_tgaa5"]
+[ext_resource type="PackedScene" uid="uid://bfujhkffk6yxk" path="res://Scenes/Interactables/message_box.tscn" id="12_xordv"]
+[ext_resource type="PackedScene" uid="uid://i2h3t243ng3l" path="res://Scenes/Interactables/light_pickup.tscn" id="13_1n2q3"]
+[ext_resource type="PackedScene" uid="uid://btlti1inruyru" path="res://Scenes/Interactables/level_exit.tscn" id="14_cdgam"]
+[ext_resource type="Material" uid="uid://7gyyy28j40ns" path="res://Assets/Materials/Testing/Testing_Grey.tres" id="15_cdam6"]
+[ext_resource type="PackedScene" uid="uid://dld26fm3ga4uu" path="res://Scenes/Interactables/distructable.tscn" id="16_3wcic"]
+
+[sub_resource type="Curve" id="Curve_fl1i2"]
+_data = [Vector2(0, 0), 0.0, 20.0225, 0, 0, Vector2(0.168724, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.33708, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_bu1ld"]
+curve = SubResource("Curve_fl1i2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hynl3"]
+particle_flag_rotate_y = true
+emission_shape_scale = Vector3(0.3, 0.3, 0.1)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+gravity = Vector3(0, 3, 0)
+scale_curve = SubResource("CurveTexture_bu1ld")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pq487"]
+albedo_color = Color(0, 1, 1, 1)
+emission_enabled = true
+emission = Color(0, 1, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_fc1mo"]
+material = SubResource("StandardMaterial3D_pq487")
+radial_segments = 4
+rings = 1
+
+[sub_resource type="Curve" id="Curve_bu1ld"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.8565121, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_hynl3"]
+curve = SubResource("Curve_bu1ld")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pq487"]
+gravity = Vector3(0, 9.8, 0)
+scale_curve = SubResource("CurveTexture_hynl3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fc1mo"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.078431375)
+
+[sub_resource type="SphereMesh" id="SphereMesh_jcpqx"]
+material = SubResource("StandardMaterial3D_fc1mo")
+radius = 0.3
+height = 5.0
+radial_segments = 4
+rings = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fl1i2"]
+size = Vector3(1.3, 2, 1.3)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_o0vd6"]
+height = 3.5
+radius = 3.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1n40i"]
+height = 4.0
+radius = 5.0
+
+[sub_resource type="Curve" id="Curve_edlaa"]
+_data = [Vector2(0, 0), 0.0, 21.1884, 0, 0, Vector2(0.115523, 1), 0.0, 0.0, 0, 0, Vector2(0.494585, 0.54403), 0.0, 0.0, 0, 0, Vector2(0.841155, 0.864179), 0.0, 0.0, 0, 0, Vector2(1, 0), -13.4365, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_1mcjq"]
+curve = SubResource("Curve_edlaa")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_weblh"]
+emission_shape_scale = Vector3(5, 4, 5)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 90, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.95
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 0.1
+initial_velocity_max = 0.1
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_1mcjq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fl1i2"]
+shading_mode = 0
+albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_bu1ld"]
+material = SubResource("StandardMaterial3D_fl1i2")
+radius = 0.05
+height = 0.1
+radial_segments = 4
+rings = 1
+
+[sub_resource type="Curve" id="Curve_0eq1b"]
+_data = [Vector2(0, 0), 0.0, 20.0225, 0, 0, Vector2(0.168724, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.33708, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ljnd5"]
+curve = SubResource("Curve_0eq1b")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_11o4l"]
+particle_flag_rotate_y = true
+emission_shape_scale = Vector3(0.3, 0.3, 0.1)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+gravity = Vector3(0, 3, 0)
+scale_curve = SubResource("CurveTexture_ljnd5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qlf3d"]
+albedo_color = Color(0, 1, 1, 1)
+emission_enabled = true
+emission = Color(0, 1, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_nfieb"]
+material = SubResource("StandardMaterial3D_qlf3d")
+radial_segments = 4
+rings = 1
+
+[sub_resource type="Curve" id="Curve_1u2we"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.8565121, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ort6e"]
+curve = SubResource("Curve_1u2we")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hcrpg"]
+gravity = Vector3(0, 9.8, 0)
+scale_curve = SubResource("CurveTexture_ort6e")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g42y4"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.078431375)
+
+[sub_resource type="SphereMesh" id="SphereMesh_feyuf"]
+material = SubResource("StandardMaterial3D_g42y4")
+radius = 0.3
+height = 5.0
+radial_segments = 4
+rings = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bglf7"]
+size = Vector3(1.3, 2, 1.3)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_5n0sf"]
+height = 3.5
+radius = 3.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_x3q5i"]
+height = 4.0
+radius = 5.0
+
+[sub_resource type="Curve" id="Curve_pxn18"]
+_data = [Vector2(0, 0), 0.0, 21.1884, 0, 0, Vector2(0.115523, 1), 0.0, 0.0, 0, 0, Vector2(0.494585, 0.54403), 0.0, 0.0, 0, 0, Vector2(0.841155, 0.864179), 0.0, 0.0, 0, 0, Vector2(1, 0), -13.4365, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_nlfin"]
+curve = SubResource("Curve_pxn18")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0ssku"]
+emission_shape_scale = Vector3(5, 4, 5)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 90, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.95
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 0.1
+initial_velocity_max = 0.1
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_nlfin")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oj36u"]
+shading_mode = 0
+albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_hiijx"]
+material = SubResource("StandardMaterial3D_oj36u")
+radius = 0.05
+height = 0.1
+radial_segments = 4
+rings = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_81dft"]
+size = Vector3(18, 12, 18)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0eq1b"]
+albedo_color = Color(2.8878452e-07, 0.23246503, 0.41617888, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ljnd5"]
+material = SubResource("StandardMaterial3D_0eq1b")
+size = Vector2(22.275, 19.31)
+
+[sub_resource type="PrismMesh" id="PrismMesh_55wn4"]
+left_to_right = 1.0
+size = Vector3(22, 16, 4)
+
+[sub_resource type="Environment" id="Environment_81dft"]
+background_mode = 1
+background_energy_multiplier = 1.7
+fog_light_energy = 0.01
+fog_sun_scatter = 1.0
+
+[node name="LevelTutorial" type="Node3D"]
+
+[node name="LevelStarter" parent="." instance=ExtResource("1_v2ac1")]
+Light = 4
+Heat = 450
+Fall_Off = -40
+Wolf_Difficulty = -1
+
+[node name="Player" type="Node" parent="."]
+
+[node name="PlayerHud" parent="Player" instance=ExtResource("2_c8wk5")]
+
+[node name="PlayerPOV" parent="Player" instance=ExtResource("3_nkpco")]
+
+[node name="PlayerCharacterEmber" parent="Player" instance=ExtResource("4_d3w8a")]
+
+[node name="Gameplay" type="Node" parent="."]
+
+[node name="Beacons" type="Node" parent="Gameplay"]
+
+[node name="GoalBeacon" type="Node3D" parent="Gameplay/Beacons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -321)
+script = ExtResource("5_7nf21")
+number_of_rings = 5
+ring_scene = ExtResource("6_lo48u")
+
+[node name="Main" type="Node3D" parent="Gameplay/Beacons/GoalBeacon"]
+
+[node name="Visuals" type="Node3D" parent="Gameplay/Beacons/GoalBeacon/Main"]
+
+[node name="Model" parent="Gameplay/Beacons/GoalBeacon/Main/Visuals" instance=ExtResource("7_q3h1o")]
+transform = Transform3D(0.665, 0, 0, 0, 0.665, 0, 0, 0, 0.665, 0, 0, 0)
+
+[node name="AlightParticles" type="GPUParticles3D" parent="Gameplay/Beacons/GoalBeacon/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2, 0)
+process_material = SubResource("ParticleProcessMaterial_hynl3")
+draw_pass_1 = SubResource("SphereMesh_fc1mo")
+
+[node name="SignalParticles" type="GPUParticles3D" parent="Gameplay/Beacons/GoalBeacon/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+amount = 30
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_pq487")
+draw_pass_1 = SubResource("SphereMesh_jcpqx")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Gameplay/Beacons/GoalBeacon/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.556302, 0)
+light_color = Color(0.64705884, 1, 1, 1)
+light_energy = 3.5
+omni_range = 6.5
+omni_attenuation = -0.25
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Gameplay/Beacons/GoalBeacon/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon/Main/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_fl1i2")
+
+[node name="DelayTimer" type="Timer" parent="Gameplay/Beacons/GoalBeacon/Main"]
+wait_time = 0.1
+one_shot = true
+
+[node name="InteractionHitbox" type="Area3D" parent="Gameplay/Beacons/GoalBeacon/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon/Main/InteractionHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+shape = SubResource("CylinderShape3D_o0vd6")
+
+[node name="WarmthHitbox" type="Area3D" parent="Gameplay/Beacons/GoalBeacon/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon/Main/WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("CylinderShape3D_1n40i")
+debug_color = Color(0.996078, 0, 0, 0.419608)
+
+[node name="WarmVisual" type="GPUParticles3D" parent="Gameplay/Beacons/GoalBeacon/Main/WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+amount = 150
+lifetime = 3.0
+preprocess = 10.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_weblh")
+draw_pass_1 = SubResource("SphereMesh_bu1ld")
+script = ExtResource("8_idnuw")
+
+[node name="WarmTimer" type="Timer" parent="Gameplay/Beacons/GoalBeacon/Main/WarmthHitbox"]
+wait_time = 0.125
+
+[node name="SFX" type="Node3D" parent="Gameplay/Beacons/GoalBeacon/Main"]
+
+[node name="Wavy" type="AudioStreamPlayer3D" parent="Gameplay/Beacons/GoalBeacon/Main/SFX"]
+stream = ExtResource("9_pcrip")
+volume_db = -2.0
+bus = &"SFX"
+
+[node name="Gong" type="AudioStreamPlayer" parent="Gameplay/Beacons/GoalBeacon/Main/SFX"]
+stream = ExtResource("10_jc0vd")
+volume_db = -4.0
+
+[node name="RespawnPoint" type="Marker3D" parent="Gameplay/Beacons/GoalBeacon/Main"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
+
+[node name="RingManager" type="Node3D" parent="Gameplay/Beacons/GoalBeacon"]
+script = ExtResource("11_tgaa5")
+
+[node name="GoalRing5" parent="Gameplay/Beacons/GoalBeacon/RingManager" instance=ExtResource("6_lo48u")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 25, 37, 5)
+
+[node name="GoalRing4" parent="Gameplay/Beacons/GoalBeacon/RingManager" instance=ExtResource("6_lo48u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 15, 5)
+
+[node name="GoalRing3" parent="Gameplay/Beacons/GoalBeacon/RingManager" instance=ExtResource("6_lo48u")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -27, 13, -9.5)
+
+[node name="GoalRing2" parent="Gameplay/Beacons/GoalBeacon/RingManager" instance=ExtResource("6_lo48u")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -66, 0, 5)
+
+[node name="GoalRing1" parent="Gameplay/Beacons/GoalBeacon/RingManager" instance=ExtResource("6_lo48u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -14)
+
+[node name="GoalBeacon2" type="Node3D" parent="Gameplay/Beacons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -398.1)
+script = ExtResource("5_7nf21")
+ring_scene = ExtResource("6_lo48u")
+
+[node name="Main" type="Node3D" parent="Gameplay/Beacons/GoalBeacon2"]
+
+[node name="Visuals" type="Node3D" parent="Gameplay/Beacons/GoalBeacon2/Main"]
+
+[node name="Model" parent="Gameplay/Beacons/GoalBeacon2/Main/Visuals" instance=ExtResource("7_q3h1o")]
+transform = Transform3D(0.665, 0, 0, 0, 0.665, 0, 0, 0, 0.665, 0, 0, 0)
+
+[node name="AlightParticles" type="GPUParticles3D" parent="Gameplay/Beacons/GoalBeacon2/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2, 0)
+process_material = SubResource("ParticleProcessMaterial_11o4l")
+draw_pass_1 = SubResource("SphereMesh_nfieb")
+
+[node name="SignalParticles" type="GPUParticles3D" parent="Gameplay/Beacons/GoalBeacon2/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+amount = 30
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_hcrpg")
+draw_pass_1 = SubResource("SphereMesh_feyuf")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Gameplay/Beacons/GoalBeacon2/Main/Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.556302, 0)
+light_color = Color(0.64705884, 1, 1, 1)
+light_energy = 3.5
+omni_range = 6.5
+omni_attenuation = -0.25
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Gameplay/Beacons/GoalBeacon2/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon2/Main/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_bglf7")
+
+[node name="DelayTimer" type="Timer" parent="Gameplay/Beacons/GoalBeacon2/Main"]
+wait_time = 0.1
+one_shot = true
+
+[node name="InteractionHitbox" type="Area3D" parent="Gameplay/Beacons/GoalBeacon2/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon2/Main/InteractionHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+shape = SubResource("CylinderShape3D_5n0sf")
+
+[node name="WarmthHitbox" type="Area3D" parent="Gameplay/Beacons/GoalBeacon2/Main"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/Beacons/GoalBeacon2/Main/WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("CylinderShape3D_x3q5i")
+debug_color = Color(0.996078, 0, 0, 0.419608)
+
+[node name="WarmVisual" type="GPUParticles3D" parent="Gameplay/Beacons/GoalBeacon2/Main/WarmthHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+amount = 150
+lifetime = 3.0
+preprocess = 10.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_0ssku")
+draw_pass_1 = SubResource("SphereMesh_hiijx")
+script = ExtResource("8_idnuw")
+
+[node name="WarmTimer" type="Timer" parent="Gameplay/Beacons/GoalBeacon2/Main/WarmthHitbox"]
+wait_time = 0.125
+
+[node name="SFX" type="Node3D" parent="Gameplay/Beacons/GoalBeacon2/Main"]
+
+[node name="Wavy" type="AudioStreamPlayer3D" parent="Gameplay/Beacons/GoalBeacon2/Main/SFX"]
+stream = ExtResource("9_pcrip")
+volume_db = -2.0
+bus = &"SFX"
+
+[node name="Gong" type="AudioStreamPlayer" parent="Gameplay/Beacons/GoalBeacon2/Main/SFX"]
+stream = ExtResource("10_jc0vd")
+volume_db = -4.0
+
+[node name="RespawnPoint" type="Marker3D" parent="Gameplay/Beacons/GoalBeacon2/Main"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
+
+[node name="RingManager" type="Node3D" parent="Gameplay/Beacons/GoalBeacon2"]
+script = ExtResource("11_tgaa5")
+
+[node name="GoalRing1" parent="Gameplay/Beacons/GoalBeacon2/RingManager" instance=ExtResource("6_lo48u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -11)
+
+[node name="Messages" type="Node" parent="Gameplay"]
+
+[node name="MessageBox" parent="Gameplay/Messages" instance=ExtResource("12_xordv")]
+transform = Transform3D(20, 0, 0, 0, 10, 0, 0, 0, 10, 0, 5, -20)
+message = "Heat (Red Bar) is what keeps you alive.
+Light (Yellow Bar) is what maintains your heat and gives you power.
+The noise you make is tracked by the Pink Bar.
+
+Hold Reignite (Default: Q) to restore your light.
+It will alert monsters to your location, so use it while you're safe."
+duration = 20.0
+
+[node name="MessageBox3" parent="Gameplay/Messages" instance=ExtResource("12_xordv")]
+transform = Transform3D(20, 0, 0, 0, 10, 0, 0, 0, 10, 0, 5, -39)
+message = "Holding Dash (Default: Shift) will make you faster over time.
+This will drain your light.
+
+Your abilities become more potent the faster you are.
+
+Your speed will slowly decay when the button is released."
+duration = 15.0
+
+[node name="MessageBox5" parent="Gameplay/Messages" instance=ExtResource("12_xordv")]
+transform = Transform3D(20, 0, 0, 0, 10, 0, 0, 0, 10, 0, 5, -89.99999)
+message = "Press Crouch (Default: CTRL) in midair to perform an Air Dive, at the cost of some light.
+This will also create a pillar of flame that walls off monsters and burns hazards.
+
+You can jump during the start-up to cancel your dive and gain another mid-air jump.
+
+You do not take fall damage."
+duration = 20.0
+
+[node name="MessageBox6" parent="Gameplay/Messages" instance=ExtResource("12_xordv")]
+transform = Transform3D(20, 0, 0, 0, 10, 0, 0, 0, 10, 0, -25, -149)
+message = "Jumping while crouching performs a high jump, at the cost of some light."
+duration = 10.0
+
+[node name="MessageBox2" parent="Gameplay/Messages" instance=ExtResource("12_xordv")]
+transform = Transform3D(20, 0, 0, 0, 10, 0, 0, 0, 10, 0, -16, -186)
+message = "You can jump off of walls 3 times before landing.
+Grabing a ledge will also reset your wall jumps."
+duration = 10.0
+
+[node name="MessageBox11" parent="Gameplay/Messages" instance=ExtResource("12_xordv")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 5, 0, -20, -118)
+message = "Wisps will give you Light upon collecting them.
+"
+one_shot = true
+
+[node name="MessageBox7" parent="Gameplay/Messages" instance=ExtResource("12_xordv")]
+transform = Transform3D(20, 0, 0, 0, 10, 0, 0, 0, 10, 0, -4, -240)
+message = "Crouch while moving to slide. Jump while sliding to perform a long jump. Long jumps will use light.
+
+Long jumps can be extended by jumping in midair again.
+
+The greater your speed, the longer the jump will be."
+duration = 20.0
+
+[node name="MessageBox8" parent="Gameplay/Messages" instance=ExtResource("12_xordv")]
+transform = Transform3D(20, 0, 0, 0, 10, 0, 0, 0, 10, 0, -3, -282)
+message = "Beacons are your main objective.
+
+Once activated, you must pass through every ring to complete it.
+Use all of your abilities to complete this beacon.
+
+Completed Beacons will restore Light & Heat.
+
+
+Green Walls can be destroyed by attacking them (Default: Left Mouse Button)."
+duration = 25.0
+
+[node name="MessageBox9" parent="Gameplay/Messages" instance=ExtResource("12_xordv")]
+transform = Transform3D(20, 0, 0, 0, 10, 0, 0, 0, 10, 0, -3, -343)
+message = "Falling into water will extinguish your torch and start freezing you.
+
+However, most monsters can't follow you into water."
+duration = 10.0
+one_shot = true
+
+[node name="MessageBox10" parent="Gameplay/Messages" instance=ExtResource("12_xordv")]
+transform = Transform3D(20, 0, 0, 0, 10, 0, 0, 0, 10, 0, -3, -387)
+message = "When all beacons are complete, the exit will open,
+your light will be instantly refilled, 
+and Smog will spawn.
+
+Run for your life."
+duration = 15.0
+one_shot = true
+
+[node name="Pickups" type="Node" parent="Gameplay"]
+
+[node name="LightPickup" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9, -208)
+
+[node name="LightPickup2" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9, -216)
+
+[node name="LightPickup3" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9, -212)
+
+[node name="LightPickup10" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9, -247)
+
+[node name="LightPickup11" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -277)
+
+[node name="LightPickup15" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -314)
+
+[node name="LightPickup16" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.5, 1, -316)
+
+[node name="LightPickup17" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5, 12, -326.5)
+
+[node name="LightPickup18" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5, 12, -305.5)
+
+[node name="LightPickup19" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -45.5, -9, -319)
+
+[node name="LightPickup20" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -47.5, -8, -313)
+
+[node name="LightPickup21" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -69, -6, -321)
+
+[node name="LightPickup22" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -64, -4, -324)
+
+[node name="LightPickup23" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -68, -1, -327)
+
+[node name="LightPickup24" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -66, 2, -332)
+
+[node name="LightPickup25" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -43.5, 3, -330.4)
+
+[node name="LightPickup12" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.5, -262)
+
+[node name="LightPickup13" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.5, -254.5)
+
+[node name="LightPickup14" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.5, -269.5)
+
+[node name="LightPickup4" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -9, -212)
+
+[node name="LightPickup5" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -9, -212)
+
+[node name="LightPickup34" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -29, -126)
+
+[node name="LightPickup35" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -29, -134)
+
+[node name="LightPickup36" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -29, -130)
+
+[node name="LightPickup37" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -29, -130)
+
+[node name="LightPickup38" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -29, -130)
+
+[node name="LightPickup6" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -2.828427, -9, -209.17157)
+
+[node name="LightPickup7" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 2.828427, -9, -214.82843)
+
+[node name="LightPickup8" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -2.828427, -9, -214.82843)
+
+[node name="LightPickup9" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 2.828427, -9, -209.17157)
+
+[node name="LightPickup26" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -6, -419)
+
+[node name="LightPickup27" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -421)
+
+[node name="LightPickup28" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -2, -423)
+
+[node name="LightPickup29" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, -452)
+
+[node name="LightPickup30" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, -465)
+
+[node name="LightPickup31" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, -465)
+
+[node name="LightPickup32" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, -452)
+
+[node name="LightPickup33" parent="Gameplay/Pickups" instance=ExtResource("13_1n2q3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -476.5)
+
+[node name="LevelExit" parent="Gameplay" instance=ExtResource("14_cdgam")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, -506.9245)
+
+[node name="Environment" type="Node" parent="."]
+
+[node name="Area3D" type="Area3D" parent="Environment" groups=["water"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.5, -365)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0.5)
+shape = SubResource("BoxShape3D_81dft")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.6000004, 0)
+mesh = SubResource("PlaneMesh_ljnd5")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(50, 10, 50)
+
+[node name="CSGBox3D77" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 43.5, 0)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(50, 1, 50)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 17, 0)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 54, 50)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 17, 0)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 54, 50)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14, 26)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(54, 60, 2)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.5, 17, -26)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(17, 54, 2)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.5, 17, -26)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(17, 54, 2)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, -60)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(20, 40, 70)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15, -224)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(20, 12, 48)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.5, -286)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(20, 13, 20)
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.5, -382)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(18, 13, 22)
+
+[node name="CSGBox3D80" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.5, -450.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(18, 13, 115)
+
+[node name="CSGBox3D83" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -499)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(18, 20, 18)
+
+[node name="CSGBox3D84" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.5, -485.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(9, 17, 9)
+
+[node name="CSGBox3D85" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, -1, -485.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(9, 14, 9)
+
+[node name="CSGBox3D86" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, -476.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(18, 11, 9)
+
+[node name="CSGBox3D87" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -3, -467.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(6, 10, 9)
+
+[node name="CSGBox3D88" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -3, -467.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(6, 10, 9)
+
+[node name="CSGBox3D89" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -3, -449.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(6, 10, 9)
+
+[node name="CSGBox3D91" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, -440.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(18, 10, 9)
+
+[node name="CSGBox3D92" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -431.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(18, 8, 9)
+
+[node name="CSGBox3D93" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -5, -423)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(6, 6, 8)
+
+[node name="CSGBox3D94" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6, -421)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(6, 4, 12)
+
+[node name="CSGBox3D95" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -7, -419)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(6, 2, 16)
+
+[node name="CSGBox3D90" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -3, -449.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(6, 10, 9)
+
+[node name="CSGBox3D79" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -509)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(22, 44, 2)
+
+[node name="CSGBox3D82" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.5, -392)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(18, 11, 2)
+
+[node name="CSGBox3D68" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.5, -365)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(19, 1, 56)
+
+[node name="CSGBox3D81" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22.5, -450.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(22, 1, 115)
+
+[node name="CSGBox3D50" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.4855194, -422)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 43, 172)
+
+[node name="CSGBox3D51" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, -422)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 43, 172)
+
+[node name="CSGBox3D49" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.5, -346)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(18, 13, 20)
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.5, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(40, 13, 40)
+
+[node name="CSGBox3D72" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 43.5, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(43, 1, 42)
+
+[node name="CSGBox3D76" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 43.5, -160)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(20, 1, 270)
+
+[node name="CSGBox3D22" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, -14.5, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(10, 13, 8)
+
+[node name="CSGBox3D25" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, -16, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(1, 8, 8)
+
+[node name="CSGBox3D26" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.5, -18, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(1, 4, 8)
+
+[node name="CSGBox3D27" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.5, -14.5, -319)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(3, 11, 2)
+
+[node name="CSGBox3D28" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -14, -313)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(3, 12, 2)
+
+[node name="CSGBox3D23" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46, -20.5, -324)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(32, 1, 24)
+
+[node name="CSGBox3D69" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47, 25.5, -324)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(52, 1, 26)
+
+[node name="CSGBox3D24" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67, -14.5, -324)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(10, 13, 24)
+
+[node name="CSGBox3D30" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -69, -7, -321)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 2, 2)
+
+[node name="CSGBox3D31" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, -6, -324)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 4, 2)
+
+[node name="CSGBox3D32" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -68, -4.5, -327)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 7, 2)
+
+[node name="CSGBox3D33" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -66, -3, -332)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 10, 2)
+
+[node name="CSGBox3D35" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.5, -7.5, -330.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(5, 25, 3)
+
+[node name="CSGBox3D36" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.5, -7.5, -330.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(5, 25, 3)
+
+[node name="CSGBox3D37" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.5, -9, -330.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(1, 22, 1)
+
+[node name="CSGBox3D29" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59.5, -7.5, -330.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(5, 25, 11)
+
+[node name="CSGBox3D34" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, -8, -328)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(10, 26, 16)
+
+[node name="CSGBox3D38" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 24, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(1, 38, 40)
+
+[node name="CSGBox3D39" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, -1.5, -301.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(1, 13, 11)
+
+[node name="CSGBox3D70" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -15.5, 17.5, -295.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(1, 51, 11)
+
+[node name="CSGBox3D74" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -10.499994, 2, -161)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(268, 84, 1)
+
+[node name="CSGBox3D75" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 10.500006, 2, -161)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(268, 84, 1)
+
+[node name="CSGBox3D71" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 16, 17.5, -295.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(1, 51, 12)
+
+[node name="CSGBox3D73" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 23.5, -295.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(1, 39, 20)
+
+[node name="CSGBox3D40" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.5, 2, -311.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(53, 46, 1)
+
+[node name="CSGBox3D41" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.5, 2, -336.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(53, 46, 1)
+
+[node name="CSGBox3D42" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -72.5, 2, -324)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(1, 46, 24)
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, -1.5, -309.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(5, 13, 5)
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, -1.5, -322.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(5, 13, 5)
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5, -1.5, -309.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(5, 13, 5)
+
+[node name="CSGBox3D55" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.5, -3.5, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(3, 9, 3)
+
+[node name="CSGBox3D59" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 17, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(14, 6, 6)
+
+[node name="CSGBox3D62" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 28, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(9, 4, 6)
+
+[node name="CSGBox3D61" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.5, 36, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(1, 32, 6)
+
+[node name="CSGBox3D56" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 2, -326.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(10, 20, 4)
+
+[node name="CSGBox3D58" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 2, -305.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(10, 20, 4)
+
+[node name="CSGBox3D57" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, -1, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(6, 14, 25)
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5, -1.5, -322.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(5, 13, 5)
+
+[node name="CSGBox3D43" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, -14.5, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 13, 8)
+
+[node name="CSGBox3D46" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.5, -14.5, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(25, 13, 25)
+
+[node name="CSGBox3D63" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.5, 52.5, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(27, 1, 27)
+
+[node name="CSGBox3D78" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5, 48, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(1, 8, 27)
+
+[node name="CSGBox3D44" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, -1.5, -328)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 13, 16)
+
+[node name="CSGBox3D52" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.5, 22, -329)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(25, 60, 1)
+
+[node name="CSGBox3D53" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.5, 22, -303)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(25, 60, 1)
+
+[node name="CSGBox3D54" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.5, 22, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(1, 60, 27)
+
+[node name="CSGBox3D47" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 17.5, -336.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(13, 51, 1)
+
+[node name="CSGBox3D48" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 17.5, -336.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(11, 51, 1)
+
+[node name="CSGBox3D67" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24, -336.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(18, 38, 1)
+
+[node name="CSGBox3D45" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, -1.5, -304)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 13, 16)
+
+[node name="CSGBox3D60" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 17.5, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 25, 40)
+
+[node name="CSGBox3D64" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 36.5, -327.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 13, 17)
+
+[node name="CSGBox3D65" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 36.5, -304.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 13, 17)
+
+[node name="CSGBox3D66" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 40, -316)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(2, 6, 6)
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6.5, -1.5, -334)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(6, 13, 5)
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.5, -1.5, -334)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(6, 13, 5)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, -15, -197.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(6, 12, 5)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -35, -195.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(20, 10, 201)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -15, -197.5)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(6, 12, 5)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25.5, -225)
+material_override = ExtResource("15_cdam6")
+use_collision = true
+size = Vector3(20, 9, 142)
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Environment"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 8, 14)
+use_collision = true
+mesh = SubResource("PrismMesh_55wn4")
+material = ExtResource("15_cdam6")
+
+[node name="Breakables" type="Node" parent="Environment"]
+
+[node name="Distructable" parent="Environment/Breakables" instance=ExtResource("16_3wcic")]
+transform = Transform3D(2, 0, 0, 0, 14, 0, 0, 0, 8, -19, -1, -315.961)
+
+[node name="Distructable2" parent="Environment/Breakables" instance=ExtResource("16_3wcic")]
+transform = Transform3D(2, 0, 0, 0, 14, 0, 0, 0, 8, 19, -1, -315.961)
+
+[node name="Distructable3" parent="Environment/Breakables" instance=ExtResource("16_3wcic")]
+transform = Transform3D(-8.742278e-08, 0, 8, 0, 14, 0, -2, 0, -3.496911e-07, 0, -1, -334.961)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_81dft")
+
+[connection signal="activate_rings" from="Gameplay/Beacons/GoalBeacon" to="Gameplay/Beacons/GoalBeacon/RingManager" method="_on_goal_beacon_activate_rings"]
+[connection signal="timeout" from="Gameplay/Beacons/GoalBeacon/Main/DelayTimer" to="Gameplay/Beacons/GoalBeacon" method="_on_delay_timer_timeout"]
+[connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon/Main/InteractionHitbox" to="Gameplay/Beacons/GoalBeacon" method="_on_interaction_hitbox_area_entered"]
+[connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon" method="_on_warmth_hitbox_area_entered"]
+[connection signal="area_exited" from="Gameplay/Beacons/GoalBeacon/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon" method="_on_warmth_hitbox_area_exited"]
+[connection signal="timeout" from="Gameplay/Beacons/GoalBeacon/Main/WarmthHitbox/WarmTimer" to="Gameplay/Beacons/GoalBeacon" method="_on_warm_timer_timeout"]
+[connection signal="completed" from="Gameplay/Beacons/GoalBeacon/RingManager" to="Gameplay/Beacons/GoalBeacon" method="_on_ring_manager_completed"]
+[connection signal="activate_rings" from="Gameplay/Beacons/GoalBeacon2" to="Gameplay/Beacons/GoalBeacon2/RingManager" method="_on_goal_beacon_activate_rings"]
+[connection signal="timeout" from="Gameplay/Beacons/GoalBeacon2/Main/DelayTimer" to="Gameplay/Beacons/GoalBeacon2" method="_on_delay_timer_timeout"]
+[connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon2/Main/InteractionHitbox" to="Gameplay/Beacons/GoalBeacon2" method="_on_interaction_hitbox_area_entered"]
+[connection signal="area_entered" from="Gameplay/Beacons/GoalBeacon2/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon2" method="_on_warmth_hitbox_area_entered"]
+[connection signal="area_exited" from="Gameplay/Beacons/GoalBeacon2/Main/WarmthHitbox" to="Gameplay/Beacons/GoalBeacon2" method="_on_warmth_hitbox_area_exited"]
+[connection signal="timeout" from="Gameplay/Beacons/GoalBeacon2/Main/WarmthHitbox/WarmTimer" to="Gameplay/Beacons/GoalBeacon2" method="_on_warm_timer_timeout"]
+[connection signal="completed" from="Gameplay/Beacons/GoalBeacon2/RingManager" to="Gameplay/Beacons/GoalBeacon2" method="_on_ring_manager_completed"]

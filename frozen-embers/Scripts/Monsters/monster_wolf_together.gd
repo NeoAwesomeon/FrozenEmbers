@@ -35,6 +35,7 @@ extends CharacterBody3D
 
 #HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
 @onready var testingdesperationtimer: Timer = $Timers/TESTINGDESPERATIONTIMER
+@onready var testingsavetimer: Timer = $Timers/TESTINGSAVETIMER
 
 #Determines where the monster will move to, if at all
 var move_lock : bool = false
@@ -113,7 +114,7 @@ func _ready() -> void:
 	if difficulty > 5:
 		chase_duration.wait_time = 45.0 + (difficulty - 5.0)
 	
-	GlobalLevelStats.Points_of_Interest_Wolf.append(global_position)
+	GlobalLevelStats.Points_of_Interest_Wolf.append(GlobalPlayerStats.Player_Position)
 	
 	vision_area.disabled = true
 	hearing_area.disabled = true
@@ -233,6 +234,7 @@ func _physics_process(delta: float) -> void:
 		print_rich("[color=magenta]Chase Prep? " + str(chase_prep))
 		print_rich("[color=magenta]Chase Active? " + str(chase_active))
 		print_rich("[color=magenta]Desp Safe? " + str(desp_safe))
+		print_rich("[color=magenta]Locks: (M)" + str(move_lock) + " (R)" + str(rotate_lock))
 		print_rich("[color=white]>----------------------<")
 
 func handle_gravity(delta):
@@ -339,6 +341,7 @@ func reset_wander():
 		reset_wander()
 	else:
 		# If a new target is selected, updates the speed and possibly the hearing radius of the monster
+		
 		boredom_timer.start()
 		print_rich("[color=magenta]Twins: Wandering to " + str(target_pos))
 		if priority == 3 or priority == 0:
@@ -394,15 +397,32 @@ func handle_state_actions(_delta):
 			true_speed = 0
 			rotate_lock = true
 			
-			if GlobalLevelStats.DESPERATION_SAVE_ACTIVE and !red_flash.emitting:
-				red_flash.emitting = true
-			
 			# If this was the monster that triggered desperation, start QTE.
 			if desp_safe:
 				main_collision.disabled = true
 				global_position = target_pos
 				
-				if Input.is_action_just_pressed("attack"):
+				if GlobalLevelStats.DESPERATION_SAVE_ACTIVE and !red_flash.emitting:
+					red_flash.emitting = true
+				
+				# ACCESSABILITY AUTO-PARRY HERE
+				if GlobalLevelStats.DESPERATION_SAVE_ACTIVE and GlobalOptionSettings.accessability_auto_parry:
+					GlobalLevelStats.DESPERATION_MODE = false
+					GlobalLevelStats.DESPERATION_SAVE_ACTIVE = false
+					priority = 0
+					detective_points = 0
+					current_state = States.STUNNED
+					desp_safe = false
+					boost_active = false
+					vision_active = false
+					chase_prep = false
+					chase_active = false
+					#HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
+					testingdesperationtimer.stop()
+					stun_duration.start()
+					print_rich("[color=magenta]Twins: Stunned!")
+				
+				elif Input.is_action_just_pressed("attack") and !GlobalOptionSettings.accessability_auto_parry:
 					if GlobalLevelStats.DESPERATION_SAVE_ACTIVE:
 						GlobalLevelStats.DESPERATION_MODE = false
 						GlobalLevelStats.DESPERATION_SAVE_ACTIVE = false
@@ -428,12 +448,12 @@ func handle_state_actions(_delta):
 		States.STUNNED:
 			true_speed = 0
 			rotate_lock = true
-			
+			attack_hitbox.disabled = true
 			#print_rich("[color=magenta]Twins: Stun Duration = " + str(stun_duration.time_left))
 			target_pos = GlobalPlayerStats.Player_Position
 			
 			# Forces Monster to respawn if the player survives and is out of range
-			if distance_from_target > 200:
+			if distance_from_target > 200 and spawn_timer.is_stopped():
 				reset_respawn()
 		
 		States.WANDER:
@@ -469,7 +489,9 @@ func handle_line_of_sight():
 		if light_ray.is_colliding():
 			var ray_target = light_ray.get_collider()
 			
-			if ray_target.is_in_group("player_light") and !chase_active:
+			if ray_target == null:
+				return
+			elif ray_target.is_in_group("player_light") and !chase_active:
 				if priority < 4:
 					trigger_huh()
 					print_rich("[color=magenta]Twins: Light Spotted!")
@@ -633,7 +655,7 @@ func _on_attack_hitbox_area_entered(area: Area3D) -> void:
 		GlobalLevelStats.DESPERATION_MODE = true
 		print_rich("[color=magenta]Twins: ATTACKING")
 		#HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
-		GlobalLevelStats.DESPERATION_SAVE_ACTIVE = true
+		testingsavetimer.start()
 		testingdesperationtimer.start()
 func _on_dive_hitbox_area_entered(area: Area3D) -> void:
 	if area.is_in_group("player"):
@@ -644,7 +666,7 @@ func _on_dive_hitbox_area_entered(area: Area3D) -> void:
 		GlobalLevelStats.DESPERATION_MODE = true
 		print_rich("[color=magenta]Twins: ATTACKING")
 		#HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
-		GlobalLevelStats.DESPERATION_SAVE_ACTIVE = true
+		testingsavetimer.start()
 		testingdesperationtimer.start()
 
 #HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
@@ -653,3 +675,5 @@ func _on_testingdesperationtimer_timeout() -> void:
 	current_state = States.SPAWN
 	reset_respawn()
 	GlobalLevelStats.game_over()
+func _on_testingsavetimer_timeout() -> void:
+	GlobalLevelStats.DESPERATION_SAVE_ACTIVE = true

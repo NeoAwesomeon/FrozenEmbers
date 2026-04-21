@@ -9,7 +9,7 @@ extends Node3D
 @export_category("Monster Stats")
 @export_range(-1, 20) var difficulty : int = 0
 @export var base_move_speed : float = 5.0
-@export var max_move_speed : float = 16.0
+@export var max_move_speed : float = 20.0
 @export var adaptation_1 : bool = false
 @export var adaptation_2 : bool = false
 @export var adaptation_3 : bool = false
@@ -73,10 +73,10 @@ func _process(delta: float) -> void:
 			visuals.scale = visuals.scale.lerp(Vector3(3.0,3.0,3.0), delta)
 		elif !in_wall:
 			true_speed = base_move_speed + added_speed
-			visuals.scale = visuals.scale.lerp(Vector3(1.0 + (true_speed/max_move_speed), 1.0 + (true_speed/max_move_speed), 1.0 + (true_speed/max_move_speed)), delta)
+			visuals.scale = visuals.scale.lerp(Vector3(0.5 + (true_speed/max_move_speed), 0.5 + (true_speed/max_move_speed), 0.5 + (true_speed/max_move_speed)), delta)
 		else:
 			true_speed = (base_move_speed + added_speed) * 0.75
-			visuals.scale = visuals.scale.lerp(Vector3((1.0 + (true_speed/max_move_speed))/2, (1.0 + (true_speed/max_move_speed))/2, (1.0 + (true_speed/max_move_speed))/2), delta * 3.0)
+			visuals.scale = visuals.scale.lerp(Vector3((0.5 + (true_speed/max_move_speed))/2, (0.5 + (true_speed/max_move_speed))/2, (0.5 + (true_speed/max_move_speed))/2), delta * 3.0)
 		
 		# Floats to player
 		if distance_from_target > 2:

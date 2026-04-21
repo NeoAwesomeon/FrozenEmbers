@@ -117,7 +117,8 @@ func play_freezing():
 	if freezing_count:
 		return
 	else:
-		freezing.playing = true
+		if !freezing.playing:
+			freezing.playing = true
 		freezing_count = true
 func reset_freezing():
 	freezing_count = false

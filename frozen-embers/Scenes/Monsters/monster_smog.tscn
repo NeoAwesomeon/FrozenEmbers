@@ -1,9 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://celnopt5u35ty"]
+[gd_scene load_steps=19 format=3 uid="uid://celnopt5u35ty"]
 
 [ext_resource type="Script" uid="uid://ba62raak6ee3k" path="res://Scripts/Monsters/monster_smog.gd" id="1_dshh4"]
+[ext_resource type="AudioStream" uid="uid://b4if8p107gads" path="res://Assets/Audio/Testing/V2_Placeholders/Static.mp3" id="2_ana6a"]
+[ext_resource type="AudioStream" uid="uid://busfj8ajk4oef" path="res://Assets/Audio/Testing/V2_Placeholders/SmogAppears.wav" id="2_hee63"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ana6a"]
-render_priority = 1
+render_priority = 4
 transparency = 1
 cull_mode = 2
 no_depth_test = true
@@ -12,9 +14,11 @@ albedo_color = Color(1, 0, 0, 1)
 stencil_mode = 3
 stencil_flags = 1
 stencil_compare = 5
+stencil_reference = 2
 metadata/_stencil_owned = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dshh4"]
+render_priority = 3
 next_pass = SubResource("StandardMaterial3D_ana6a")
 cull_mode = 2
 no_depth_test = true
@@ -22,6 +26,7 @@ shading_mode = 0
 albedo_color = Color(1, 0, 0, 1)
 stencil_mode = 2
 stencil_flags = 2
+stencil_reference = 2
 stencil_color = Color(1, 0, 0, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_ana6a"]
@@ -32,28 +37,28 @@ radial_segments = 8
 rings = 5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hee63"]
-render_priority = 1
-cull_mode = 2
+render_priority = -1
 no_depth_test = true
 shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
+disable_specular_occlusion = true
 albedo_color = Color(1, 0, 0, 1)
 grow = true
-grow_amount = 0.1
-stencil_mode = 3
-stencil_flags = 1
-stencil_compare = 5
-metadata/_stencil_owned = true
+grow_amount = 0.2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mdso"]
 next_pass = SubResource("StandardMaterial3D_hee63")
+cull_mode = 2
+no_depth_test = true
 shading_mode = 0
 disable_ambient_light = true
 disable_fog = true
 disable_specular_occlusion = true
 albedo_color = Color(0.019607844, 0, 0, 1)
-stencil_mode = 1
-stencil_flags = 2
-stencil_color = Color(1, 0, 0, 1)
+grow_amount = 0.5
+stencil_mode = 3
+stencil_flags = 6
 stencil_outline_thickness = 0.1
 
 [sub_resource type="SphereMesh" id="SphereMesh_dtc68"]
@@ -138,25 +143,43 @@ lifetime = 6.0
 process_material = SubResource("ParticleProcessMaterial_045v8")
 draw_pass_1 = SubResource("SphereMesh_fjhqo")
 
-[node name="Hitboxes" type="Node3D" parent="."]
+[node name="Hitboxes" type="Node3D" parent="Visuals"]
 
-[node name="AttackHitbox" type="Area3D" parent="Hitboxes"]
+[node name="AttackHitbox" type="Area3D" parent="Visuals/Hitboxes"]
 collision_layer = 4
 collision_mask = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitboxes/AttackHitbox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Visuals/Hitboxes/AttackHitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3000001, 0)
 shape = SubResource("BoxShape3D_dshh4")
 debug_color = Color(0.98039216, 0, 0, 0.41960785)
 
-[node name="Hurtbox" type="Node3D" parent="."]
+[node name="Hurtbox" type="Node3D" parent="Visuals"]
 
-[node name="Area3D" type="Area3D" parent="Hurtbox"]
+[node name="Area3D" type="Area3D" parent="Visuals/Hurtbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Visuals/Hurtbox/Area3D"]
 shape = SubResource("SphereShape3D_dshh4")
 debug_color = Color(1, 1, 1, 0.41960785)
+
+[node name="SFX" type="Node3D" parent="."]
+
+[node name="WakeUp" type="AudioStreamPlayer3D" parent="SFX"]
+stream = ExtResource("2_hee63")
+unit_size = 50.0
+max_db = 2.0
+autoplay = true
+max_distance = 100.0
+bus = &"SFX"
+
+[node name="StaticLoop" type="AudioStreamPlayer3D" parent="SFX"]
+stream = ExtResource("2_ana6a")
+volume_db = 2.0
+unit_size = 30.0
+autoplay = true
+max_distance = 400.0
+bus = &"SFX"
 
 [node name="Timers" type="Node" parent="."]
 
@@ -164,8 +187,8 @@ debug_color = Color(1, 1, 1, 0.41960785)
 wait_time = 5.0
 one_shot = true
 
-[connection signal="area_entered" from="Hitboxes/AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]
-[connection signal="area_exited" from="Hitboxes/AttackHitbox" to="." method="_on_attack_hitbox_area_exited"]
-[connection signal="body_entered" from="Hurtbox/Area3D" to="." method="_on_area_3d_body_entered"]
-[connection signal="body_exited" from="Hurtbox/Area3D" to="." method="_on_area_3d_body_exited"]
+[connection signal="area_entered" from="Visuals/Hitboxes/AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]
+[connection signal="area_exited" from="Visuals/Hitboxes/AttackHitbox" to="." method="_on_attack_hitbox_area_exited"]
+[connection signal="body_entered" from="Visuals/Hurtbox/Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Visuals/Hurtbox/Area3D" to="." method="_on_area_3d_body_exited"]
 [connection signal="timeout" from="Timers/WakeUpTimer" to="." method="_on_wake_up_timer_timeout"]
