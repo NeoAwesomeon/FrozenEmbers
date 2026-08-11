@@ -6,6 +6,7 @@ extends CharacterBody3D
 # Timers
 @onready var heat_timer: Timer = $Timers/HeatTimer
 @onready var coyote_time: Timer = $Timers/CoyoteTime
+@onready var initial_boost_duration: Timer = $Timers/InitialBoostDuration
 @onready var boost_count_rate: Timer = $Timers/BoostCountRate
 @onready var slide_duration: Timer = $Timers/SlideDuration
 @onready var slide_cooldown: Timer = $Timers/SlideCooldown
@@ -512,8 +513,10 @@ func handle_boost(delta):
 		sfx_controller.stop_boost_loop()
 	
 	elif Input.is_action_pressed("dash") or dash_toggle:
-		# This is here to punish mashing
+		# This is here to punish mashing, but still grant the initial speed boost
 		if Input.is_action_just_pressed("dash"):
+				initial_boost_duration.start()
+				
 				if boost_count < 3:
 					GlobalPlayerStats.Light_Goal -= 0.5 
 				elif boost_count < 8:
@@ -528,11 +531,11 @@ func handle_boost(delta):
 		
 		# Uses number of timeouts from boost count rate to determine when to change speeds
 		if boost_count < 4:
-			current_boost = boost_base_speed + (walk_base_speed/16 * boost_count)
+			current_boost = (boost_base_speed + (walk_base_speed/16 * boost_count)) + (initial_boost_duration.time_left * 25.0)
 		elif boost_count < 8:
-			current_boost = (boost_base_speed * 2) + (walk_base_speed/16 * (boost_count - 4))
+			current_boost = (boost_base_speed * 2) + (walk_base_speed/16 * (boost_count - 4)) + (initial_boost_duration.time_left * 100.0)
 		else:
-			current_boost = boost_base_speed * 3 
+			current_boost = (boost_base_speed * 3) + (initial_boost_duration.time_left * 100.0)
 		sfx_controller.play_boost_loop()
 	
 	# When the button is released, speed returns to normal over time  
@@ -665,6 +668,7 @@ func clear_desperation():
 	GlobalLevelStats.DESPERATION_MODE = false
 	GlobalLevelStats.DESPERATION_SAVE_ACTIVE = false
 	GlobalLevelStats.DESPERATION_VICTORY = false
+	desperation_attempt = false
 
 func slide(delta):
 	slide_ready = false
@@ -851,6 +855,7 @@ func _on_reignite_duration_timeout() -> void:
 func _on_extinguish_duration_timeout() -> void:
 	#Grants a burst of heat based on how much light was extinguished
 	GlobalPlayerStats.Heat_Goal += (GlobalPlayerStats.Light_Goal + 50.0) * 5.0
+	GlobalLevelStats.extinguish_responce = true
 	print_rich("[color=cyan]PLAYER: Light Extinguished")
 	
 	#Then grants immunity to losing heat, ensuring the player always gets at least 5 seconds or more based on light

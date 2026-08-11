@@ -11,9 +11,10 @@ var EXIT_LOCATION : Vector3
 var EXIT_OPEN = false
 
 var NUMBER_OF_MONSTERS : int
-var MAX_NOISE_ACTIVE = false
+var MAX_NOISE_ACTIVE : bool = false
 var MAX_NOISE_LOCATION : Vector3
-var max_response_count = 0
+var max_response_count : int = 0
+var extinguish_responce : bool = false
 
 var DESPERATION_MODE = false
 var DESPERATION_SAVE_ACTIVE = false
@@ -25,6 +26,7 @@ var frame_count = 0.0
 var Wolf_Difficulty = -1
 var Points_of_Interest_Wolf = [GlobalPlayerStats.Player_Position]
 var Smog_Difficulty = -1
+var Shadow_Difficulty = -1
 
 func _ready() -> void:
 	RESPAWN_LOCATION = Vector3.ZERO

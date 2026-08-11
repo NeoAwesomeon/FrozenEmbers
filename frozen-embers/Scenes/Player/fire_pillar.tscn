@@ -65,7 +65,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 mesh = SubResource("CylinderMesh_lqxjl")
 skeleton = NodePath("")
 
-[node name="HitboxArea" type="Area3D" parent="."]
+[node name="HitboxArea" type="Area3D" parent="." groups=["fire_pillar", "player_attack", "warm_area"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)

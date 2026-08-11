@@ -940,7 +940,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 22, -51)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 26, -51)
 
 [node name="LevelExit" parent="Gameplay" instance=ExtResource("5_vivoh")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 15)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 14)
 
 [node name="Environment" type="Node" parent="."]
 

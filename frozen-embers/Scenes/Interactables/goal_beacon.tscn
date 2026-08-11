@@ -151,7 +151,7 @@ one_shot = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
 shape = SubResource("CylinderShape3D_o0vd6")
 
-[node name="WarmthHitbox" type="Area3D" parent="Main"]
+[node name="WarmthHitbox" type="Area3D" parent="Main" groups=["warm_area"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Main/WarmthHitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)

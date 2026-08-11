@@ -28,14 +28,11 @@ extends CharacterBody3D
 @onready var hurt_duration: Timer = $Timers/HurtDuration
 @onready var dive_hesitate: Timer = $Timers/DiveHesitate
 @onready var hard_landing: Timer = $Timers/HardLanding
+@onready var desperation_save_buffer: Timer = $Timers/DesperationSaveBuffer
 
 #Visuals
 @onready var visuals: Node3D = $Visuals
 @onready var red_flash: GPUParticles3D = $Visuals/RedFlash
-
-#HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
-@onready var testingdesperationtimer: Timer = $Timers/TESTINGDESPERATIONTIMER
-@onready var testingsavetimer: Timer = $Timers/TESTINGSAVETIMER
 
 #Determines where the monster will move to, if at all
 var move_lock : bool = false
@@ -144,7 +141,7 @@ func _physics_process(delta: float) -> void:
 	handle_chase_logic()
 	handle_unique_and_adaptaions(delta)
 	
-	visuals.scale = visuals.scale.lerp(Vector3(1, 1, 1), delta * 10)
+	visuals.scale = visuals.scale.lerp(Vector3(2, 2, 2), delta * 10)
 	
 	# MOVEMENT HANDLED HERE!
 	if has_target:
@@ -254,7 +251,7 @@ func handle_distance_and_noise():
 	
 	# Responds to noise only if not currently chasing the player
 	if !chase_active:
-		if GlobalLevelStats.MAX_NOISE_ACTIVE and priority < 4:
+		if GlobalLevelStats.MAX_NOISE_ACTIVE and priority < 4 and stun_duration.is_stopped():
 			trigger_huh()
 			priority = 3
 			target_pos = GlobalLevelStats.MAX_NOISE_LOCATION
@@ -263,14 +260,14 @@ func handle_distance_and_noise():
 		
 		# If monster reaches desired destination, change targets to a random point of interest
 		if current_state != States.SPAWN and current_state != States.STUNNED:
-			if distance_from_target < 6.0 and priority < 4:
+			if distance_from_target < 7.0 and priority < 4:
 				reset_wander()
 
 func trigger_huh():
 	current_state = States.HUH
 	rotate_lock = true
 	huh_duration.start()
-	visuals.scale = Vector3(50,50,50)
+	visuals.scale = Vector3(2.5,2.5,2.5)
 	boost_count = 0
 	boost_count_rate.stop()
 
@@ -371,7 +368,7 @@ func handle_state_actions(_delta):
 	elif !hurt_duration.is_stopped():
 		current_state = States.HURT
 	
-	elif !endgame_trigger and GlobalLevelStats.EXIT_OPEN:
+	elif !endgame_trigger and GlobalLevelStats.EXIT_OPEN and stun_duration.is_stopped():
 		priority = 5
 		trigger_huh()
 		endgame_trigger = true
@@ -402,10 +399,8 @@ func handle_state_actions(_delta):
 				main_collision.disabled = true
 				global_position = target_pos
 				
-				if GlobalLevelStats.DESPERATION_SAVE_ACTIVE and !red_flash.emitting:
-					red_flash.emitting = true
 				
-				# ACCESSABILITY AUTO-PARRY HERE
+				# ACCESSABILITY AUTO-PARRY HERE!!!
 				if GlobalLevelStats.DESPERATION_SAVE_ACTIVE and GlobalOptionSettings.accessability_auto_parry:
 					GlobalLevelStats.DESPERATION_MODE = false
 					GlobalLevelStats.DESPERATION_SAVE_ACTIVE = false
@@ -417,11 +412,11 @@ func handle_state_actions(_delta):
 					vision_active = false
 					chase_prep = false
 					chase_active = false
-					#HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
-					testingdesperationtimer.stop()
+					desperation_save_buffer.stop()
 					stun_duration.start()
 					print_rich("[color=magenta]Twins: Stunned!")
 				
+				# NORMAL PARRY HERE!!!
 				elif Input.is_action_just_pressed("attack") and !GlobalOptionSettings.accessability_auto_parry:
 					if GlobalLevelStats.DESPERATION_SAVE_ACTIVE:
 						GlobalLevelStats.DESPERATION_MODE = false
@@ -434,13 +429,13 @@ func handle_state_actions(_delta):
 						vision_active = false
 						chase_prep = false
 						chase_active = false
-						#HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
-						testingdesperationtimer.stop()
+						desperation_save_buffer.stop()
 						stun_duration.start()
 						print_rich("[color=magenta]Twins: Stunned!")
 					else:
 						print_rich("[color=magenta]TWINS: PLAYER KILL")
 						GlobalLevelStats.game_over()
+			
 			#If this monster did not land the attack but another did, respawn.
 			else:
 				reset_respawn()
@@ -491,7 +486,7 @@ func handle_line_of_sight():
 			
 			if ray_target == null:
 				return
-			elif ray_target.is_in_group("player_light") and !chase_active:
+			elif ray_target.is_in_group("player_light") and !chase_active and stun_duration.is_stopped():
 				if priority < 4:
 					trigger_huh()
 					print_rich("[color=magenta]Twins: Light Spotted!")
@@ -625,13 +620,13 @@ func _on_hurt_duration_timeout() -> void:
 	rotate_lock = false
 
 func _on_hearing_area_area_entered(area: Area3D) -> void:
-	if area.is_in_group("major_noise") and priority < 3:
+	if area.is_in_group("major_noise") and priority < 3 and stun_duration.is_stopped():
 		trigger_huh()
 		priority = 2
 		target_pos = area.global_position
 		print_rich("[color=magenta]Twins: Major Noise Heard")
 		
-	elif area.is_in_group("minor_noise") and priority < 2:
+	elif area.is_in_group("minor_noise") and priority < 2 and stun_duration.is_stopped():
 		trigger_huh()
 		priority = 1
 		target_pos = area.global_position
@@ -654,9 +649,7 @@ func _on_attack_hitbox_area_entered(area: Area3D) -> void:
 		current_state = States.DESPERATION
 		GlobalLevelStats.DESPERATION_MODE = true
 		print_rich("[color=magenta]Twins: ATTACKING")
-		#HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
-		testingsavetimer.start()
-		testingdesperationtimer.start()
+		desperation_save_buffer.start()
 func _on_dive_hitbox_area_entered(area: Area3D) -> void:
 	if area.is_in_group("player"):
 		desp_safe = true
@@ -665,9 +658,7 @@ func _on_dive_hitbox_area_entered(area: Area3D) -> void:
 		current_state = States.DESPERATION
 		GlobalLevelStats.DESPERATION_MODE = true
 		print_rich("[color=magenta]Twins: ATTACKING")
-		#HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
-		testingsavetimer.start()
-		testingdesperationtimer.start()
+		desperation_save_buffer.start()
 
 #HEY! CHANGE THIS SHIT ONCE YOU GET ANIMATIONS IN HERE DUMBASS!
 #MAKE SURE TO RESET THE GLOBAL VALUES WHEN A GAME OVER IS TRIGGERED!
@@ -675,5 +666,7 @@ func _on_testingdesperationtimer_timeout() -> void:
 	current_state = States.SPAWN
 	reset_respawn()
 	GlobalLevelStats.game_over()
-func _on_testingsavetimer_timeout() -> void:
+
+
+func _on_desperation_save_buffer_timeout() -> void:
 	GlobalLevelStats.DESPERATION_SAVE_ACTIVE = true

@@ -31,7 +31,6 @@ CustomNightSettings="*res://Scripts/_Global_/CustomNightSettings.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=3
 window/size/resizable=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
@@ -49,6 +48,8 @@ minor_noise="Used to alert monsters and give them a target to chase. Low Priorit
 major_noise="Used to alert mosters and give them a target to chase. High Priority."
 place_of_interest="Used for monster navigation. Tells monsters when they've reached thier targeted objective if they are not currently hunting for the player."
 monster="Attatched exclusively to monsters and extentions of them."
+warm_area="Used to tell if an area is in a safe zone or not."
+fire_pillar="Used for unique interations regarding the fire pillar."
 
 [input]
 
@@ -240,3 +241,7 @@ controller_rotate_down={
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":3,"axis_value":1.0,"script":null)
 ]
 }
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

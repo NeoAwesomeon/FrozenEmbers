@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://obmufhk4ac53"]
+
+[ext_resource type="Script" uid="uid://cpcix4xbqo1kj" path="res://Scripts/Monsters/monster_bear.gd" id="1_26p8r"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mvkqx"]
+size = Vector3(6, 6, 6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mvkqx"]
+albedo_color = Color(0.18114007, 1.92523e-07, 0.92235976, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_26p8r"]
+material = SubResource("StandardMaterial3D_mvkqx")
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8713s"]
+albedo_color = Color(0.18114007, 1.92523e-07, 0.92235976, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_d2qgs"]
+material = SubResource("StandardMaterial3D_8713s")
+size = Vector3(6, 5, 6)
+
+[node name="monster_bear" type="CharacterBody3D"]
+script = ExtResource("1_26p8r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+shape = SubResource("BoxShape3D_mvkqx")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 3.5)
+mesh = SubResource("BoxMesh_26p8r")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+mesh = SubResource("BoxMesh_d2qgs")

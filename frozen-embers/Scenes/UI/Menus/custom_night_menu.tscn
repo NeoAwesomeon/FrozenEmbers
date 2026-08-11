@@ -16,7 +16,7 @@ theme = ExtResource("1_wkm35")
 script = ExtResource("2_q1q4f")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(350, 350)
+custom_minimum_size = Vector2(500, 582)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -51,7 +51,7 @@ layout_mode = 2
 [node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-columns = 3
+columns = 5
 
 [node name="Wolf" type="VBoxContainer" parent="PanelContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -195,6 +195,148 @@ text = "Adaptation 4"
 alignment = 1
 icon_alignment = 1
 
+[node name="Spacer2" type="Control" parent="PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Shadow" type="VBoxContainer" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="MonsterName" type="Label" parent="PanelContainer/VBoxContainer/GridContainer/Shadow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Shadow"
+horizontal_alignment = 1
+
+[node name="MonsterLevel" type="Label" parent="PanelContainer/VBoxContainer/GridContainer/Shadow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "> 20 <"
+horizontal_alignment = 1
+
+[node name="Spacer3" type="Control" parent="PanelContainer/VBoxContainer/GridContainer/Shadow"]
+custom_minimum_size = Vector2(120, 10)
+layout_mode = 2
+
+[node name="LevelChange" type="HBoxContainer" parent="PanelContainer/VBoxContainer/GridContainer/Shadow"]
+layout_mode = 2
+alignment = 1
+
+[node name="shMinus" type="Button" parent="PanelContainer/VBoxContainer/GridContainer/Shadow/LevelChange"]
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+text = "-"
+
+[node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer/GridContainer/Shadow/LevelChange"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="shPlus" type="Button" parent="PanelContainer/VBoxContainer/GridContainer/Shadow/LevelChange"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "+"
+
+[node name="Spacer2" type="Control" parent="PanelContainer/VBoxContainer/GridContainer/Shadow"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="shAdept1" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Shadow"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 1"
+alignment = 1
+icon_alignment = 1
+
+[node name="shAdept2" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Shadow"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 2"
+alignment = 1
+icon_alignment = 1
+
+[node name="shAdept3" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Shadow"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 3"
+alignment = 1
+icon_alignment = 1
+
+[node name="shAdept4" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Shadow"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 4"
+alignment = 1
+icon_alignment = 1
+
+[node name="Bear" type="VBoxContainer" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="MonsterName" type="Label" parent="PanelContainer/VBoxContainer/GridContainer/Bear"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Bear"
+horizontal_alignment = 1
+
+[node name="MonsterLevel" type="Label" parent="PanelContainer/VBoxContainer/GridContainer/Bear"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "> 20 <"
+horizontal_alignment = 1
+
+[node name="Spacer3" type="Control" parent="PanelContainer/VBoxContainer/GridContainer/Bear"]
+custom_minimum_size = Vector2(120, 10)
+layout_mode = 2
+
+[node name="LevelChange" type="HBoxContainer" parent="PanelContainer/VBoxContainer/GridContainer/Bear"]
+layout_mode = 2
+alignment = 1
+
+[node name="bMinus" type="Button" parent="PanelContainer/VBoxContainer/GridContainer/Bear/LevelChange"]
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+text = "-"
+
+[node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer/GridContainer/Bear/LevelChange"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="bPlus" type="Button" parent="PanelContainer/VBoxContainer/GridContainer/Bear/LevelChange"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "+"
+
+[node name="Spacer2" type="Control" parent="PanelContainer/VBoxContainer/GridContainer/Bear"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="bAdept1" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Bear"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 1"
+alignment = 1
+icon_alignment = 1
+
+[node name="bAdept2" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Bear"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 2"
+alignment = 1
+icon_alignment = 1
+
+[node name="bAdept3" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Bear"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 3"
+alignment = 1
+icon_alignment = 1
+
+[node name="bAdept4" type="CheckBox" parent="PanelContainer/VBoxContainer/GridContainer/Bear"]
+layout_mode = 2
+disabled = true
+text = "Adaptation 4"
+alignment = 1
+icon_alignment = 1
+
 [connection signal="toggled" from="PanelContainer/VBoxContainer/CustomOverride" to="." method="_on_custom_override_toggled"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/Wolf/LevelChange/wMinus" to="." method="_on_w_minus_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/Wolf/LevelChange/wPlus" to="." method="_on_w_plus_pressed"]
@@ -208,3 +350,15 @@ icon_alignment = 1
 [connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Smog/sAdept2" to="." method="_on_s_adept_2_toggled"]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Smog/sAdept3" to="." method="_on_s_adept_3_toggled"]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Smog/sAdept4" to="." method="_on_s_adept_4_toggled"]
+[connection signal="button_down" from="PanelContainer/VBoxContainer/GridContainer/Shadow/LevelChange/shMinus" to="." method="_on_sh_minus_button_down"]
+[connection signal="button_down" from="PanelContainer/VBoxContainer/GridContainer/Shadow/LevelChange/shPlus" to="." method="_on_sh_plus_button_down"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Shadow/shAdept1" to="." method="_on_sh_adept_1_toggled"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Shadow/shAdept2" to="." method="_on_sh_adept_2_toggled"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Shadow/shAdept3" to="." method="_on_sh_adept_3_toggled"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Shadow/shAdept4" to="." method="_on_sh_adept_4_toggled"]
+[connection signal="button_down" from="PanelContainer/VBoxContainer/GridContainer/Bear/LevelChange/bMinus" to="." method="_on_b_minus_button_down"]
+[connection signal="button_down" from="PanelContainer/VBoxContainer/GridContainer/Bear/LevelChange/bPlus" to="." method="_on_b_plus_button_down"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Bear/bAdept1" to="." method="_on_b_adept_1_toggled"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Bear/bAdept2" to="." method="_on_b_adept_2_toggled"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Bear/bAdept3" to="." method="_on_b_adept_3_toggled"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/GridContainer/Bear/bAdept4" to="." method="_on_b_adept_4_toggled"]

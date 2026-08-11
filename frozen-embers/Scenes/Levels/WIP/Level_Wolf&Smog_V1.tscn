@@ -864,7 +864,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.015251, 48.5, 285.01917)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -88.5, 9.5, 167.5)
 
 [node name="LevelExit" parent="NavigationRegion3D/Gameplay" instance=ExtResource("14_3wlog")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
 
 [node name="Environment" type="Node" parent="NavigationRegion3D"]
 

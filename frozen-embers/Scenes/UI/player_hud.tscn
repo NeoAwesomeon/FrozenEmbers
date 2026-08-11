@@ -211,7 +211,7 @@ custom_minimum_size = Vector2(340, 25)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_v8xh3")
 min_value = 400.0
-max_value = 1000.0
+max_value = 1200.0
 step = 0.1
 value = 400.0
 show_percentage = false
@@ -256,6 +256,7 @@ text = "Beacons: 0"
 horizontal_alignment = 2
 
 [node name="DebugVBoxContainer" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5

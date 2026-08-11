@@ -1,0 +1,81 @@
+[gd_scene load_steps=15 format=3 uid="uid://dx0vftepgal4h"]
+
+[ext_resource type="Script" uid="uid://dqrkww8rtl7s6" path="res://Scripts/Monsters/monster_shadow.gd" id="1_2dvxh"]
+[ext_resource type="Texture2D" uid="uid://c3faqcb1bsb3r" path="res://Assets/Sprites/Shadow_Monster_Test Image Sequence/Shadow _Monster_Test1.png" id="2_tb4st"]
+[ext_resource type="Texture2D" uid="uid://dooq2b2haefq1" path="res://Assets/Sprites/Shadow_Monster_Test Image Sequence/Shadow _Monster_Test2.png" id="3_y4qk8"]
+[ext_resource type="Texture2D" uid="uid://dax5fc7kfr8du" path="res://Assets/Sprites/Shadow_Monster_Test Image Sequence/Shadow _Monster_Test3.png" id="4_hbv6p"]
+[ext_resource type="Texture2D" uid="uid://60n8qivmpk6u" path="res://Assets/Sprites/Shadow_Monster_Test Image Sequence/Shadow _Monster_Test4.png" id="5_1t8g4"]
+[ext_resource type="Texture2D" uid="uid://dnyk5653y1ars" path="res://Assets/Sprites/Shadow_Monster_Test Image Sequence/Shadow _Monster_Test5.png" id="6_33f7b"]
+[ext_resource type="Texture2D" uid="uid://cul7upw12iuyw" path="res://Assets/Sprites/Shadow_Monster_Test Image Sequence/Shadow _Monster_Test6.png" id="7_kf612"]
+[ext_resource type="Texture2D" uid="uid://bg0i8h7hyf81s" path="res://Assets/Sprites/Shadow_Monster_Test Image Sequence/Shadow _Monster_Test7.png" id="8_i8ctb"]
+[ext_resource type="Texture2D" uid="uid://bbqhjv6vvkfnq" path="res://Assets/Sprites/Shadow_Monster_Test Image Sequence/Shadow _Monster_Test8.png" id="9_wknqu"]
+[ext_resource type="Texture2D" uid="uid://dlalwiyfxxosh" path="res://Assets/Sprites/Shadow_Monster_Test Image Sequence/Shadow _Monster_Test9.png" id="10_eqd6h"]
+[ext_resource type="Texture2D" uid="uid://dmkh625h0rwvn" path="res://Assets/Sprites/Shadow_Monster_Test Image Sequence/Shadow _Monster_Test10.png" id="11_7diug"]
+[ext_resource type="Texture2D" uid="uid://c8d4hx413amk6" path="res://Assets/Sprites/Shadow_Monster_Test Image Sequence/Shadow _Monster_Test11.png" id="12_hbv6p"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_y4qk8"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_y4qk8"]
+
+[node name="MonsterShadow" type="Node3D"]
+script = ExtResource("1_2dvxh")
+frame_0 = ExtResource("2_tb4st")
+frame_1 = ExtResource("3_y4qk8")
+frame_2 = ExtResource("4_hbv6p")
+frame_3 = ExtResource("5_1t8g4")
+frame_4 = ExtResource("6_33f7b")
+frame_5 = ExtResource("7_kf612")
+frame_6 = ExtResource("8_i8ctb")
+frame_7 = ExtResource("9_wknqu")
+frame_8 = ExtResource("10_eqd6h")
+frame_9 = ExtResource("11_7diug")
+frame_10 = ExtResource("12_hbv6p")
+difficulty = 20
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="debug_mesh" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.02, -1)
+visible = false
+mesh = SubResource("BoxMesh_y4qk8")
+skeleton = NodePath("../Decal")
+
+[node name="Decal" type="Decal" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -1)
+layers = 31
+size = Vector3(2, 25, 2)
+texture_albedo = ExtResource("2_tb4st")
+upper_fade = 1000000.0
+lower_fade = 3.0589423
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="SpawnTimer" type="Timer" parent="Timers"]
+wait_time = 5.0
+one_shot = true
+
+[node name="DangerTimer" type="Timer" parent="Timers"]
+wait_time = 3.0
+
+[node name="TrueKillTimer" type="Timer" parent="Timers"]
+
+[node name="BanishTimer" type="Timer" parent="Timers"]
+
+[node name="BrightTimer" type="Timer" parent="Timers"]
+
+[node name="HeightRay" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
+target_position = Vector3(0, -200, 0)
+debug_shape_custom_color = Color(0.2901961, 0, 1, 1)
+
+[node name="Hurtbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+shape = SubResource("SphereShape3D_y4qk8")
+
+[connection signal="timeout" from="Timers/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="Timers/DangerTimer" to="." method="_on_danger_timer_timeout"]
+[connection signal="timeout" from="Timers/BrightTimer" to="." method="_on_bright_timer_timeout"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="area_exited" from="Hurtbox" to="." method="_on_hurtbox_area_exited"]
